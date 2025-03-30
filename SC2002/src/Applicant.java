@@ -1,13 +1,11 @@
-public class Applicant {
+public class Applicant extends User {
 
     private String applicantId;
-    private MaritalStatus maritalStatus;
-    private int age;
 
-    public Applicant (String id,MaritalStatus maritalStatus, int age){
-        this.applicantId = id;
-        this.maritalStatus = maritalStatus;
-        this.age = age;
+
+    public Applicant (String name, String nric, int age, MaritalStatus maritalStatus){
+        super(name, nric, age, maritalStatus);
+        this.applicantId = ApplicantIdGen.generateId();
     }
 
 }
