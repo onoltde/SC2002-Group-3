@@ -16,7 +16,7 @@ public class ProjectController {
 	
 	public Project getProjectListing(String id) {
 		for (int i = 0; i < projectListings.size(); i++) {
-			if (projectListings.get(i).getID() == id)
+			if (projectListings.get(i).getId() == id)
 				return projectListings.get(i);
 		}
 		return null;
@@ -24,21 +24,21 @@ public class ProjectController {
 	
 	public void deleteProjectListing(String id) {
 		for (int i = 0; i < projectListings.size(); i++) {
-			if (projectListings.get(i).getID() == id)
+			if (projectListings.get(i).getId() == id)
 				projectListings.remove(i);
 		}
 	}
 	
 	public void toggleProjectVisibility(String id, boolean vis) {
 		for (int i = 0; i < projectListings.size(); i++) {
-			if (projectListings.get(i).getID() == id)
+			if (projectListings.get(i).getId() == id)
 				projectListings.get(i).setVisivility(vis);
 		}
 	}
 	
 	public void viewAllProjectListings(HDBManager man, boolean own) {
+		String id = man.getId();
 		// only see projects created by the manager
-		String id = man.getManagerId();
 		if (own) {
 			for (int i = 0; i < projectListings.size(); i++) {
 				if (projectListings.get(i).getManager() == id) {
@@ -69,26 +69,26 @@ public class ProjectController {
 		}
 	}
 	
-	public void viewAllProjectListings(Applicant man, boolean own) {
-		// only see projects created by the manager
-		String id = man.getManagerId();
-		if (own) {
-			for (int i = 0; i < projectListings.size(); i++) {
-				if (projectListings.get(i).getManager() == id) {
-					System.out.println(projectListings.get(i).getID());
-					System.out.println(projectListings.get(i).getName());
-					System.out.println(projectListings.get(i).getNeighbourhood());
-					System.out.println(projectListings.get(i).getApplicationOpenDate());
-					System.out.println(projectListings.get(i).getApplicationCloseDate());
-					if (projectListings.get(i).getVisibility())
-						System.out.println("On");
-					else
-						System.out.println("Off");
-				}
+	// only see projects with visibility turned on
+	public void viewAllProjectListings(Applicant app) {
+		String id = app.getId();
+		for (int i = 0; i < projectListings.size(); i++) {
+			if (projectListings.get(i).getVisibility()) {
+				System.out.println(projectListings.get(i).getID());
+				System.out.println(projectListings.get(i).getName());
+				System.out.println(projectListings.get(i).getNeighbourhood());
+				System.out.println(projectListings.get(i).getApplicationOpenDate());
+				System.out.println(projectListings.get(i).getApplicationCloseDate());
+				System.out.println("On");
 			}
 		}
-		else {
-			for (int i = 0; i < projectListings.size(); i++) {
+	}
+	
+	// Applicant/HdbOfficer can view assigned project regardless of visibility
+	public void viewOwnProjectListing(Applicant app) {
+		String id = app.getProject();
+		for (int i = 0; i < projectListings.size(); i++) {
+			if (projectListings.get(i).getId() == id) {
 				System.out.println(projectListings.get(i).getID());
 				System.out.println(projectListings.get(i).getName());
 				System.out.println(projectListings.get(i).getNeighbourhood());
@@ -98,7 +98,62 @@ public class ProjectController {
 					System.out.println("On");
 				else
 					System.out.println("Off");
+				break;
 			}
+		}
+	}
+	
+	// Parse in HdbOfficer to ensure only HdbOfficer can apply
+	public void hdbOfficerRegistration(HdbOfficer officer, String projectId) {
+		String id = officer.getId();
+		for (int i = 0; i < projectListings.size(); i++) {
+			if (projectListings.get(i).getId() == projectId) {
+				projectListings.get(i).addPendingOfficer(id);
+				break;
+			}
+				
+		}
+	}
+	
+	public void viewPendingHdbOfficerRegistration(String manId, String id) {
+		ArrayList<String> currPending = new ArrayList<String>();
+		for (int i = 0; i < projectListings.size(); i++) {
+			if (projectListings.get(i).getId() == projectId) {
+				if (projectListings.get(i).getManager() == mandId)
+					currPending = projectListings.get(i).getPendingOfficers();
+				else
+					System.out.println("You do not have the permission to view the HDB Officers' applications");
+				break;
+			}
+				
+		}
+		
+		if (currPending.size() > 0) {
+			System.out.println("Current pending HDB Officers:");
+			for (int i = 0; i< currPending.size(); i++) {
+				System.out.println(currPending.get(i));
+			}
+		}
+	}
+	
+	public void approveHdbOfficerRegistration(String manID, String id, boolean approve) {
+		ArrayList<String> currPending = new ArrayList<String>();
+		for (int i = 0; i < projectListings.size(); i++) {
+			if (projectListings.get(i).getId() == projectId) {
+				if (projectListings.get(i).getManager() == mandId) {
+					projectListings.get(i).removePendingOfficer(id);
+					if (approve) {
+						projectListings.get(i).addOfficer(id);
+						int update = projectListings.get(i).getOfficerSlots() - 1;
+						projectListings.get(i).setOfficerSlots(update);
+					}
+						
+				}
+				else
+					System.out.println("You do not have the permission to view the HDB Officers' applications");
+				break;
+			}
+			
 		}
 	}
 }

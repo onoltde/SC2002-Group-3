@@ -9,7 +9,8 @@ public class Project {
 	private Date applicationCloseDate;
 	private boolean visibility;
 	private String manager;
-	private ArrayList<HDBOfficer> assignedOfficers;
+	private ArrayList<String> assignedOfficers;
+	private ArrayList<String> pendingOfficers;
 	private int officerSlots;
 	
 	public Project(String id, String n, String nh, HashMap ft, Date o, Date c, String manID, int slots) {
@@ -21,11 +22,11 @@ public class Project {
 		applicationCloseDate = c;
 		visibility = false;
 		manager = manID;
-		assignedOfficers = new ArrayList<HDBOfficer>();
+		assignedOfficers = new ArrayList<String>();
 		officerSlots = slots;
 	}
 	
-	public String getID() {return projectID;}
+	public String getId() {return projectID;}
 	public void setID(String id) {projectID = id;}
 	
 	public String getName() {return name;}
@@ -48,10 +49,24 @@ public class Project {
 	
 	public String getManager() {return manager;}
 	
-	public ArrayList<HDBOfficer> getOfficers() {return assignedOfficers;}
-	public void addOfficer(HDBOfficer officer) {
+	public ArrayList<String> getOfficers() {return assignedOfficers;}
+	public void addOfficer(String id) {
 		int size = assignedOfficers.size();
 		if (size < officerSlots)
-			assignedOfficers.add(officer);
+			assignedOfficers.add(id);
 	}
+	
+	public ArrayList<String> getPendingOfficers(){return pendingOfficers;}
+	public void addPendingOfficer(String id) {pendingOfficers.add(id)}
+	public void removePendingOfficer(String id) {
+		for (int i = 0; i < pendingOfficers.size(); i++) {
+			if (pendingOfficers.get(i) == id) {
+				pendingOfficers.remove(i);
+				break;
+			}
+		}
+	}
+	
+	public int getOfficerSlots() {return officerSlots;}
+	public void setOfficerSlots(int num) {officerSlots = num;}
 }
