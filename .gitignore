@@ -1,0 +1,64 @@
+# Compiled class files
+*.class
+
+# Build output directories
+bin/
+build/
+target/
+out/
+dist/
+
+# Log files
+*.log
+
+# IDE-specific files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+
+# Dependency directories (Maven, Gradle, etc.)
+.m2/
+.gradle/
+**/gradle/
+**/gradlew
+**/gradlew.bat
+**/gradle-wrapper.jar
+**/gradle-wrapper.properties
+**/build/
+**/.gradle/
+
+# Maven-specific files
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+mvnw
+mvnw.cmd
+.mvn/
+
+# Eclipse files
+.settings/
+.metadata/
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Environment files
+.env
+*.env
+
+# Test reports
+**/test-output/
+**/test-results/
+*.tap
+*.trs
+
+# Coverage reports
+*.coverage
+*.lcov
