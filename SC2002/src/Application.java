@@ -1,13 +1,13 @@
 public class Application {
 
     public enum ApplicationStatus{
-        ACCEPTED,
-        UNSUCCESSFUL,
-        PENDING,
-        BOOKED
+        Accepted,
+        Unsuccessful,
+        Pending,
+        Booked
     }
 
-    private Project project;
+
 
 
 }

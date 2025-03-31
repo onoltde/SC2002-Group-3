@@ -1,8 +1,8 @@
 public class User {
 
     public enum MaritalStatus{
-        SINGLE,
-        MARRIED
+        Single,
+        Married
     }
 
     private final String name;
