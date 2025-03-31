@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,32 +21,38 @@ public class UserManager {
             System.out.println("User file not found. Starting with an empty user list.");
             return;
         }
-
+    
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            br.readLine(); 
-
+            br.readLine();    
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 String[] parts = line.split(",");
-
-                if (parts.length != 4) {
+                if (parts.length < 4) {
                     System.out.println("Skipping invalid line: " + line);
                     continue;
                 }
-
                 String name = parts[0].trim();
                 String nric = parts[1].trim();
                 int age = Integer.parseInt(parts[2].trim());
-                MaritalStatus maritalStatus = MaritalStatus.valueOf(parts[3].trim().toUpperCase());
-
+                MaritalStatus maritalStatus;
+                try {
+                    maritalStatus = MaritalStatus.valueOf(parts[3].trim().toUpperCase()); 
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid marital status on line: " + line);
+                    continue; 
+                }
+    
                 users.add(new User(name, nric, age, maritalStatus));
             }
-            System.out.println("Users loaded successfully from file.");
+            System.out.println("For debugging only: Users loaded successfully from file.");
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error reading user file: " + e.getMessage());
         }
     }
-
+    //Comment this out after debugging
     public void listUsers() {
         if (users.isEmpty()) {
             System.out.println("No users found.");

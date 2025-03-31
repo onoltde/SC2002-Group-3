@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         UserManager userManager = new UserManager("ApplicantList.csv");
-        userManager.listUsers();
+        userManager.listUsers(); //For debugging
 
         printWelcomeMessage();
 
