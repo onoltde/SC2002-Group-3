@@ -1,0 +1,21 @@
+# Ignore everything by default
+*
+
+# Allow directories (needed to allow the src directory)
+!*/
+
+# Allow Java source files
+!**/*.java
+
+# Allow CSV data files
+!**/*.csv
+
+# Allow .gitignore file itself
+!.gitignore
+
+# Allow basic structure 
+!src/
+
+# Allow Markdown/README files
+!**/*.md
+!**/README*
