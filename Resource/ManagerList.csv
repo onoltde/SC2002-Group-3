@@ -1,0 +1,4 @@
+Name,NRIC,Age,Marital Status,Password,ManagerId
+Michael,T8765432F,36,SINGLE,password,MA-432F
+testerManager,T0888888F,20,SINGLE,PASSWORD123,MA-888F
+Jessica,S5678901G,26,MARRIED,password,MA-901G
