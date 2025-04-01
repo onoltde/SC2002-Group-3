@@ -2,7 +2,7 @@ package Project;
 
 import java.util.List;
 
-public class HDBOfficer {
+public class HdbOfficer {
 
     private String nric;
     private int age;
