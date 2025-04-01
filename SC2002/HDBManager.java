@@ -14,7 +14,7 @@ public class HdbManager extends User {
      * @param password Manager's password
      */
 
-    public HdbManager(String name, String nric, int age, String maritalStatus, String password) {
+    public HdbManager(String name, String nric, int age, MaritalStatus maritalStatus, String password) {
         super(name, nric, age, maritalStatus, password);
         managerId = "MA" + nric.substring(nric.length() - 4);
         managedProjects = new ArrayList<String>();
