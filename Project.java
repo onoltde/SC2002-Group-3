@@ -24,11 +24,11 @@ class Project {
     private String openingDate;
     private String closingDate;
     private boolean visibility;
-    private HDBManager manager;
-    private List<HDBOfficer> officers;
+    private HdbManager manager;
+    private List<HdbOfficer> officers;
 
     public Project(String name, String neighborhood, List<String> flatTypes, Map<String, Integer> unitsAvailable,
-                   String openingDate, String closingDate, boolean visibility, HDBManager manager, List<HDBOfficer> officers) {
+                   String openingDate, String closingDate, boolean visibility, HdbManager manager, List<HdbOfficer> officers) {
         this.name = name;
         this.neighborhood = neighborhood;
         this.flatTypes = flatTypes;
@@ -68,11 +68,11 @@ class Project {
         return visibility;
     }
 
-    public HDBManager getManager() {
+    public HdbManager getManager() {
         return manager;
     }
 
-    public List<HDBOfficer> getOfficers() {
+    public List<HdbOfficer> getOfficers() {
         return officers;
     }
 
