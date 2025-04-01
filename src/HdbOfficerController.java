@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class HdbOfficerController {
-    private static final String filePath = "Resource\\OfficerList.csv";
+    private static final String filePath = "data\\OfficerList.csv";
     private HashMap<String, HdbOfficer> officers;
 
     public HdbOfficerController() {

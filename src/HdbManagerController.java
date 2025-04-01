@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class HdbManagerController{
-        private static final String filePath = "Resource\\ManagerList.csv";
+        private static final String filePath = "data\\ManagerList.csv";
         private HashMap<String, HdbManager> managers;
 
     public HdbManagerController() {
