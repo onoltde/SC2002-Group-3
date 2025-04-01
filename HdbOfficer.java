@@ -10,7 +10,7 @@ public class HdbOfficer {
     private String password;
     private Project assignedProject;
 
-    public HDBOfficer(String nric, int age, String maritalStatus, String password) {
+    public HdbOfficer(String nric, int age, String maritalStatus, String password) {
         this.nric = nric;
         this.age = age;
         this.maritalStatus = maritalStatus;
