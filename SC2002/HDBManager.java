@@ -23,17 +23,16 @@ public class HdbManager extends User {
     // getter
     public String getId() { return managerId; }
 
-    public boolean createProjectListing(String projectId, String name, String neighbourhood, HashMap<String,Integer> flatTypes,
+    public void createProjectListing(String projectId, String name, String neighbourhood, HashMap<String,Integer> flatTypes,
                                         Date applicationOpenDate, Date applicationCloseDate, int officerSlots) {
         if (this.isDuringApplicationPeriod(applicationOpenDate) || 
             this.isDuringApplicationPeriod(applicationCloseDate)) {
             System.out.println("Period is overlapping!!");
-            return false;
+            return;
         }
         ProjectController.createProjectListing( projectId, name, neighbourhood, flatTypes,
                                                 applicationOpenDate, applicationCloseDate, this.managerId, officerSlots);
         managedProjects.add(projectId);
-        return true;
     }
 
     public void editProjectListing(String projectId, String name, String neighbourhood,
@@ -82,14 +81,6 @@ public class HdbManager extends User {
 
     public void viewCreatedProjects() {
         managedProjects.forEach(System.out::println);
-    }
-
-    public void viewPendingOfficers() {
-        HdbOfficerController.getPendingOfficers().forEach(System.out::println);
-    }
-
-    public void viewApprovedOfficers() {
-        HdbOfficerController.getApprovedOfficers().forEach(System.out::println);
     }
 
     public boolean approveOfficerApplication(String officerId) {
@@ -147,19 +138,19 @@ public class HdbManager extends User {
     //             .forEach(System.out::println);
     // }
 
-    public boolean replyEnquiry(String enquiryId, String response) {
+    public void replyEnquiry(String enquiryId, String response) {
         Enquiry enquiry = EnquiryController.getEnquiry(enquiryId);
         if (enquiry == null) {
             System.out.println("No such enquiry!!");
-            return false;
+            return;
         }
         String projectId = enquiry.getProjectId();
         if(!this.isManaging(projectId)) {
             System.out.println("The manager is not managing this project!!");
-            return false;
+            return;
         }
         EnquiryController.replyEnquiry(enquiryId, response);
-        return true;
+        return;
     }
 
     public boolean isDuringApplicationPeriod(Date date) {
