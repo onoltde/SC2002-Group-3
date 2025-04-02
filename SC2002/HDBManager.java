@@ -148,17 +148,17 @@ public class HdbManager extends User {
     // }
 
     public boolean replyEnquiry(String enquiryId, String response) {
-        Enquiry enquiry = ProjectEnquiryController.getEnquiry(enquiryId);
+        Enquiry enquiry = EnquiryController.getEnquiry(enquiryId);
         if (enquiry == null) {
             System.out.println("No such enquiry!!");
             return false;
         }
-        String projectId = enquiry.getProject();
+        String projectId = enquiry.getProjectId();
         if(!this.isManaging(projectId)) {
             System.out.println("The manager is not managing this project!!");
             return false;
         }
-        ProjectEnquiryController.replyEnquiry(enquiryId, projectId, response);
+        EnquiryController.replyEnquiry(enquiryId, response);
         return true;
     }
 
