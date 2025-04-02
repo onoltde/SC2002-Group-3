@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class ApplicantController {
-    private static final String filePath = "Resource\\ApplicantList.csv";
+    private static final String filePath = "data\\ApplicantList.csv";
     private HashMap<String, Applicant> applicants;
 
     public ApplicantController() {
