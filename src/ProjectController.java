@@ -9,6 +9,7 @@ public class ProjectController {
 		projectListings = new ArrayList<Project>();
 	}
 	
+	// Need to check if he is managing any other "active" projects
 	public void createProjectListing(String id, String n, String nh, HashMap ft, Date o, Date c, String manID, int slots) {
 		Project newProject = new Project(id, n, nh, ft, o, c, manID, slots);
 		projectListings.add(newProject);
@@ -69,9 +70,10 @@ public class ProjectController {
 		}
 	}
 	
-	// only see projects with visibility turned on
+	// only see projects with visibility turned on and based on their marital status
 	public void viewAllProjectListings(Applicant app) {
 		String id = app.getId();
+		boolean married = app.getMaritalStatus();
 		for (int i = 0; i < projectListings.size(); i++) {
 			if (projectListings.get(i).getVisibility()) {
 				System.out.println(projectListings.get(i).getID());
