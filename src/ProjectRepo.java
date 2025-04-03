@@ -16,6 +16,14 @@ public class ProjectRepo {
 
     public int getNumOfProjects(){return projectListings.size();}
 
+    public Project getProject(String name){
+        return projectListings.get(name);
+    }
+
+    public void addProject(Project newProject) {
+        this.projectListings.put(newProject.getName(), newProject);
+    }
+
     private void loadFile() {
         File file = new File(filePath);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -44,7 +52,8 @@ public class ProjectRepo {
                     ArrayList<String> pendingOfficers = stringToList(values[14]);
                     ArrayList<Flat> flatInfo = flatInfoGen(type1, numOfType1, priceOfType1, type2, numOfType2, priceOfType2);
 
-                    addProject(name,  neighbourhood, flatInfo, openDate,  closeDate, managerId, officerSlots, assignedOfficers, visibility, pendingOfficers);
+                    Project newProject = new Project(name,  neighbourhood,  flatInfo, openDate,  closeDate, managerId, officerSlots, assignedOfficers, visibility, pendingOfficers);
+                    this.projectListings.put(name,newProject);
                 }
                 line = br.readLine();
             }
@@ -93,10 +102,7 @@ public class ProjectRepo {
         }
     }
 
-    public void addProject( String name, String neighbourhood, ArrayList<Flat> flatInfo, LocalDate openDate, LocalDate closeDate, String managerId, int officerSlots, ArrayList<String> assignedOfficers, boolean visibility, ArrayList<String> pendingOfficers ) {
-        Project newProject = new Project(name,  neighbourhood,  flatInfo, openDate,  closeDate, managerId, officerSlots, assignedOfficers, visibility, pendingOfficers);
-        this.projectListings.put(name,newProject);
-    }
+
 
     //helper methods for loadfile and savefile
     private ArrayList<Flat> flatInfoGen(Flat.Type type1, int numOfType1,int priceOfType1, Flat.Type type2, int numOfType2, int priceOfType2) {

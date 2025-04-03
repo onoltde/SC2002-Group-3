@@ -10,8 +10,6 @@ public class Project {
 	private String managerId;
 	private int officerSlots;
 	private ArrayList<String> assignedOfficers;
-
-
 	private boolean visibility;
 	private ArrayList<String> pendingOfficers;
 
@@ -28,6 +26,13 @@ public class Project {
 		this.pendingOfficers = pendingOfficers;
 	}
 
+	public void addPendingOfficer(String officerId) {pendingOfficers.add(officerId);}
+	public void removePendingOfficer(String officerId){pendingOfficers.remove(officerId);}
+	public void addAssignedOfficer(String officerId) {
+		assignedOfficers.add(officerId);
+		//include check for slots available logic
+	}
+	public void removeAssignedOfficer(String officerId){assignedOfficers.remove(officerId);}
 	//getters
 	public String getName() { return name; }
 	public String getNeighbourhood() { return neighbourhood; }
@@ -40,5 +45,7 @@ public class Project {
 	public ArrayList<String> getAssignedOfficers() { return new ArrayList<>(assignedOfficers); }
 	public boolean isVisible() { return visibility; }
 	public ArrayList<String> getPendingOfficers() { return new ArrayList<>(pendingOfficers); }
+
+
 
 }
