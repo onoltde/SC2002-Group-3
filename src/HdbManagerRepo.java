@@ -1,11 +1,11 @@
 import java.util.*;
 import java.io.*;
 
-public class HdbManagerController{
+public class HdbManagerRepo {
         private static final String filePath = "data\\ManagerList.csv";
         private HashMap<String, HdbManager> managers;
 
-    public HdbManagerController() {
+    public HdbManagerRepo() {
         this.managers = new HashMap<String, HdbManager>();
         loadFile();
     }

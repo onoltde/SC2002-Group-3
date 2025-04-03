@@ -1,16 +1,16 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class HdbOfficerController {
-    private static final String filePath = "data\\OfficerList.csv";
-    private HashMap<String, HdbOfficer> officers;
+public class ApplicantRepo {
+    private static final String filePath = "data\\ApplicantList.csv";
+    private HashMap<String, Applicant> applicants;
 
-    public HdbOfficerController() {
-        this.officers = new HashMap<String, HdbOfficer>();
+    public ApplicantRepo() {
+        this.applicants = new HashMap<String, Applicant>();
         loadFile();
     }
 
-    public void loadFile() {
+    private void loadFile() {
         File file = new File(filePath);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             // Skip the header line
@@ -25,10 +25,9 @@ public class HdbOfficerController {
                     String nric = values[1].trim();
                     int age = Integer.parseInt(values[2].trim());
                     String password = values[4].trim();
-                    User.MaritalStatus maritalStatus = User.MaritalStatus.valueOf(values[3].trim().toUpperCase());
+                    Applicant.MaritalStatus maritalStatus = Applicant.MaritalStatus.valueOf(values[3].trim().toUpperCase());
 
-                    addHdbOfficer(name, nric, age, maritalStatus, password);
-
+                    addApplicant(name, nric, age, maritalStatus, password);
                 }
                 line = br.readLine();
             }
@@ -37,27 +36,27 @@ public class HdbOfficerController {
         }
     }
 
-    public void saveHdbOfficers(){
+    public void saveApplicants(){
         File file = new File(filePath);
         try {
             // First truncate the file (clear all contents)
             new FileOutputStream(file).close();
 
-            // Then rewrite the file including any new officers and changes made
+            // Then rewrite the file including any new Applicants and changes made
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                 // Write the header line
-                bw.write("Name,NRIC,Age,Marital Status,Password,OfficerId");
+                bw.write("Name,NRIC,Age,Marital Status,Password,ApplicantId");
                 bw.newLine();
 
                 // Write each applicant's data
-                for (HdbOfficer officerPerson : officers.values()) {
+                for (Applicant applicant : applicants.values()) {
                     String line = String.join(",",
-                            officerPerson.getName(),
-                            officerPerson.getNric(),
-                            String.valueOf(officerPerson.getAge()),
-                            officerPerson.getMaritalStatus().toString(),
-                            officerPerson.getPassword(),
-                            officerPerson.getId()
+                            applicant.getName(),
+                            applicant.getNric(),
+                            String.valueOf(applicant.getAge()),
+                            applicant.getMaritalStatus().toString(),
+                            applicant.getPassword(),
+                            applicant.getId()
                     );
                     bw.write(line);
                     bw.newLine();
@@ -68,16 +67,13 @@ public class HdbOfficerController {
         }
     }
 
-    public void addHdbOfficer(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
-        HdbOfficer newOfficer  = new HdbOfficer(name, nric, age, maritalStatus, password);
-        this.officers.put(newOfficer.getId(), newOfficer);
+    public void addApplicant(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
+        Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password);
+        this.applicants.put(newApplicant.getId(), newApplicant);
     }
 
-    public HdbOfficer getHdbOfficer(String officerId){
-        return officers.get(officerId) ;
+    public Applicant getApplicant(String applicantId){
+        return applicants.get(applicantId);
     }
 
 }
-
-
-

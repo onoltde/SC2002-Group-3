@@ -1,29 +1,10 @@
 import java.util.*;
+import java.time.*;
+import java.time.format.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        //TEST MANAGER
-        HdbManagerController managerController = new HdbManagerController();
-        HdbManager manager1 = managerController.getHdbManager("MA-901G");
-        System.out.println("manager1 is" + manager1.getName());
-        managerController.addHdbManager("testerManager","T0888888F",20, User.MaritalStatus.SINGLE, "PASSWORD123");
-        managerController.saveHdbManagers();
-        //TEST APPLICANT
-        ApplicantController applicantController = new ApplicantController();
-        Applicant applicant1 = applicantController.getApplicant("AP-543C");
-        System.out.println("applicant1 is" + applicant1.getName());
-        applicantController.addApplicant("testerApplicant","T0888838F",20, User.MaritalStatus.SINGLE, "PASSWORD123");
-        applicantController.saveApplicants();
-        //TEST OFFICER
-        HdbOfficerController officerController = new HdbOfficerController();
-        HdbOfficer officer1 = officerController.getHdbOfficer("OF-567J");
-        System.out.println("officer1 is" + officer1.getName());
-        officerController.addHdbOfficer("testerOfficer","T0333333F",20, User.MaritalStatus.SINGLE, "PASSWORD123");
-        officerController.saveHdbOfficers();
-
-        HashMap<String, Applicant> applicants1 = new HashMap<String,Applicant>();
-        applicants1 = FileController.loadFile("data\\testList.csv", applicants1);
 
         //KC's main
 //        Scanner scanner = new Scanner(System.in);

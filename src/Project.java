@@ -1,72 +1,44 @@
 import java.util.*;
+import java.time.*;
 
 public class Project {
-	private String projectID;
-	private String name;
-	private String neighbourhood;
-	private HashMap<String,Integer> flatTypes;
-	private Date applicationOpenDate;
-	private Date applicationCloseDate;
-	private boolean visibility;
-	private String manager;
-	private ArrayList<String> assignedOfficers;
-	private ArrayList<String> pendingOfficers;
+	private final String name;
+	private final String neighbourhood;
+	private ArrayList<Flat> flatInfo;
+	private final LocalDate openDate;
+	private final LocalDate closeDate;
+	private String managerId;
 	private int officerSlots;
-	
-	public Project(String id, String n, String nh, HashMap ft, Date o, Date c, String manID, int slots) {
-		projectID = id;
-		name = n;
-		neighbourhood = nh;
-		flatTypes = new HashMap<String, Integer>(ft);
-		applicationOpenDate = o;
-		applicationCloseDate = c;
-		visibility = false;
-		manager = manID;
-		assignedOfficers = new ArrayList<String>();
-		officerSlots = slots;
+	private ArrayList<String> assignedOfficers;
+
+
+	private boolean visibility;
+	private ArrayList<String> pendingOfficers;
+
+	public Project(String name, String neighbourhood, ArrayList<Flat> flatInfo, LocalDate openDate, LocalDate closeDate, String managerId, int officerSlots, ArrayList<String> assignedOfficers, boolean visibility, ArrayList<String> pendingOfficers ) {
+		this.name = name;
+		this.neighbourhood = neighbourhood;
+		this.flatInfo = flatInfo;
+		this.openDate = openDate;
+		this.closeDate = closeDate;
+		this.managerId = managerId;
+		this.officerSlots = officerSlots;
+		this.assignedOfficers = assignedOfficers;
+		this.visibility = visibility;
+		this.pendingOfficers = pendingOfficers;
 	}
-	
-	public String getId() {return projectID;}
-	public void setID(String id) {projectID = id;}
-	
-	public String getName() {return name;}
-	public void setName(String n) {name = n;}
-	
-	public String getNeighbourhood() {return neighbourhood;}
-	public void setNeighbourhood(String n) {neighbourhood = n;}
-	
-	public int getNumOfUnits(String type) {return flatTypes.get(type);}
-	public void setNumOfUnits(String type, int num) {flatTypes.put(type, num);}
-	
-	public Date getApplicationOpenDate() {return applicationOpenDate;}
-	public void setApplicationOpenDate(Date d) {applicationOpenDate = d;} 
-	
-	public Date getApplicationCloseDate() {return applicationCloseDate;}
-	public void setApplicationCloseDate(Date d) {applicationCloseDate = d;} 
-	
-	public boolean getVisibility() {return visibility;}
-	public void setVisivility(boolean b) {visibility = b;}
-	
-	public String getManager() {return manager;}
-	
-	public ArrayList<String> getOfficers() {return assignedOfficers;}
-	public void addOfficer(String id) {
-		int size = assignedOfficers.size();
-		if (size < officerSlots)
-			assignedOfficers.add(id);
-	}
-	
-	public ArrayList<String> getPendingOfficers(){return pendingOfficers;}
-	public void addPendingOfficer(String id) {pendingOfficers.add(id)}
-	public void removePendingOfficer(String id) {
-		for (int i = 0; i < pendingOfficers.size(); i++) {
-			if (pendingOfficers.get(i) == id) {
-				pendingOfficers.remove(i);
-				break;
-			}
-		}
-	}
-	
-	public int getOfficerSlots() {return officerSlots;}
-	public void setOfficerSlots(int num) {officerSlots = num;}
+
+	//getters
+	public String getName() { return name; }
+	public String getNeighbourhood() { return neighbourhood; }
+	public LocalDate getOpenDate() { return openDate; }
+	public LocalDate getCloseDate() { return closeDate; }
+	public ArrayList<Flat> getFlatInfo(){ return flatInfo; }
+	public String getManagerId() { return managerId; }
+	public int getOfficerSlots() { return officerSlots; }
+	public void setOfficerSlots(int officerSlots) { this.officerSlots = officerSlots; }
+	public ArrayList<String> getAssignedOfficers() { return new ArrayList<>(assignedOfficers); }
+	public boolean isVisible() { return visibility; }
+	public ArrayList<String> getPendingOfficers() { return new ArrayList<>(pendingOfficers); }
+
 }
