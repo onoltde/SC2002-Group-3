@@ -3,6 +3,7 @@
  * Extends the User class to inherit basic user properties.
  */
 public class HdbManager extends User {
+
     private final String managerId;
     private Project managedProject;
 
@@ -21,6 +22,10 @@ public class HdbManager extends User {
 
     public String getId(){return this.managerId;}
 
+    @Override
+    public String toString() {
+        return "Manager" + super.toString() + ", ID: " + managerId + "}" ;
+    }
 //    // Project Management
 //    /**
 //     * Creates a new BTO project listing

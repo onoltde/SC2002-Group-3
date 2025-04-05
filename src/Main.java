@@ -5,6 +5,14 @@ import java.time.format.*;
 public class Main {
     public static void main(String[] args) {
 
+        ApplicantRepo repo = new ApplicantRepo();
+        repo.printApplicants();
+        System.out.println("\n");
+        HdbManagerRepo repo2 = new HdbManagerRepo();
+        repo2.printManagers();
+        System.out.println("\n");
+        HdbOfficerRepo repo3 = new HdbOfficerRepo();
+        repo3.printOfficers();
 
         //KC's main
 //        Scanner scanner = new Scanner(System.in);
@@ -51,7 +59,5 @@ public class Main {
 //        System.out.println("| |__)  ) |   | |_____) )");
 //        System.out.println("|______/|_|   |_(______/ ");
 //        System.out.println("Welcome to the BTO Management System!\n");
-
-
     }
 }
