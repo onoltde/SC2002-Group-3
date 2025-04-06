@@ -20,9 +20,4 @@ public class Applicant extends User {
     }
 
     public String getId(){return applicantId;}
-
-    @Override
-    public String toString() {
-        return "Applicant" + super.toString() + ", ID: " + applicantId + "}" ;
-    }
 }

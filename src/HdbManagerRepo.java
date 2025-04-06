@@ -68,12 +68,6 @@ public class HdbManagerRepo {
         }
     }
 
-    public void printManagers(){
-        for (HdbManager manager : managers.values()){
-            System.out.println(manager.toString());
-        }
-    }
-
     public void addHdbManager(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
         HdbManager newManager  = new HdbManager(name, nric, age, maritalStatus, password);
         this.managers.put(newManager.getId(), newManager);

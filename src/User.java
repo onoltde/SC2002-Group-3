@@ -45,7 +45,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "{NRIC='" + nric + "', Age=" + age + ", Marital Status=" + maritalStatus;
+        return "User{NRIC='" + nric + "', Age=" + age + ", Marital Status=" + maritalStatus + "}";
     }
 
     public String getId(){return "huzzah";} //debugging
