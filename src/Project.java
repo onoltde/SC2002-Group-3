@@ -2,6 +2,7 @@ import java.util.*;
 import java.time.*;
 
 public class Project {
+
     private final String name;
     private final String neighbourhood;
     private ArrayList<Flat> flatInfo;
@@ -12,9 +13,6 @@ public class Project {
     private ArrayList<String> assignedOfficers;
     private boolean visibility;
     private ArrayList<String> pendingOfficers;
-
-    // Applicant NRIC → Applicant
-    private Map<String, Applicant> applicants = new HashMap<>();
 
     public Project(String name, String neighbourhood, ArrayList<Flat> flatInfo, LocalDate openDate,
                    LocalDate closeDate, String managerId, int officerSlots,
@@ -31,27 +29,31 @@ public class Project {
         this.pendingOfficers = pendingOfficers;
     }
 
-    // Flat booking methods
-    public boolean hasFlatAvailable(String flatType) {
-        for (Flat flat : flatInfo) {
-            if (flat.getFlatType() != null && flat.getFlatType().equalsIgnoreCase(flatType) && flat.getAvailableUnits() > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // Applicant NRIC → Applicant
+    private Map<String, Applicant> applicants = new HashMap<>();
 
-    public boolean decreaseFlatCount(String flatType) {
-        for (Flat flat : flatInfo) {
-            if (flat.getFlatType() != null && flat.getFlatType().equalsIgnoreCase(flatType)) {
-                if (flat.getAvailableUnits() > 0) {
-                    flat.setAvailableUnits(flat.getAvailableUnits() - 1);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    // Flat booking methods
+//    public boolean hasFlatAvailable(String flatType) {
+//        for (Flat flat : flatInfo) {
+//            if (flat.getFlatType() != null && flat.getFlatType().equalsIgnoreCase(flatType) && flat.getAvailableUnits() > 0) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+//    public boolean decreaseFlatCount(String flatType) {
+//        for (Flat flat : flatInfo) {
+//            if (flat.getFlatType() != null && flat.getFlatType().equalsIgnoreCase(flatType)) {
+//                if (flat.getAvailableUnits() > 0) {
+//                    flat.setAvailableUnits(flat.getAvailableUnits() - 1);
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+
 
     public void addApplicant(Applicant applicant) {
         applicants.put(applicant.getNric(), applicant);

@@ -1,0 +1,6 @@
+Name,NRIC,Age,Marital Status,Password,ApplicantId,hasApplication,ApplicationStatus,ProjectName,FlatType
+John,S1234567A,35,SINGLE,password,AP-567A,0,,,
+Sarah,T7654321B,40,MARRIED,password,AP-321B,0,,,
+Grace,S9876543C,37,MARRIED,password,AP-543C,0,,,
+James,T2345678D,30,MARRIED,password,AP-678D,0,,,
+Rachel,S3456789E,25,SINGLE,password,AP-789E,0,,,

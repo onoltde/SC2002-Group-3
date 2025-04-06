@@ -2,8 +2,8 @@ import java.util.*;
 import java.io.*;
 
 public class HdbManagerRepo {
-        private static final String filePath = "data\\ManagerList.csv";
-        private HashMap<String, HdbManager> managers;
+    private static final String filePath = "data\\ManagerList.csv";
+    private HashMap<String, HdbManager> managers;
 
     public HdbManagerRepo() {
         this.managers = new HashMap<String, HdbManager>();
@@ -68,6 +68,12 @@ public class HdbManagerRepo {
         }
     }
 
+    public void printManagers(){
+        for (HdbManager manager : managers.values()){
+            System.out.println(manager.toString());
+        }
+    }
+
     public void addHdbManager(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
         HdbManager newManager  = new HdbManager(name, nric, age, maritalStatus, password);
         this.managers.put(newManager.getId(), newManager);
@@ -78,6 +84,3 @@ public class HdbManagerRepo {
     }
 
 }
-
-
-

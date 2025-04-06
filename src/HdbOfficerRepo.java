@@ -68,6 +68,12 @@ public class HdbOfficerRepo {
         }
     }
 
+    public void printOfficers(){
+        for (HdbOfficer officer : officers.values()){
+            System.out.println(officer.toString());
+        }
+    }
+
     public void addHdbOfficer(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
         HdbOfficer newOfficer  = new HdbOfficer(name, nric, age, maritalStatus, password);
         this.officers.put(newOfficer.getId(), newOfficer);

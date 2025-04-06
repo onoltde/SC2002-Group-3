@@ -1,35 +1,39 @@
 public class Application {
-    private Project project;
-    private String flatType;
-    private ApplicationStatus status;
+    private String applicantId;
+    private Status status;
+    private final String projectName;
+    private final Flat.Type flatType;
 
-    public Application(Project project, String flatType, ApplicationStatus status) {
-        this.project = project;
-        this.flatType = flatType;
+
+
+    public enum Status {
+        PENDING,
+        SUCCESSFUL,
+        UNSUCCESSFUL,
+        BOOKED;
+    }
+
+    public Application(String applicantId, Application.Status status, String projectName, Flat.Type flatType) {
+        this.applicantId = applicantId;
         this.status = status;
+        this.projectName = projectName;
+        this.flatType = flatType;
+
     }
 
-    public Project getProject() {
-        return project;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public String getFlatType() {
+    public Flat.Type getFlatType() {
         return flatType;
     }
 
-    public void setFlatType(String flatType) {
-        this.flatType = flatType;
-    }
-
-    public ApplicationStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(ApplicationStatus status) {
+    public void updateStatus(Status status) {
         this.status = status;
     }
 }

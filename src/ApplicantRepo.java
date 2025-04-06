@@ -1,18 +1,23 @@
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class ApplicantRepo {
-    private static final String filePath = "data\\ApplicantList.csv";
-    private HashMap<String, Applicant> applicants;
+    private static final String applicantFilePath = "data\\ApplicantList.csv";
+    private static HashMap<String, Applicant> applicants;
+    private static int numOfApplicants;
+    private static HashMap<String,Application> applications;
 
     public ApplicantRepo() {
-        this.applicants = new HashMap<String, Applicant>();
+        numOfApplicants = 0;
+        applicants = new HashMap<>();
+        applications = new HashMap<>();
         loadFile();
     }
 
     private void loadFile() {
-        File file = new File(filePath);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        File applicantList = new File(applicantFilePath);
+        try (BufferedReader br = new BufferedReader(new FileReader(applicantList))) {
             // Skip the header line
             br.readLine();
 
@@ -20,14 +25,21 @@ public class ApplicantRepo {
             while (line != null) {
                 String[] values = line.split(",");
 
-                if (values.length >= 5) {
+                if (values.length >= 4) {
                     String name = values[0].trim();
                     String nric = values[1].trim();
                     int age = Integer.parseInt(values[2].trim());
-                    String password = values[4].trim();
                     Applicant.MaritalStatus maritalStatus = Applicant.MaritalStatus.valueOf(values[3].trim().toUpperCase());
-
-                    addApplicant(name, nric, age, maritalStatus, password);
+                    String password = values[4].trim();
+                    String applicantID = "AP-" + nric.substring(5);
+                    Application application = null;
+                    if(values.length == 9){     //applicant has application
+                        Application.Status status = Application.Status.valueOf(values[6].trim().toUpperCase());
+                        String projectName = values[7].trim();
+                        Flat.Type flatType = Flat.Type.valueOf(values[8].trim().toUpperCase());
+                        application = addApplication(applicantID, status, projectName, flatType);
+                    }
+                    addApplicant(name, nric, age, maritalStatus, password, application);
                 }
                 line = br.readLine();
             }
@@ -36,8 +48,8 @@ public class ApplicantRepo {
         }
     }
 
-    public void saveApplicants(){
-        File file = new File(filePath);
+    public static void saveApplicants(){
+        File file = new File(applicantFilePath);
         try {
             // First truncate the file (clear all contents)
             new FileOutputStream(file).close();
@@ -45,21 +57,38 @@ public class ApplicantRepo {
             // Then rewrite the file including any new Applicants and changes made
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                 // Write the header line
-                bw.write("Name,NRIC,Age,Marital Status,Password,ApplicantId");
+                bw.write("Name,NRIC,Age,MaritalStatus,Password,ApplicantId,ApplicationStatus,ProjectName,FlatType");
                 bw.newLine();
 
                 // Write each applicant's data
                 for (Applicant applicant : applicants.values()) {
-                    String line = String.join(",",
-                            applicant.getName(),
-                            applicant.getNric(),
-                            String.valueOf(applicant.getAge()),
-                            applicant.getMaritalStatus().toString(),
-                            applicant.getPassword(),
-                            applicant.getId()
-                    );
-                    bw.write(line);
-                    bw.newLine();
+                    if (applicant.getApplication() == null){
+                        String line = String.join(",",
+                                applicant.getName(),
+                                applicant.getNric(),
+                                String.valueOf(applicant.getAge()),
+                                applicant.getMaritalStatus().toString(),
+                                applicant.getPassword(),
+                                applicant.getId());
+                        bw.write(line);
+                        bw.newLine();
+                    }else{
+                        String line = String.join(",",
+                                applicant.getName(),
+                                applicant.getNric(),
+                                String.valueOf(applicant.getAge()),
+                                applicant.getMaritalStatus().toString(),
+                                applicant.getPassword(),
+                                applicant.getId(),
+                                applicant.getApplication().getStatus().toString(),
+                                applicant.getApplication().getProjectName(),
+                                applicant.getApplication().getFlatType().toString());
+                        bw.write(line);
+                        bw.newLine();
+                    }
+
+
+
                 }
             }
         } catch (IOException e) {
@@ -67,13 +96,34 @@ public class ApplicantRepo {
         }
     }
 
-    public void addApplicant(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
-        Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password);
-        this.applicants.put(newApplicant.getId(), newApplicant);
+
+    public static void printApplicants(){
+        for (Applicant applicant : applicants.values()){
+            System.out.println(applicant.toString());
+        }
     }
 
-    public Applicant getApplicant(String applicantId){
+    public static void printApplications(){
+        for (Application applications : applications.values()){
+            System.out.println(applications.toString());
+        }
+    }
+    public static Application addApplication( String applicantId, Application.Status status, String projectName, Flat.Type flatType){
+        Application application = new Application(applicantId,status,projectName,flatType);
+        applications.put(projectName,application);
+        return application;
+    }
+
+    public static void addApplicant(String name, String nric, int age, User.MaritalStatus maritalStatus, String password, Application application){
+        Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password, application);
+        applicants.put(newApplicant.getId(), newApplicant);
+        numOfApplicants += 1;
+    }
+
+    public static Applicant getApplicant(String applicantId){
         return applicants.get(applicantId);
     }
+
+    public static int getNumOfApplicants(){ return numOfApplicants;}
 
 }

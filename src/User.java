@@ -1,8 +1,10 @@
+import java.util.Objects;
+
 public class User {
 
     public enum MaritalStatus{
         SINGLE,
-        MARRIED
+        MARRIED;
     }
 
     private final String name;
@@ -45,8 +47,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{NRIC='" + nric + "', Age=" + age + ", Marital Status=" + maritalStatus + "}";
+        return "{NRIC='" + nric + "', Age=" + age + ", Marital Status=" + maritalStatus + "}";
     }
 
-    public String getId(){return "huzzah";} //debugging
+    public boolean validatePassword(String enteredPassword) {
+        return Objects.equals(this.password, enteredPassword);
+    }
+
+    public void resetPassword(){
+        this.password = "password";
+    }
 }
