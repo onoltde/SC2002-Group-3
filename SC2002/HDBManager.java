@@ -79,10 +79,6 @@ public class HdbManager extends User {
         ProjectController.toggleProjectVisibility(projectId); // !!!!!
     }
 
-    public void viewCreatedProjects() {
-        managedProjects.forEach(System.out::println);
-    }
-
     public boolean approveOfficerApplication(String officerId) {
         HdbOfficer officer = HdbOfficerController.getOfficer(officerId);
 

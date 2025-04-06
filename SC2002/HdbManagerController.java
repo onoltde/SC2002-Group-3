@@ -74,7 +74,7 @@ public class HdbManagerController{
     }
 
     public HdbManager getHdbManager(String managerId){
-        return managers.get(managerId) ;
+        return managers.get(managerId);
     }
 
     private boolean check(HdbManager manager) {
@@ -91,6 +91,7 @@ public class HdbManagerController{
         if(!check(manager)) return;
         manager.createProjectListing(projectId, name, neighbourhood, flatTypes, applicationOpenDate, applicationCloseDate, officerSlots);
     }
+    // 
 
     public void editProjectListing(String managerId, String projectId, String name, String neighbourhood,
                                     Date applicationOpenDate,Date applicationCloseDate) {
