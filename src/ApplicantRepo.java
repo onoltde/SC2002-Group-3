@@ -4,10 +4,8 @@ import java.util.*;
 public class ApplicantRepo {
     private static final String filePath = "data\\ApplicantList.csv";
     private HashMap<String, Applicant> applicants;
-    private static int numOfApplicants;
 
     public ApplicantRepo() {
-        numOfApplicants = 0;
         this.applicants = new HashMap<String, Applicant>();
         loadFile();
     }
@@ -28,6 +26,7 @@ public class ApplicantRepo {
                     int age = Integer.parseInt(values[2].trim());
                     String password = values[4].trim();
                     Applicant.MaritalStatus maritalStatus = Applicant.MaritalStatus.valueOf(values[3].trim().toUpperCase());
+
                     addApplicant(name, nric, age, maritalStatus, password);
                 }
                 line = br.readLine();
@@ -68,22 +67,13 @@ public class ApplicantRepo {
         }
     }
 
-
-    public void printApplicants(){
-        for (Applicant applicant : applicants.values()){
-            System.out.println(applicant.toString());
-        }
-    }
-
     public void addApplicant(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
         Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password);
         this.applicants.put(newApplicant.getId(), newApplicant);
-        numOfApplicants += 1;
     }
 
     public Applicant getApplicant(String applicantId){
         return applicants.get(applicantId);
     }
 
-    public int getNumOfApplicants(){ return numOfApplicants;}
 }

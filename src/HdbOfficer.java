@@ -23,11 +23,6 @@ public class HdbOfficer extends Applicant{
 
     public String getId(){return officerId;}
 
-    @Override
-    public String toString() {
-        return "Officer" + super.toString() + ", ID: " + officerId + "}" ;
-    }
-
     public List<Project> viewProjects() {
         return null;
     }
