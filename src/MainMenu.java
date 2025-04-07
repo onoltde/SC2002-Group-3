@@ -10,16 +10,17 @@ public class MainMenu {
 
 
     public static void displayWelcome() {
-        System.out.println("______  _______  ______");
-        System.out.println("(____  \\(_______)/ _____)");
-        System.out.println("____)  )_  _  _( (____  ");
-        System.out.println("|  __  (| ||_|| |\\____ \\ ");
-        System.out.println("| |__)  ) |   | |_____) )");
-        System.out.println("|______/|_|   |_(______/ ");
-        System.out.println("\nWelcome to the BTO Management System!\n");
+
 
         while (true) {
             // Menu Options
+            System.out.println("______  _______  ______");
+            System.out.println("(____  \\(_______)/ _____)");
+            System.out.println("____)  )_  _  _( (____  ");
+            System.out.println("|  __  (| ||_|| |\\____ \\ ");
+            System.out.println("| |__)  ) |   | |_____) )");
+            System.out.println("|______/|_|   |_(______/ ");
+            System.out.println("\nWelcome to the BTO Management System!\n");
             System.out.println("Please choose an option:");
             System.out.println("1.Applicant Portal");
             System.out.println("2.Officer Portal");  // Added missing option 2

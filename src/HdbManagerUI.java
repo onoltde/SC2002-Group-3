@@ -11,13 +11,14 @@ public class HdbManagerUI implements UserUI<HdbManager>{
     }
 
     public HdbManager displayLogin(){
-        System.out.println("\nManager Portal Selected");
+        printDivider();
+        System.out.println("Manager Portal Selected!\n");
         while (true) {
 
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Forget Password");
-            System.out.println("3. Exit");
+            System.out.println("3. Back to Menu");
             System.out.print("Enter your choice (1-3): ");
 
             try {
@@ -32,7 +33,7 @@ public class HdbManagerUI implements UserUI<HdbManager>{
                     }
                     case 2 -> forgetPassword();
                     case 3 -> {
-                        exitMessage();
+                        exitToMenu();
                         return null; // return null to exit
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
@@ -117,7 +118,7 @@ public class HdbManagerUI implements UserUI<HdbManager>{
 
     public void displayDashboard(HdbManager hdbManager){
         printDivider();
-        System.out.printf("\nMANAGER\nName: %s | Marital status: %s | Age: %d\n",
+        System.out.printf("MANAGER\n------------\nName: %s | Marital status: %s | Age: %d\n",
                 hdbManager.getName(),
                 hdbManager.getMaritalStatus(),
                 hdbManager.getAge());

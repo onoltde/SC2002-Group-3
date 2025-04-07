@@ -11,13 +11,14 @@ public final class ApplicantUI implements UserUI<Applicant>{
     }
 
     public Applicant displayLogin(){
-        System.out.println("\nApplicant Portal Selected");
+        printDivider();
+        System.out.println("Applicant Portal Selected!\n");
         while (true) {
 
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Forget Password");
-            System.out.println("3. Exit");
+            System.out.println("3. Back to Menu");
             System.out.print("Enter your choice (1-3): ");
 
             try {
@@ -32,7 +33,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
                     }
                     case 2 -> forgetPassword();
                     case 3 -> {
-                        exitMessage();
+                        exitToMenu();
                         return null; // Explicitly return null on exit
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
@@ -67,7 +68,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
                 throw new SecurityException("Incorrect password\n");
             }
 
-            System.out.println("\nLogin successful: Welcome, Applicant " + applicant.getName() + "!\n");
+            System.out.println("Login successful: Welcome, Applicant " + applicant.getName() + "!");
             return applicant;
 
         } catch (IllegalArgumentException e) {
@@ -117,7 +118,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
     public void displayDashboard(Applicant applicant){
         printDivider();
-        System.out.printf("\nAPPLICANT\nName: %s | Marital status: %s | Age: %d\n",
+        System.out.printf("APPLICANT\n------------\nName: %s | Marital status: %s | Age: %d\n",
                 applicant.getName(),
                 applicant.getMaritalStatus(),
                 applicant.getAge());

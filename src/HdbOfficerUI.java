@@ -11,13 +11,14 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
     }
 
     public HdbOfficer displayLogin(){
-        System.out.println("\nOfficer Portal Selected");
+        printDivider();
+        System.out.println("Officer Portal Selected!\n");
         while (true) {
 
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Forget Password");
-            System.out.println("3. Exit");
+            System.out.println("3. Back to Menu");
             System.out.print("Enter your choice (1-3): ");
 
             try {
@@ -32,7 +33,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
                     }
                     case 2 -> forgetPassword();
                     case 3 -> {
-                        exitMessage();
+                        exitToMenu();
                         return null; // return null to exit
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
@@ -117,7 +118,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
 
     public void displayDashboard(HdbOfficer hdbOfficer){
         printDivider();
-        System.out.printf("\nOFFICER\nName: %s | Marital status: %s | Age: %d\n",
+        System.out.printf("OFFICER\n------------\nName: %s | Marital status: %s | Age: %d\n",
                 hdbOfficer.getName(),
                 hdbOfficer.getMaritalStatus(),
                 hdbOfficer.getAge());

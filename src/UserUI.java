@@ -5,12 +5,12 @@ public interface UserUI<U extends User>{
     void forgetPassword();
     void displayDashboard(U user);
 
-    default void exitMessage(){
+    default void exitToMenu(){
+        System.out.println("Returning to Menu...");
         printDivider();
-        System.out.println("Thank you for using BTO portal. Goodbye!");
     }
 
     default void printDivider(){
-        System.out.println("=========================================================================");
+        System.out.println("===================================================================");
     }
 }
