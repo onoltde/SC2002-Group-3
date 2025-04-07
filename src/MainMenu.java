@@ -14,12 +14,14 @@ public class MainMenu {
 
         while (true) {
             // Menu Options
-            System.out.println("______  _______  ______");
-            System.out.println("(____  \\(_______)/ _____)");
-            System.out.println("____)  )_  _  _( (____  ");
-            System.out.println("|  __  (| ||_|| |\\____ \\ ");
-            System.out.println("| |__)  ) |   | |_____) )");
-            System.out.println("|______/|_|   |_(______/ ");
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("| ██████╗ ████████╗ ██████╗         ███╗   ███╗ ███████╗  |");
+            System.out.println("| ██╔══██╗╚══██╔══╝██╔═══██╗        ████╗ ████║ ██╔════╝  |");
+            System.out.println("| ██████╔╝   ██║   ██║   ██║ █████╗ ██╔████╔██║ ███████╗  |");
+            System.out.println("| ██╔══██╗   ██║   ██║   ██║ ╚════╝ ██║╚██╔╝██║ ╚════██║  |");
+            System.out.println("| ██████╔╝   ██║   ╚██████╔╝        ██║ ╚═╝ ██║ ███████║  |");
+            System.out.println("| ╚═════╝    ╚═╝    ╚═════╝         ╚═╝     ╚═╝ ╚══════╝  |");
+            System.out.println("-----------------------------------------------------------");
             System.out.println("\nWelcome to the BTO Management System!\n");
             System.out.println("Please choose an option:");
             System.out.println("1.Applicant Portal");
