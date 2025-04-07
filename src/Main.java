@@ -17,8 +17,8 @@ public class Main {
 
         //ACTUAL MAIN METHOD DONT DELETE
         Scanner sc = new Scanner(System.in);
-        new UserUI(sc);
-        UserUI.displayWelcome();
+        new MainMenu(sc);
+        MainMenu.displayWelcome();
         sc.close();
 
     }

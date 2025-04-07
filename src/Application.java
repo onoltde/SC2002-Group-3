@@ -1,5 +1,5 @@
 public class Application {
-    private String applicantId;
+    private final String applicantId;
     private Status status;
     private final String projectName;
     private final Flat.Type flatType;

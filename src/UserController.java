@@ -1,7 +1,8 @@
 import java.util.*;
 import java.io.*;
 
-public class UserController {
+interface UserController {
 
-
+    void runPortal();
+    void exitProgram();
 }

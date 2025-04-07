@@ -1,17 +1,17 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public final class ApplicantUI implements UserUI<Applicant>{
+public final class HdbOfficerUI implements UserUI<HdbOfficer>{
     private static Scanner sc;
-    private static ApplicantController controller;
+    private static HdbOfficerController controller;
 
-    public ApplicantUI(Scanner scanner, ApplicantController applicantController){
+    public HdbOfficerUI(Scanner scanner,HdbOfficerController hdbOfficerController){
         sc = scanner;
-        controller = applicantController;
+        controller = hdbOfficerController;
     }
 
-    public Applicant displayLogin(){
-        System.out.println("\nApplicant Portal Selected");
+    public HdbOfficer displayLogin(){
+        System.out.println("\nOfficer Portal Selected");
         while (true) {
 
             System.out.println("Please choose an option:");
@@ -25,15 +25,15 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
                 switch (choice) {
                     case 1 -> {
-                        Applicant applicant = login();
-                        if (applicant != null) {
-                            return applicant; // Return immediately on successful login
+                        HdbOfficer hdbOfficer = login();
+                        if (hdbOfficer != null) {
+                            return hdbOfficer; // Return immediately on successful login
                         }
                     }
                     case 2 -> forgetPassword();
                     case 3 -> {
                         exitMessage();
-                        return null; // Explicitly return null on exit
+                        return null; // return null to exit
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
                 }
@@ -43,7 +43,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
         }
     }
 
-    public Applicant login(){
+    public HdbOfficer login() {
         try {
             printDivider();
             System.out.print("Enter NRIC: ");
@@ -54,24 +54,24 @@ public final class ApplicantUI implements UserUI<Applicant>{
             }
 
             //2.checks if nric is in database
-            String applicantId = "AP-" + nric.substring(5);  // generate applicant ID (AP-last4)
-            Applicant applicant = controller.getApplicantRepo().getUser(applicantId);
-            if (applicant == null) {
+            String officerId = controller.getRepo().generateID(nric);  // generate hdbOfficer ID (OF-last4)
+            HdbOfficer hdbOfficer = controller.getRepo().getUser(officerId);
+            if (hdbOfficer == null) {
                 throw new IllegalArgumentException("NRIC not found!\n");
             }
 
             // 3.check if password is correct
             System.out.print("Enter Password: ");
             String password = sc.nextLine().trim();
-            if (!applicant.validatePassword(password)) {
+            if (!hdbOfficer.validatePassword(password)) {
                 throw new SecurityException("Incorrect password\n");
             }
 
-            System.out.println("\nLogin successful: Welcome, Applicant " + applicant.getName() + "!\n");
-            return applicant;
+            System.out.println("\nLogin successful: Welcome, Officer " + hdbOfficer.getName() + "!\n");
+            return hdbOfficer;
 
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // NRIC format/applicant not found
+            System.out.println(e.getMessage()); // NRIC format/hdbOfficer not found
             return null;
         } catch (SecurityException e) {
             System.out.println(e.getMessage()); // Wrong password
@@ -93,20 +93,20 @@ public final class ApplicantUI implements UserUI<Applicant>{
             }
 
             //2.checks if nric is in database
-            String applicantId = "AP-" + nric.substring(5);  // generate applicant ID (AP-last4)
-            Applicant applicant = controller.getApplicantRepo().getUser(applicantId);
-            if (applicant == null) {
+            String officerId = controller.getRepo().generateID(nric); // generate hdbOfficer ID (OF-last4)
+            HdbOfficer hdbOfficer = controller.getRepo().getUser(officerId);
+            if (hdbOfficer == null) {
                 throw new IllegalArgumentException("NRIC not found!");
             }
 
             //3.reset password
-            applicant.resetPassword();
+            hdbOfficer.resetPassword();
 
             System.out.println("Password is now reset to \"password\". Please proceed to login.\n");
             return;
 
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // NRIC format/applicant not found
+            System.out.println(e.getMessage()); // NRIC format/hdbOfficer not found
             return;
         } catch (Exception e) {
             System.out.println("Unexpected error: " + e.getMessage());
@@ -115,20 +115,20 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
     }
 
-    public void displayDashboard(Applicant applicant){
+    public void displayDashboard(HdbOfficer hdbOfficer){
         printDivider();
-        System.out.printf("\nAPPLICANT\nName: %s | Marital status: %s | Age: %d\n",
-                applicant.getName(),
-                applicant.getMaritalStatus(),
-                applicant.getAge());
-        displayApplicationStatus(applicant);
+        System.out.printf("\nOFFICER\nName: %s | Marital status: %s | Age: %d\n",
+                hdbOfficer.getName(),
+                hdbOfficer.getMaritalStatus(),
+                hdbOfficer.getAge());
+        displayApplicationStatus(hdbOfficer);
 
         while (true) {
             printDivider();
             System.out.println("Please choose an option:");
-            System.out.println("1. View application menu");
-            System.out.println("2. View current BTO projects");
-            System.out.println("3. View enquiry menu");
+            System.out.println("1. OFFICER DASHBOARD");
+            System.out.println("2. OFFICER DASHBOARD");
+            System.out.println("3. OFFICER DASHBOARD");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
@@ -137,7 +137,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
                 switch (choice) {
                     case 1 -> {//view application menu
-                        displayApplicationStatus(applicant);
+
                     }
                     case 2 ->{//view current BTO projects
 
@@ -159,12 +159,12 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
     }
 
-    public void displayApplicationStatus(Applicant applicant){
-        if (applicant.getApplication() == null){
+    //need to think of how to design officer application thing
+    public static void displayApplicationStatus(HdbOfficer hdbOfficer){
+        if (hdbOfficer.getApplication() == null){
             System.out.println("You do not have an active application.");
         }else{
-            System.out.println("Application Status: " + applicant.getApplication().getStatus());
+            System.out.println("Application Status: " + hdbOfficer.getApplication().getStatus());
         }
     }
-
-}//end of class
+}

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class HdbManagerRepo {
+public class HdbManagerRepo implements UserRepo <HdbManager>{
     private static final String filePath = "data\\ManagerList.csv";
     private HashMap<String, HdbManager> managers;
 
@@ -26,8 +26,8 @@ public class HdbManagerRepo {
                     int age = Integer.parseInt(values[2].trim());
                     String password = values[4].trim();
                     User.MaritalStatus maritalStatus = User.MaritalStatus.valueOf(values[3].trim().toUpperCase());
-
-                    addHdbManager(name, nric, age, maritalStatus, password);
+                    HdbManager newManager  = new HdbManager(name, nric, age, maritalStatus, password);
+                    addUser(newManager);
 
                 }
                 line = br.readLine();
@@ -37,7 +37,7 @@ public class HdbManagerRepo {
         }
     }
 
-    public void saveHdbManagers(){
+    public void saveFile(){
         File file = new File(filePath);
         try {
             // First truncate the file (clear all contents)
@@ -68,19 +68,23 @@ public class HdbManagerRepo {
         }
     }
 
+    public String generateID(String nric) {
+        return "MA-" + nric.substring(5);
+    }
+
+    public void addUser(HdbManager newManager){
+        this.managers.put(newManager.getId(), newManager);
+    }
+
+    public HdbManager getUser(String managerId){
+        return managers.get(managerId) ;
+    }
+
+    //for debugging
     public void printManagers(){
         for (HdbManager manager : managers.values()){
             System.out.println(manager.toString());
         }
-    }
-
-    public void addHdbManager(String name, String nric, int age, User.MaritalStatus maritalStatus, String password){
-        HdbManager newManager  = new HdbManager(name, nric, age, maritalStatus, password);
-        this.managers.put(newManager.getId(), newManager);
-    }
-
-    public HdbManager getHdbManager(String managerId){
-        return managers.get(managerId) ;
     }
 
 }

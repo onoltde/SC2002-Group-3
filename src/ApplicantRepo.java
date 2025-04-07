@@ -1,21 +1,20 @@
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.*;
 
-public class ApplicantRepo {
+public class ApplicantRepo implements UserRepo<Applicant>{
     private static final String applicantFilePath = "data\\ApplicantList.csv";
     private static HashMap<String, Applicant> applicants;
     private static int numOfApplicants;
-    private static HashMap<String,Application> applications;
+    private ApplicationRepo applicationRepo;
 
-    public ApplicantRepo() {
+    public ApplicantRepo(ApplicationRepo applicationRepo) {
         numOfApplicants = 0;
-        applicants = new HashMap<>();
-        applications = new HashMap<>();
+        applicants = new HashMap<String,Applicant>();
+        this.applicationRepo = applicationRepo;
         loadFile();
     }
 
-    private void loadFile() {
+    public void loadFile() {
         File applicantList = new File(applicantFilePath);
         try (BufferedReader br = new BufferedReader(new FileReader(applicantList))) {
             // Skip the header line
@@ -31,15 +30,16 @@ public class ApplicantRepo {
                     int age = Integer.parseInt(values[2].trim());
                     Applicant.MaritalStatus maritalStatus = Applicant.MaritalStatus.valueOf(values[3].trim().toUpperCase());
                     String password = values[4].trim();
-                    String applicantID = "AP-" + nric.substring(5);
+                    String applicantID = generateID(nric);
                     Application application = null;
                     if(values.length == 9){     //applicant has application
                         Application.Status status = Application.Status.valueOf(values[6].trim().toUpperCase());
                         String projectName = values[7].trim();
                         Flat.Type flatType = Flat.Type.valueOf(values[8].trim().toUpperCase());
-                        application = addApplication(applicantID, status, projectName, flatType);
+                        application = applicationRepo.addApplication(applicantID, status, projectName, flatType);
                     }
-                    addApplicant(name, nric, age, maritalStatus, password, application);
+                    Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password, application);
+                    addUser(newApplicant);
                 }
                 line = br.readLine();
             }
@@ -48,7 +48,9 @@ public class ApplicantRepo {
         }
     }
 
-    public static void saveApplicants(){
+
+
+    public void saveFile(){
         File file = new File(applicantFilePath);
         try {
             // First truncate the file (clear all contents)
@@ -96,34 +98,26 @@ public class ApplicantRepo {
         }
     }
 
+    public String generateID(String nric){
+        return "AP-" + nric.substring(5);
+    }
 
-    public static void printApplicants(){
+    public void addUser(Applicant newApplicant){
+        applicants.put(newApplicant.getId(), newApplicant);
+        numOfApplicants += 1;
+    }
+
+    public Applicant getUser(String applicantId){
+        return applicants.get(applicantId);
+    }
+
+    //for debugging
+    public void printApplicants(){
         for (Applicant applicant : applicants.values()){
             System.out.println(applicant.toString());
         }
     }
 
-    public static void printApplications(){
-        for (Application applications : applications.values()){
-            System.out.println(applications.toString());
-        }
-    }
-    public static Application addApplication( String applicantId, Application.Status status, String projectName, Flat.Type flatType){
-        Application application = new Application(applicantId,status,projectName,flatType);
-        applications.put(projectName,application);
-        return application;
-    }
-
-    public static void addApplicant(String name, String nric, int age, User.MaritalStatus maritalStatus, String password, Application application){
-        Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password, application);
-        applicants.put(newApplicant.getId(), newApplicant);
-        numOfApplicants += 1;
-    }
-
-    public static Applicant getApplicant(String applicantId){
-        return applicants.get(applicantId);
-    }
-
-    public static int getNumOfApplicants(){ return numOfApplicants;}
+    public int getNumOfApplicants(){ return numOfApplicants;}
 
 }

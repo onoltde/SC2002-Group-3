@@ -1,27 +1,36 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class ApplicantController {
+public class ApplicantController implements UserController{
 
     private static Scanner sc;
-    private static Applicant applicant;
+    //Dependencies
+    private static Applicant currentUser = null;
+    private static ApplicantUI UI;
+    private static ApplicationRepo applicationRepo;
+    private static ApplicantRepo applicantRepo;
 
     public ApplicantController(Scanner scanner) {
         sc = scanner;
-        new ApplicantUI(sc);
-        new ApplicantRepo();
+        UI = new ApplicantUI(sc,this);
+        applicationRepo = new ApplicationRepo();
+        applicantRepo = new ApplicantRepo(applicationRepo);
     }
 
-    public static void runPortal() {
+    public void runPortal() {
         //welcome menu display
-        applicant = ApplicantUI.displayLogin();
-        if (applicant == null){return;}         //if returns null == user exits program
-        ApplicantUI.displayDashboard(applicant);
+        currentUser = UI.displayLogin();
+        if (currentUser == null){return;}         //if returns null == user exits program
+        UI.displayDashboard(currentUser);
 
     }
 
-    public static void exitProgram(){
-        ApplicantRepo.saveApplicants();     //saves ApplicantList.csv file
+    public void exitProgram(){
+        applicantRepo.saveFile();     //saves ApplicantList.csv file
+    }
+
+    public ApplicantRepo getApplicantRepo(){
+        return applicantRepo;
     }
 
 }//end of class
