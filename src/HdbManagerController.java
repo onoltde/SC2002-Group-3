@@ -10,8 +10,8 @@ public class HdbManagerController{
 
     public HdbManagerController(Scanner scanner) {
         sc = scanner;
-        UI = new HdbManagerUI(sc,this);
         repo = new HdbManagerRepo();
+        UI = new HdbManagerUI(sc,this, repo);
     }
 
     public void runPortal() {

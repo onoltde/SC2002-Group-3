@@ -4,10 +4,12 @@ import java.util.regex.Pattern;
 public final class ApplicantUI implements UserUI<Applicant>{
     private static Scanner sc;
     private static ApplicantController controller;
+    private static ApplicantRepo repo;
 
-    public ApplicantUI(Scanner scanner, ApplicantController applicantController){
+    public ApplicantUI(Scanner scanner, ApplicantController applicantController, ApplicantRepo applicantRepo){
         sc = scanner;
         controller = applicantController;
+        repo = applicantRepo;
     }
 
     public Applicant displayLogin(){
@@ -56,7 +58,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
             //2.checks if nric is in database
             String applicantId = "AP-" + nric.substring(5);  // generate applicant ID (AP-last4)
-            Applicant applicant = controller.getApplicantRepo().getUser(applicantId);
+            Applicant applicant = repo.getUser(applicantId);
             if (applicant == null) {
                 throw new IllegalArgumentException("NRIC not found!\n");
             }
@@ -95,7 +97,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
             //2.checks if nric is in database
             String applicantId = "AP-" + nric.substring(5);  // generate applicant ID (AP-last4)
-            Applicant applicant = controller.getApplicantRepo().getUser(applicantId);
+            Applicant applicant = repo.getUser(applicantId);
             if (applicant == null) {
                 throw new IllegalArgumentException("NRIC not found!");
             }
@@ -147,7 +149,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
                     }
                     case 4 -> {//exit
-                        controller.exitProgram();
+                        controller.exitPortal();
                         printDivider();
                         return;
                     }

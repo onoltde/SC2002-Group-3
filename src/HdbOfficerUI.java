@@ -4,10 +4,12 @@ import java.util.regex.Pattern;
 public final class HdbOfficerUI implements UserUI<HdbOfficer>{
     private static Scanner sc;
     private static HdbOfficerController controller;
+    private static HdbOfficerRepo repo;
 
-    public HdbOfficerUI(Scanner scanner,HdbOfficerController hdbOfficerController){
+    public HdbOfficerUI(Scanner scanner,HdbOfficerController hdbOfficerController, HdbOfficerRepo hdbOfficerRepo){
         sc = scanner;
         controller = hdbOfficerController;
+        repo = hdbOfficerRepo;
     }
 
     public HdbOfficer displayLogin(){
@@ -55,8 +57,8 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
             }
 
             //2.checks if nric is in database
-            String officerId = controller.getRepo().generateID(nric);  // generate hdbOfficer ID (OF-last4)
-            HdbOfficer hdbOfficer = controller.getRepo().getUser(officerId);
+            String officerId = repo.generateID(nric);  // generate hdbOfficer ID (OF-last4)
+            HdbOfficer hdbOfficer = repo.getUser(officerId);
             if (hdbOfficer == null) {
                 throw new IllegalArgumentException("NRIC not found!\n");
             }
@@ -94,8 +96,8 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
             }
 
             //2.checks if nric is in database
-            String officerId = controller.getRepo().generateID(nric); // generate hdbOfficer ID (OF-last4)
-            HdbOfficer hdbOfficer = controller.getRepo().getUser(officerId);
+            String officerId = repo.generateID(nric); // generate hdbOfficer ID (OF-last4)
+            HdbOfficer hdbOfficer = repo.getUser(officerId);
             if (hdbOfficer == null) {
                 throw new IllegalArgumentException("NRIC not found!");
             }
@@ -147,7 +149,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
 
                     }
                     case 4 -> {//exit
-                        controller.exitProgram();
+                        controller.exitPortal();
                         printDivider();
                         return;
                     }

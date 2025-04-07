@@ -12,9 +12,10 @@ public class ApplicantController implements UserController{
 
     public ApplicantController(Scanner scanner) {
         sc = scanner;
-        UI = new ApplicantUI(sc,this);
         applicationRepo = new ApplicationRepo();
         applicantRepo = new ApplicantRepo(applicationRepo);
+        UI = new ApplicantUI(sc,this , applicantRepo);
+
     }
 
     public void runPortal() {
@@ -25,7 +26,7 @@ public class ApplicantController implements UserController{
 
     }
 
-    public void exitProgram(){
+    public void exitPortal(){
         applicantRepo.saveFile();     //saves ApplicantList.csv file
     }
 

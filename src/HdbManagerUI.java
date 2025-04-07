@@ -4,10 +4,12 @@ import java.util.regex.Pattern;
 public class HdbManagerUI implements UserUI<HdbManager>{
     private static Scanner sc;
     private static HdbManagerController controller;
+    private static HdbManagerRepo repo;
 
-    public HdbManagerUI(Scanner scanner, HdbManagerController hdbManagerController){
+    public HdbManagerUI(Scanner scanner, HdbManagerController hdbManagerController, HdbManagerRepo hdbManagerRepo){
         sc = scanner;
         controller = hdbManagerController;
+        repo = hdbManagerRepo;
     }
 
     public HdbManager displayLogin(){
@@ -55,8 +57,8 @@ public class HdbManagerUI implements UserUI<HdbManager>{
             }
 
             //2.checks if nric is in database
-            String managerId = controller.getRepo().generateID(nric);  // generate hdbManager ID (OF-last4)
-            HdbManager hdbManager = controller.getRepo().getUser(managerId);
+            String managerId = repo.generateID(nric);  // generate hdbManager ID (OF-last4)
+            HdbManager hdbManager = repo.getUser(managerId);
             if (hdbManager == null) {
                 throw new IllegalArgumentException("NRIC not found!\n");
             }
@@ -94,8 +96,8 @@ public class HdbManagerUI implements UserUI<HdbManager>{
             }
 
             //2.checks if nric is in database
-            String managerId = controller.getRepo().generateID(nric); // generate hdbManager ID (OF-last4)
-            HdbManager hdbManager = controller.getRepo().getUser(managerId);
+            String managerId = repo.generateID(nric); // generate hdbManager ID (OF-last4)
+            HdbManager hdbManager = repo.getUser(managerId);
             if (hdbManager == null) {
                 throw new IllegalArgumentException("NRIC not found!");
             }

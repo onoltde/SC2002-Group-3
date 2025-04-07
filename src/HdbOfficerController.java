@@ -9,8 +9,8 @@ public class HdbOfficerController implements UserController{
 
     public HdbOfficerController(Scanner scanner) {
         sc = scanner;
-        UI = new HdbOfficerUI(sc,this);
         repo = new HdbOfficerRepo();
+        UI = new HdbOfficerUI(sc,this, repo);
     }
 
     public void runPortal() {
@@ -23,7 +23,7 @@ public class HdbOfficerController implements UserController{
 
     }
 
-    public void exitProgram() {
+    public void exitPortal() {
         repo.saveFile();
     }
 
