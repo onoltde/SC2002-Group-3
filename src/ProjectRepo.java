@@ -71,7 +71,7 @@ public class ProjectRepo {
             // Then rewrite the file including any new Projects and changes made
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                 // Write the header line
-                bw.write("Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,ManagerID,Officer Slot,Officer,Visibility,Pending Officers");
+                bw.write("Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,ManagerID,Officer Team Slots,Officer Team,Visibility,Pending Officers");
                 bw.newLine();
 
                 // Write each Project's data

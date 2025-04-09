@@ -99,7 +99,7 @@ public class HdbManager extends User {
 //    public boolean approveOfficerApplication(String officerId) {
 //        HDBOfficer officer =HDBOfficerController.getOfficer(officerId);
 //        if(officer.getAssignedProject == null) return false;
-//        Application application = ApplicationController.getApplication(officerId);
+//        ResidentialApplication application = ApplicationController.getResidentialApplicationApplication(officerId);
 //        application.updateStatus(true);
 //        officer.setAssignedProject(application.getID);
 //    }
@@ -126,8 +126,8 @@ public class HdbManager extends User {
 //     * @return true if approval successful
 //     */
 //    public boolean approveApplicantBTOApplication(String applicationId) {
-//        Application application = ApplicationController
-//                .getApplication(applicationId);
+//        ResidentialApplication application = ApplicationController
+//                .getResidentialApplicationApplication(applicationId);
 //
 //        if (application != null && managedProject.hasAvailableUnits(application.getFlatType())) {
 //            application.approve();
@@ -143,7 +143,7 @@ public class HdbManager extends User {
 //     * @return true if approval successful
 //     */
 //    public boolean approveApplicantWithdrawal(String applicationId) {
-//        Applciation application = ApplicationController.getApplication(applicationId);
+//        Applciation application = ApplicationController.getResidentialApplicationApplication(applicationId);
 //        if (application != null) {
 //            managedProject.increaseAvailableUnits(application.getFlatType());
 //            application.withdraw();
@@ -250,7 +250,7 @@ public class HdbManager extends User {
 //            return false;
 //        }
 //
-//        Application application = ApplicationController.getApplicationByApplicant(officerId);
+//        ResidentialApplication application = ApplicationController.getApplicationByApplicant(officerId);
 //        if(!this.isManaging(application.getProjectId())) {
 //            System.out.println("The manager is not managing this project!!");
 //            return false;
@@ -260,7 +260,7 @@ public class HdbManager extends User {
 //    }
 //
 //    public boolean approveApplicantBTOApplication(String applicationId) {
-//        Application application = ApplicationController.getApplication(applicationId);
+//        ResidentialApplication application = ApplicationController.getResidentialApplicationApplication(applicationId);
 //        if(application == null) {
 //            System.out.println("No such application!!");
 //            return false;
@@ -274,7 +274,7 @@ public class HdbManager extends User {
 //    }
 //
 //    public boolean approveApplicantWithdrawal(String applicationId) {
-//        Application application = ApplicationController.getApplication(applicationId);
+//        ResidentialApplication application = ApplicationController.getResidentialApplicationApplication(applicationId);
 //        if (application == null) {
 //            System.out.println("No such application!!");
 //            return false;

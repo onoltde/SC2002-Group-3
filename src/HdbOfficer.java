@@ -6,22 +6,44 @@ import java.util.*;
  */
 public class HdbOfficer extends Applicant{
 
-    private Project assignedProject;
+    private ArrayList<String> blacklist;     //list of previously applied project as applicant OR current application
+    private boolean hasAssignedProject;
+    private String assignedProjectName;
+    private boolean hasTeamApplication;
+    private TeamApplication teamApplication;
     private final String officerId;
-    /**
-     * Constructor for HdbOfficer.
-     * @param name Officer's name
-     * @param nric Officer's NRIC
-     * @param age Officer's age
-     * @param maritalStatus Officer's marital status
-     * @param password Officer's password
-     */
-    public HdbOfficer(String name, String nric, int age, User.MaritalStatus maritalStatus, String password) {
-        super(name, nric, age, maritalStatus, password,null);
+
+    public HdbOfficer(String name, String nric, int age, User.MaritalStatus maritalStatus, String password, ResidentialApplication residentialApplication, ArrayList<String> blacklist, boolean hasAssignedProject, String assignedProjectName, boolean hasTeamApplication, TeamApplication teamApplication) {
+        super(name, nric, age, maritalStatus, password, residentialApplication);
+        this.blacklist = blacklist;
+        this.hasAssignedProject = hasAssignedProject;
+        this.assignedProjectName = assignedProjectName;
+        this.hasTeamApplication = hasTeamApplication;
+        this.teamApplication = teamApplication;
         this.officerId = "OF-" + nric.substring(5);
     }
 
     public String getId(){return officerId;}
+
+    public ArrayList<String> getBlacklist(){
+        return blacklist;
+    }
+
+    public boolean hasAssignedProject() {
+        return hasAssignedProject;
+    }
+
+    public String getAssignedProjectName() {
+        return assignedProjectName;
+    }
+
+    public boolean hasTeamApplication() {
+        return hasTeamApplication;
+    }
+
+    public TeamApplication getTeamApplication() {
+        return teamApplication;
+    }
 
     @Override
     public String toString() {
@@ -48,7 +70,7 @@ public class HdbOfficer extends Applicant{
 //            return false;
 //        }
 //
-//        Application app = applicant.getApplication();
+//        ResidentialApplication app = applicant.getResidentialApplicationApplication();
 //        if (app == null || !app.getStatus().equals(ApplicationStatus.SUCCESSFUL)) {
 //            System.out.println("Applicant does not have a successful application.");
 //            return false;
@@ -93,7 +115,7 @@ public class HdbOfficer extends Applicant{
 
 
 
-//    public Application applyForProject(Project project) {
+//    public ResidentialApplication applyForProject(Project project) {
 //        return null;
 //    }
 //
@@ -117,7 +139,7 @@ public class HdbOfficer extends Applicant{
 //        return null;
 //    }
 //
-//    public List<Application> viewApplicants() {
+//    public List<ResidentialApplication> viewApplicants() {
 //        return null;
 //    }
 //

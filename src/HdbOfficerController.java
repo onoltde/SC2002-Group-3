@@ -5,11 +5,15 @@ public class HdbOfficerController implements UserController{
     //Dependencies
     private static HdbOfficer currentUser = null;
     private static HdbOfficerRepo repo;
+    private static ResidentialApplicationRepo resAppRepo;
+    private static TeamApplicationRepo teamAppRepo;
     private static HdbOfficerUI UI;
 
     public HdbOfficerController(Scanner scanner) {
         sc = scanner;
-        repo = new HdbOfficerRepo();
+        resAppRepo = new ResidentialApplicationRepo();
+        teamAppRepo = new TeamApplicationRepo();
+        repo = new HdbOfficerRepo(resAppRepo,teamAppRepo);
         UI = new HdbOfficerUI(sc,this, repo);
     }
 

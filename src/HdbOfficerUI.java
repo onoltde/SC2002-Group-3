@@ -120,17 +120,18 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
 
     public void displayDashboard(HdbOfficer hdbOfficer){
         printDivider();
-        System.out.printf("OFFICER\n------------\nName: %s | Marital status: %s | Age: %d\n",
+        System.out.printf("OFFICER DASHBOARD" +
+                        "\n---------------------\n" +
+                        "Name: %s | Marital status: %s | Age: %d\n",
                 hdbOfficer.getName(),
                 hdbOfficer.getMaritalStatus(),
                 hdbOfficer.getAge());
-        displayApplicationStatus(hdbOfficer);
 
         while (true) {
-            printDivider();
+            System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
-            System.out.println("1. OFFICER DASHBOARD");
-            System.out.println("2. OFFICER DASHBOARD");
+            System.out.println("1. Residential Application Menu");
+            System.out.println("2. Project Assignement Menu");
             System.out.println("3. OFFICER DASHBOARD");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
@@ -139,11 +140,11 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
                 int choice = Integer.parseInt(sc.nextLine());
 
                 switch (choice) {
-                    case 1 -> {//view application menu
-
+                    case 1 -> {//view residential menu
+                        displayResidentialMenu(hdbOfficer);
                     }
-                    case 2 ->{//view current BTO projects
-
+                    case 2 ->{//view assigned project menu
+                        displayAssignmentMenu(hdbOfficer);
                     }
                     case 3 -> {//view enquiry menu
 
@@ -162,12 +163,29 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
 
     }
 
-    //need to think of how to design officer application thing
-    public static void displayApplicationStatus(HdbOfficer hdbOfficer){
-        if (hdbOfficer.getApplication() == null){
-            System.out.println("You do not have an active application.");
+
+    public void displayResidentialMenu(HdbOfficer hdbOfficer){
+        printDivider();
+        System.out.println("RESIDENTIAL APPLICATION MENU");
+        System.out.println("----------------------------");
+        if (hdbOfficer.hasResidentialApplication()){
+            System.out.println("Applied to: " + hdbOfficer.getResidentialApplication().getProjectName());
+            System.out.println("Flat type: " + hdbOfficer.getResidentialApplication().getFlatType());
+            System.out.println("Application Status: " + hdbOfficer.getResidentialApplication().getStatus());
         }else{
-            System.out.println("Application Status: " + hdbOfficer.getApplication().getStatus());
+            System.out.println("You do not have an active Application as a Resident.");
         }
     }
+
+    public void displayAssignmentMenu(HdbOfficer hdbOfficer){
+        printDivider();
+        System.out.println("PROJECT ASSIGNMENT MENU");
+        System.out.println("----------------------------");
+        if (hdbOfficer.hasAssignedProject()){
+            System.out.println("Current Assigned Project: " + hdbOfficer.getAssignedProjectName());
+        }else{
+            System.out.println("You do not have an active Assigned Project");
+        }
+    }
+
 }

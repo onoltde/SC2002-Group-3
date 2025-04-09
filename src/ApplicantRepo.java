@@ -5,9 +5,9 @@ public class ApplicantRepo implements UserRepo<Applicant>{
     private static final String applicantFilePath = "data\\ApplicantList.csv";
     private static HashMap<String, Applicant> applicants;
     private static int numOfApplicants;
-    private ApplicationRepo applicationRepo;
+    private ResidentialApplicationRepo applicationRepo;
 
-    public ApplicantRepo(ApplicationRepo applicationRepo) {
+    public ApplicantRepo(ResidentialApplicationRepo applicationRepo) {
         numOfApplicants = 0;
         applicants = new HashMap<String,Applicant>();
         this.applicationRepo = applicationRepo;
@@ -24,21 +24,27 @@ public class ApplicantRepo implements UserRepo<Applicant>{
             while (line != null) {
                 String[] values = line.split(",");
 
-                if (values.length >= 4) {
+                if (values.length >= 7) //applicant has essential information
+                {
                     String name = values[0].trim();
                     String nric = values[1].trim();
                     int age = Integer.parseInt(values[2].trim());
                     Applicant.MaritalStatus maritalStatus = Applicant.MaritalStatus.valueOf(values[3].trim().toUpperCase());
                     String password = values[4].trim();
                     String applicantID = generateID(nric);
-                    Application application = null;
-                    if(values.length == 9){     //applicant has application
-                        Application.Status status = Application.Status.valueOf(values[6].trim().toUpperCase());
-                        String projectName = values[7].trim();
-                        Flat.Type flatType = Flat.Type.valueOf(values[8].trim().toUpperCase());
-                        application = applicationRepo.addApplication(applicantID, status, projectName, flatType);
+
+                    //application portion of csv file
+                    boolean hasApplication = Boolean.parseBoolean(values[6].trim().toLowerCase());
+                    ResidentialApplication residentialApplication = null;
+                    if(hasApplication){     //applicant has residentialApplication
+                        ResidentialApplication.Status status = ResidentialApplication.Status.valueOf(values[7].trim().toUpperCase());
+                        String projectName = values[8].trim();
+                        Flat.Type flatType = Flat.Type.valueOf(values[9].trim().toUpperCase());
+                        residentialApplication = new ResidentialApplication(applicantID,status,projectName,flatType);
+                        applicationRepo.addApplication(residentialApplication);
                     }
-                    Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password, application);
+
+                    Applicant newApplicant = new Applicant(name, nric, age, maritalStatus, password, residentialApplication);
                     addUser(newApplicant);
                 }
                 line = br.readLine();
@@ -59,37 +65,32 @@ public class ApplicantRepo implements UserRepo<Applicant>{
             // Then rewrite the file including any new Applicants and changes made
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                 // Write the header line
-                bw.write("Name,NRIC,Age,MaritalStatus,Password,ApplicantId,ApplicationStatus,ProjectName,FlatType");
+                bw.write("Name,NRIC,Age,MaritalStatus,Password,ApplicantID,Has Application?,Application Status,Project Name,Flat Type");
                 bw.newLine();
 
                 // Write each applicant's data
                 for (Applicant applicant : applicants.values()) {
-                    if (applicant.getApplication() == null){
-                        String line = String.join(",",
-                                applicant.getName(),
-                                applicant.getNric(),
-                                String.valueOf(applicant.getAge()),
-                                applicant.getMaritalStatus().toString(),
-                                applicant.getPassword(),
-                                applicant.getId());
-                        bw.write(line);
-                        bw.newLine();
-                    }else{
-                        String line = String.join(",",
-                                applicant.getName(),
-                                applicant.getNric(),
-                                String.valueOf(applicant.getAge()),
-                                applicant.getMaritalStatus().toString(),
-                                applicant.getPassword(),
-                                applicant.getId(),
-                                applicant.getApplication().getStatus().toString(),
-                                applicant.getApplication().getProjectName(),
-                                applicant.getApplication().getFlatType().toString());
-                        bw.write(line);
-                        bw.newLine();
+
+                    StringBuilder sb = new StringBuilder()
+                            .append(applicant.getName()).append(",")
+                            .append(applicant.getNric()).append(",")
+                            .append(String.valueOf(applicant.getAge())).append(",")
+                            .append(applicant.getMaritalStatus().toString()).append(",")
+                            .append(applicant.getPassword()).append(",")
+                            .append(applicant.getId()).append(",")
+                            .append(Boolean.toString(applicant.hasResidentialApplication()));
+
+                    if (applicant.hasResidentialApplication()) {    //has residential application
+                        sb.append(",")
+                                .append(applicant.getResidentialApplication().getStatus())
+                                .append(",")
+                                .append(applicant.getResidentialApplication().getProjectName())
+                                .append(",")
+                                .append(applicant.getResidentialApplication().getFlatType());
                     }
 
-
+                    bw.write(sb.toString());
+                    bw.newLine();
 
                 }
             }

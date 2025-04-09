@@ -4,13 +4,15 @@ import java.util.*;
 public class Applicant extends User {
 
     private final String applicantId;
-    private Application application;
+    private ResidentialApplication residentialApplication;
+    private boolean hasResidentialApplication;
     private ArrayList<Enquiry> enquiries;
 
-    public Applicant(String name, String nric, int age, MaritalStatus maritalStatus, String password,Application application) {
+    public Applicant(String name, String nric, int age, MaritalStatus maritalStatus, String password, ResidentialApplication residentialApplication) {
         super(name, nric, age, maritalStatus, password);
         this.applicantId = "AP-" + nric.substring(5);
-        this.application = application;
+        this.hasResidentialApplication = (residentialApplication != null);
+        this.residentialApplication = residentialApplication;
     }
 
     public String getId() {
@@ -22,13 +24,14 @@ public class Applicant extends User {
         return "Applicant" + super.toString() + ", ID: " + applicantId + "}" ;
     }
 
-    public Application getApplication() {
-        return application;
+    public ResidentialApplication getResidentialApplication() {
+        return residentialApplication;
     }
 
-    public void setApplication(Application application) {
-        this.application = application;
+    public boolean hasResidentialApplication(){
+        return hasResidentialApplication;
     }
+
 
 }
 

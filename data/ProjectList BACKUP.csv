@@ -1,4 +1,4 @@
-Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,ResidentialApplication opening date,ResidentialApplication closing date,ManagerID,total Officer Slots,OfficerTeam,Visibility,Pending Officers
+Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,ManagerID,total Officer Slots,OfficerTeam,Visibility,Pending Officers
 Acacia Breeze,Yishun,TWOROOM,2,350000,THREEROOM,3,450000,10/2/2025,20/5/2025,MA-301F,3,"Daniel,Emily",TRUE,
 Stirling Horizon,Queenstown,TWOROOM,4,380000,THREEROOM,5,500000,10/3/2025,20/6/2025,MA-302F,2,,FALSE,
 West BrickVille,Chua Chu Kang,TWOROOM,3,340000,THREEROOM,4,430000,10/4/2025,20/7/2025,MA-303F,1,,FALSE,

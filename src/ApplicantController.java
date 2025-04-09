@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class ApplicantController implements UserController{
 
@@ -7,13 +6,13 @@ public class ApplicantController implements UserController{
     //Dependencies
     private static Applicant currentUser = null;
     private static ApplicantUI UI;
-    private static ApplicationRepo applicationRepo;
+    private static ResidentialApplicationRepo resApplicationRepo;
     private static ApplicantRepo applicantRepo;
 
     public ApplicantController(Scanner scanner) {
         sc = scanner;
-        applicationRepo = new ApplicationRepo();
-        applicantRepo = new ApplicantRepo(applicationRepo);
+        resApplicationRepo = new ResidentialApplicationRepo();
+        applicantRepo = new ApplicantRepo(resApplicationRepo);
         UI = new ApplicantUI(sc,this , applicantRepo);
 
     }

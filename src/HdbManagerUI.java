@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class HdbManagerUI implements UserUI<HdbManager>{
+public final class HdbManagerUI implements UserUI<HdbManager>{
     private static Scanner sc;
     private static HdbManagerController controller;
     private static HdbManagerRepo repo;
@@ -120,13 +120,15 @@ public class HdbManagerUI implements UserUI<HdbManager>{
 
     public void displayDashboard(HdbManager hdbManager){
         printDivider();
-        System.out.printf("MANAGER\n------------\nName: %s | Marital status: %s | Age: %d\n",
+        System.out.printf("MANAGER DASHBOARD" +
+                        "\n---------------------\n" +
+                        "Name: %s | Marital status: %s | Age: %d\n",
                 hdbManager.getName(),
                 hdbManager.getMaritalStatus(),
                 hdbManager.getAge());
 
         while (true) {
-            printDivider();
+            System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. MANAGER DASHBOARD");
             System.out.println("2. MANAGER DASHBOARD");

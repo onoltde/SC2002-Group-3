@@ -120,14 +120,15 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
     public void displayDashboard(Applicant applicant){
         printDivider();
-        System.out.printf("APPLICANT\n------------\nName: %s | Marital status: %s | Age: %d\n",
+        System.out.printf("APPLICANT DASHBOARD" +
+                        "\n---------------------\n" +
+                        "Name: %s | Marital status: %s | Age: %d\n",
                 applicant.getName(),
                 applicant.getMaritalStatus(),
                 applicant.getAge());
-        displayApplicationStatus(applicant);
 
         while (true) {
-            printDivider();
+            System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. View application menu");
             System.out.println("2. View current BTO projects");
@@ -140,7 +141,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
                 switch (choice) {
                     case 1 -> {//view application menu
-                        displayApplicationStatus(applicant);
+                        displayApplicationMenu(applicant);
                     }
                     case 2 ->{//view current BTO projects
 
@@ -162,11 +163,16 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
     }
 
-    public void displayApplicationStatus(Applicant applicant){
-        if (applicant.getApplication() == null){
+    public void displayApplicationMenu(Applicant applicant){
+        printDivider();
+        System.out.println("APPLICATION MENU");
+        System.out.println("----------------");
+        if (applicant.getResidentialApplication() == null){
             System.out.println("You do not have an active application.");
         }else{
-            System.out.println("Application Status: " + applicant.getApplication().getStatus());
+            System.out.println("Applied to: " + applicant.getResidentialApplication().getProjectName());
+            System.out.println("Flat type: " + applicant.getResidentialApplication().getFlatType());
+            System.out.println("Application Status: " + applicant.getResidentialApplication().getStatus());
         }
     }
 
