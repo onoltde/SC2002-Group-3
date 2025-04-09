@@ -34,7 +34,7 @@ public class HdbManagerController{
 
 //    public void createProjectListing(String managerId, String projectId, String name, String neighbourhood, HashMap<String,Integer> flatTypes,
 //                                        Date applicationOpenDate, Date applicationCloseDate, int officerSlots) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return;
 //        manager.createProjectListing(projectId, name, neighbourhood, flatTypes, applicationOpenDate, applicationCloseDate, officerSlots);
 //    }
@@ -42,25 +42,25 @@ public class HdbManagerController{
 //
 //    public void editProjectListing(String managerId, String projectId, String name, String neighbourhood,
 //                                    Date applicationOpenDate,Date applicationCloseDate) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return;
 //        manager.editProjectListing(projectId, name, neighbourhood, applicationOpenDate, applicationCloseDate);
 //    }
 //
 //    public void deleteProjectListing(String managerId, String projectId) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return;
 //        manager.deleteProjectListing(projectId);
 //    }
 //
 //    public void toggleProjectVisibility(String managerId, String projectId) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return;
 //        manager.toggleProjectVisibility(projectId);
 //    }
 //
 //    public void viewCreatedProjects(String managerId) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return;
 //        manager.viewCreatedProjects();
 //    }
@@ -74,19 +74,19 @@ public class HdbManagerController{
 //    }
 //
 //    public boolean approveOfficerApplication(String managerId, String officerId) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return false;
 //        return manager.approveOfficerApplication(officerId);
 //    }
 //
 //    public boolean approveApplicantBTOApplication(String managerId, String applicationId) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return false;
 //        return manager.approveApplicantBTOApplication(applicationId);
 //    }
 //
 //    public boolean approveApplicantWithdrawal(String managerId, String applicationId) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return false;
 //        return manager.approveApplicantWithdrawal(applicationId);
 //    }
@@ -97,19 +97,19 @@ public class HdbManagerController{
 //    // }
 //
 //    public void replyEnquiry(String managerId, String enquiryId, String response) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return;
 //        manager.replyEnquiry(enquiryId, response);
 //    }
 //
 //    public boolean isDuringApplicationPeriod(String managerId, Date date) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return true;
 //        return manager.isDuringApplicationPeriod(date);
 //    }
 //
 //    public boolean isManaging(String managerId, String projectId) {
-//        HdbManager manager = managers.get(managerId);
+//        HdbManager manager = repo.getUser(managerId);
 //        if(!check(manager)) return false;
 //        return manager.isManaging(projectId);
 //    }
