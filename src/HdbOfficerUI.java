@@ -4,47 +4,44 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public final class HdbOfficerUI implements UserUI<HdbOfficer>{
-    private static Scanner sc;
     private static HdbOfficerController controller;
     private static HdbOfficerRepo repo;
 
-    public HdbOfficerUI(Scanner scanner,HdbOfficerController hdbOfficerController, HdbOfficerRepo hdbOfficerRepo){
-        sc = scanner;
+    public HdbOfficerUI(HdbOfficerController hdbOfficerController, HdbOfficerRepo hdbOfficerRepo){
         controller = hdbOfficerController;
         repo = hdbOfficerRepo;
     }
 
     public HdbOfficer displayLogin(){
-        printDivider();
-        System.out.println("Officer Portal Selected!\n");
-        while (true) {
 
+        while (true) {
+            System.out.println();
+            printDivider();
+            System.out.println("\nOfficer Portal:");
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Forget Password");
             System.out.println("3. Back to Menu");
             System.out.print("Enter your choice (1-3): ");
 
-            try {
-                int choice = Integer.parseInt(sc.nextLine());
 
-                switch (choice) {
-                    case 1 -> {
-                        HdbOfficer hdbOfficer = login();
-                        if (hdbOfficer != null) {
-                            return hdbOfficer; // Return immediately on successful login
-                        }
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1 -> {
+                    HdbOfficer hdbOfficer = login();
+                    if (hdbOfficer != null) {
+                        return hdbOfficer; // Return immediately on successful login
                     }
-                    case 2 -> forgetPassword();
-                    case 3 -> {
-                        exitToMenu();
-                        return null; // return null to exit
-                    }
-                    default -> System.out.println("Invalid choice! Please enter 1-3.\n");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a number.\n");
+                case 2 -> forgetPassword();
+                case 3 -> {
+                    exitToMenu();
+                    return null; // return null to exit
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }
+
         }
     }
 
@@ -52,7 +49,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
         try {
             printDivider();
             System.out.print("Enter NRIC: ");
-            String nric = sc.nextLine().trim().toUpperCase();
+            String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!\n");
@@ -67,7 +64,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
 
             // 3.check if password is correct
             System.out.print("Enter Password: ");
-            String password = sc.nextLine().trim();
+            String password = InputUtils.nextLine().trim();
             if (!hdbOfficer.validatePassword(password)) {
                 throw new SecurityException("Incorrect password\n");
             }
@@ -91,7 +88,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
     public void forgetPassword() {
         try {
             System.out.print("Enter NRIC: ");
-            String nric = sc.nextLine().trim().toUpperCase();
+            String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!");
@@ -122,6 +119,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
 
     public void displayDashboard(HdbOfficer hdbOfficer){
         printDivider();
+        System.out.println();
         System.out.printf("OFFICER DASHBOARD" +
                         "\n---------------------\n" +
                         "Name: %s | Marital status: %s | Age: %d\n",
@@ -133,34 +131,32 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
             System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. Residential Application Menu");
-            System.out.println("2. Project Assignement Menu");
+            System.out.println("2. Project Assignment Menu");
             System.out.println("3. OFFICER DASHBOARD");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
-            try {
-                int choice = Integer.parseInt(sc.nextLine());
 
-                switch (choice) {
-                    case 1 -> {//view residential menu
-                        displayResidentialMenu(hdbOfficer);
-                    }
-                    case 2 ->{//view assigned project menu
-                        displayAssignmentMenu(hdbOfficer);
-                    }
-                    case 3 -> {//view enquiry menu
-                        displayBlackList(hdbOfficer);
-                    }
-                    case 4 -> {//exit
-                        controller.exitPortal();
-                        printDivider();
-                        return;
-                    }
-                    default -> System.out.println("Invalid choice! Please enter 1-4.\n");
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1 -> {//view residential menu
+                    displayResidentialMenu(hdbOfficer);
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a number.\n");
+                case 2 ->{//view assigned project menu
+                    displayAssignmentMenu(hdbOfficer);
+                }
+                case 3 -> {//view enquiry menu
+                    displayBlackList(hdbOfficer);
+                }
+                case 4 -> {//exit
+                    controller.exitPortal();
+                    printDivider();
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-4.\n");
             }
+
         }
 
     }

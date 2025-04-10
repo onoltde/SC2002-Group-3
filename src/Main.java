@@ -6,12 +6,9 @@ public class Main {
     public static void main(String[] args) {
 
 
-
         //ACTUAL MAIN METHOD DONT DELETE
-        Scanner sc = new Scanner(System.in);
-        new MainMenu(sc);
+        new MainMenu();
         MainMenu.displayWelcome();
-        sc.close();
 
     }
 

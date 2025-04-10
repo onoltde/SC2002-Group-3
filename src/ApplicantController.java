@@ -2,18 +2,16 @@ import java.util.Scanner;
 
 public class ApplicantController implements UserController{
 
-    private static Scanner sc;
     //Dependencies
     private static Applicant currentUser = null;
     private static ApplicantUI UI;
     private static ResidentialApplicationRepo resApplicationRepo;
     private static ApplicantRepo applicantRepo;
 
-    public ApplicantController(Scanner scanner) {
-        sc = scanner;
+    public ApplicantController() {
         resApplicationRepo = new ResidentialApplicationRepo();
         applicantRepo = new ApplicantRepo(resApplicationRepo);
-        UI = new ApplicantUI(sc,this , applicantRepo);
+        UI = new ApplicantUI(this , applicantRepo);
 
     }
 
@@ -22,6 +20,12 @@ public class ApplicantController implements UserController{
         currentUser = UI.displayLogin();
         if (currentUser == null){return;}         //if returns null == user exits program
         UI.displayDashboard(currentUser);
+
+    }
+
+    public void viewCurrentProjects(Applicant applicant){
+        ProjectController projectController = new ProjectController();
+        projectController.displayProjectDashboard(applicant);
 
     }
 

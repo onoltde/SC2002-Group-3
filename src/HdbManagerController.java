@@ -2,16 +2,15 @@ import java.util.*;
 import java.io.*;
 
 public class HdbManagerController{
-    private static Scanner sc;
+
     //Dependencies
     private static HdbManager currentUser= null;
     private static HdbManagerRepo repo;
     private static HdbManagerUI UI;
 
-    public HdbManagerController(Scanner scanner) {
-        sc = scanner;
+    public HdbManagerController() {
         repo = new HdbManagerRepo();
-        UI = new HdbManagerUI(sc,this, repo);
+        UI = new HdbManagerUI(this, repo);
     }
 
     public void runPortal() {

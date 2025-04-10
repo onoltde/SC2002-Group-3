@@ -1,48 +1,45 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public final class HdbManagerUI implements UserUI<HdbManager>{
-    private static Scanner sc;
     private static HdbManagerController controller;
     private static HdbManagerRepo repo;
 
-    public HdbManagerUI(Scanner scanner, HdbManagerController hdbManagerController, HdbManagerRepo hdbManagerRepo){
-        sc = scanner;
+    public HdbManagerUI( HdbManagerController hdbManagerController, HdbManagerRepo hdbManagerRepo){
         controller = hdbManagerController;
         repo = hdbManagerRepo;
     }
 
     public HdbManager displayLogin(){
-        printDivider();
-        System.out.println("Manager Portal Selected!\n");
-        while (true) {
 
+        while (true) {
+            System.out.println();
+            printDivider();
+            System.out.println("\nManager Portal:");
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Forget Password");
             System.out.println("3. Back to Menu");
             System.out.print("Enter your choice (1-3): ");
 
-            try {
-                int choice = Integer.parseInt(sc.nextLine());
+            int choice = InputUtils.readInt();
 
-                switch (choice) {
-                    case 1 -> {
-                        HdbManager hdbManager = login();
-                        if (hdbManager != null) {
-                            return hdbManager; // Return immediately on successful login
-                        }
+            switch (choice) {
+                case 1 -> {
+                    HdbManager hdbManager = login();
+                    if (hdbManager != null) {
+                        return hdbManager; // Return immediately on successful login
                     }
-                    case 2 -> forgetPassword();
-                    case 3 -> {
-                        exitToMenu();
-                        return null; // return null to exit
-                    }
-                    default -> System.out.println("Invalid choice! Please enter 1-3.\n");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a number.\n");
+                case 2 -> forgetPassword();
+                case 3 -> {
+                    exitToMenu();
+                    return null; // return null to exit
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }
+
         }
     }
 
@@ -50,7 +47,7 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
         try {
             printDivider();
             System.out.print("Enter NRIC: ");
-            String nric = sc.nextLine().trim().toUpperCase();
+            String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!\n");
@@ -65,7 +62,7 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
 
             // 3.check if password is correct
             System.out.print("Enter Password: ");
-            String password = sc.nextLine().trim();
+            String password = InputUtils.nextLine().trim();
             if (!hdbManager.validatePassword(password)) {
                 throw new SecurityException("Incorrect password\n");
             }
@@ -89,7 +86,7 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
     public void forgetPassword() {
         try {
             System.out.print("Enter NRIC: ");
-            String nric = sc.nextLine().trim().toUpperCase();
+            String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!");
@@ -120,6 +117,7 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
 
     public void displayDashboard(HdbManager hdbManager){
         printDivider();
+        System.out.println();
         System.out.printf("MANAGER DASHBOARD" +
                         "\n---------------------\n" +
                         "Name: %s | Marital status: %s | Age: %d\n",
@@ -136,29 +134,27 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
-            try {
-                int choice = Integer.parseInt(sc.nextLine());
 
-                switch (choice) {
-                    case 1 -> {//view application menu
+            int choice = InputUtils.readInt();
 
-                    }
-                    case 2 ->{//view current BTO projects
+            switch (choice) {
+                case 1 -> {//xxxxxxxxxxxx
 
-                    }
-                    case 3 -> {//view enquiry menu
-
-                    }
-                    case 4 -> {//exit
-                        controller.exitProgram();
-                        printDivider();
-                        return;
-                    }
-                    default -> System.out.println("Invalid choice! Please enter 1-4.\n");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a number.\n");
+                case 2 ->{//xxxxxxxxxxxxxx
+
+                }
+                case 3 -> {//xxxxxxxxxxxx
+
+                }
+                case 4 -> {//exit
+                    controller.exitProgram();
+                    printDivider();
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-4.\n");
             }
+
         }
 
     }

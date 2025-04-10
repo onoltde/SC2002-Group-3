@@ -1,20 +1,9 @@
-/**
- * Represents an HDB Manager who can manage BTO projects and related operations.
- * Extends the User class to inherit basic user properties.
- */
+
 public class HdbManager extends User {
 
     private final String managerId;
     private Project managedProject;
 
-    /**
-     * Constructor for HdbManager.
-     * @param name Manager's name
-     * @param nric Manager's NRIC
-     * @param age Manager's age
-     * @param maritalStatus Manager's marital status
-     * @param password Manager's password
-     */
     public HdbManager(String name,String nric, int age, MaritalStatus maritalStatus, String password) {
         super(name, nric, age, maritalStatus, password);
         this.managerId = "MA-" + nric.substring(5);

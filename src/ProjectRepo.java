@@ -1,7 +1,10 @@
 import java.io.*;
-import java.time.format.*;
+import java.sql.Time;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.time.*;
+import java.text.SimpleDateFormat;
 import java.util.stream.Collectors;
 
 
@@ -52,8 +55,8 @@ public class ProjectRepo {
                     int totalNumOfType2 = Integer.parseInt(values[7].trim());
                     int numOfType2Booked = Integer.parseInt(values[8].trim());
                     int priceOfType2 = Integer.parseInt(values[9].trim());
-                    LocalDate openDate = stringToDate(values[10].trim());
-                    LocalDate closeDate = stringToDate(values[11].trim());
+                    LocalDate openDate = TimeUtils.stringToDate(values[10].trim());
+                    LocalDate closeDate = TimeUtils.stringToDate(values[11].trim());
                     String managerId = values[12].trim();
                     int officerSlots = Integer.parseInt(values[13].trim());
                     ArrayList<String> assignedOfficers = stringToList(values[14]);
@@ -101,8 +104,9 @@ public class ProjectRepo {
                             .append(type2Flat.getFlatType()).append(",")
                             .append(type2Flat.getTotalUnits()).append(",")
                             .append(type2Flat.getUnitsBooked()).append(",")
-                            .append(project.getOpenDate()).append(",")
-                            .append(project.getCloseDate()).append(",")
+                            .append(type2Flat.getSellingPrice()).append(",")
+                            .append(TimeUtils.dateToString(project.getOpenDate())).append(",")
+                            .append(TimeUtils.dateToString(project.getCloseDate())).append(",")
                             .append(project.getManagerId()).append(",")
                             .append(project.getOfficerSlots()).append(",")
                             .append(listToString(project.getAssignedOfficers())).append(",")
@@ -124,22 +128,20 @@ public class ProjectRepo {
         return projectListings;
     }
 
-    public HashMap<String, Project> filterByAvailUnitType(Flat.Type roomType) {
-        return projectListings.entrySet().stream()
-                .filter(entry -> entry.getValue().hasAvailUnits(roomType))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        HashMap::new
-                ));
+    //filter methods
+    public ArrayList<Project> filterByAvailUnitType(Flat.Type roomType) {
+        return projectListings.values().stream()
+                .filter(project -> project.isVisible()
+                        && project.isWithinDateRange()
+                        && project.hasAvailUnits(roomType))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     //helper methods for loadfile and savefile
     private HashMap<Flat.Type,Flat> flatInfoGen(Flat.Type type1, int totalNumOfType1, int numOfType1Booked,int priceOfType1, Flat.Type type2, int totalNumOfType2, int numOfType2Booked, int priceOfType2) {
         HashMap<Flat.Type,Flat> flatInfo = new HashMap<>();
         Flat flat1 = new Flat(type1,totalNumOfType1,numOfType1Booked,priceOfType1);
-        Flat flat2 = new Flat(type1,totalNumOfType2,numOfType2Booked,priceOfType2);
+        Flat flat2 = new Flat(type2,totalNumOfType2,numOfType2Booked,priceOfType2);
         flatInfo.put(type1,flat1);
         flatInfo.put(type2,flat2);
         return flatInfo;
@@ -181,25 +183,7 @@ public class ProjectRepo {
         return result;
     }
 
-    public LocalDate stringToDate(String stringDate) {
-        if (stringDate == null || stringDate.trim().isEmpty()) {
-            throw new IllegalArgumentException("Date string cannot be null or empty");
-        }
 
-        // Handle both single-digit and double-digit day/month
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendPattern("[d/M/yyyy][dd/MM/yyyy]")  // Accepts both formats
-                .parseStrict()  // Still validates actual date validity
-                .toFormatter();
 
-        try {
-            return LocalDate.parse(stringDate.trim(), formatter);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException(
-                    "Invalid date: '" + stringDate + "'. Acceptable formats: d/M/yyyy or dd/MM/yyyy",
-                    e
-            );
-        }
-    }
 
-}
+}//end of class

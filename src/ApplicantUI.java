@@ -2,47 +2,44 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public final class ApplicantUI implements UserUI<Applicant>{
-    private static Scanner sc;
     private static ApplicantController controller;
     private static ApplicantRepo repo;
 
-    public ApplicantUI(Scanner scanner, ApplicantController applicantController, ApplicantRepo applicantRepo){
-        sc = scanner;
+    public ApplicantUI(ApplicantController applicantController, ApplicantRepo applicantRepo){
         controller = applicantController;
         repo = applicantRepo;
     }
 
     public Applicant displayLogin(){
-        printDivider();
-        System.out.println("Applicant Portal Selected!\n");
-        while (true) {
 
+        while (true) {
+            System.out.println();
+            printDivider();
+            System.out.println("\nApplicant Portal:");
+            System.out.println("--------------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Forget Password");
             System.out.println("3. Back to Menu");
             System.out.print("Enter your choice (1-3): ");
 
-            try {
-                int choice = Integer.parseInt(sc.nextLine());
+            int choice = InputUtils.readInt();
 
-                switch (choice) {
-                    case 1 -> {
-                        Applicant applicant = login();
-                        if (applicant != null) {
-                            return applicant; // Return immediately on successful login
-                        }
+            switch (choice) {
+                case 1 -> {
+                    Applicant applicant = login();
+                    if (applicant != null) {
+                        return applicant; // Return immediately on successful login
                     }
-                    case 2 -> forgetPassword();
-                    case 3 -> {
-                        exitToMenu();
-                        return null; // Explicitly return null on exit
-                    }
-                    default -> System.out.println("Invalid choice! Please enter 1-3.\n");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a number.\n");
+                case 2 -> forgetPassword();
+                case 3 -> {
+                    exitToMenu();
+                    return null; // Explicitly return null on exit
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }
+
         }
     }
 
@@ -50,7 +47,8 @@ public final class ApplicantUI implements UserUI<Applicant>{
         try {
             printDivider();
             System.out.print("Enter NRIC: ");
-            String nric = sc.nextLine().trim().toUpperCase();
+
+            String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!\n");
@@ -65,12 +63,12 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
             // 3.check if password is correct
             System.out.print("Enter Password: ");
-            String password = sc.nextLine().trim();
+            String password = InputUtils.nextLine().trim();
             if (!applicant.validatePassword(password)) {
                 throw new SecurityException("Incorrect password\n");
             }
 
-            System.out.println("Login successful: Welcome, Applicant " + applicant.getName() + "!");
+            System.out.println("\nLogin successful: Welcome, Applicant " + applicant.getName() + "!");
             return applicant;
 
         } catch (IllegalArgumentException e) {
@@ -89,7 +87,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
     public void forgetPassword() {
         try {
             System.out.print("Enter NRIC: ");
-            String nric = sc.nextLine().trim().toUpperCase();
+            String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!");
@@ -120,6 +118,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
     public void displayDashboard(Applicant applicant){
         printDivider();
+        System.out.println();
         System.out.printf("APPLICANT DASHBOARD" +
                         "\n---------------------\n" +
                         "Name: %s | Marital status: %s | Age: %d\n",
@@ -130,45 +129,39 @@ public final class ApplicantUI implements UserUI<Applicant>{
         while (true) {
             System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
-            System.out.println("1. View application menu");
+            System.out.println("1. View my application");
             System.out.println("2. View current BTO projects");
             System.out.println("3. View my enquiries");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
-            try {
-                int choice = Integer.parseInt(sc.nextLine());
+            int choice = InputUtils.readInt();
 
-                switch (choice) {
-                    case 1 -> {//view application menu
-                        displayApplicationMenu(applicant);
-                    }
-                    case 2 ->{//view current BTO projects
-                        System.out.println("hello");
-                        ProjectController projectController = new ProjectController(sc);
-                        projectController.displayProjectDashboard(applicant);
-                    }
-                    case 3 -> {//view my enquiries
-                        //create enquirycontroller then call method from there
-                    }
-                    case 4 -> {//exit
-                        controller.exitPortal();    //saves changes to file
-                        printDivider();
-                        return;
-                    }
-                    default -> System.out.println("Invalid choice! Please enter 1-4.\n");
+            switch (choice) {
+                case 1 -> {//view application menu
+                    displayApplicationMenu(applicant);
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a number.\n");
+                case 2 ->{//view current BTO projects
+                    controller.viewCurrentProjects(applicant);
+                }
+                case 3 -> {//view my enquiries
+                    //xxxxxxxxxxxxxxxxxxxxx
+                }
+                case 4 -> {//exit
+                    controller.exitPortal();    //saves changes to file
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-4.\n");
             }
-        }
 
+        }
     }
+
+
 
     public void displayApplicationMenu(Applicant applicant){
         printDivider();
-        System.out.println("APPLICATION MENU");
-        System.out.println("----------------");
+        System.out.println();
         if (applicant.getResidentialApplication() == null){
             System.out.println("You do not have an active application.");
         }else{

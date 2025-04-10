@@ -1,42 +1,30 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProjectController{
-    private static Scanner sc;
-
     //Dependencies
     private static ProjectUI projectUI;
     private static ProjectRepo projectRepo;
 
-	public ProjectController(Scanner scanner) {
-		sc = scanner;
+	public ProjectController() {
         projectRepo = new ProjectRepo();
-        projectUI = new ProjectUI(scanner,this);
+        projectUI = new ProjectUI(this);
 	}
+
+    public void saveChanges(){
+        projectRepo.saveProjects();
+    }
 
     public ProjectRepo getRepo(){
         return projectRepo;
-    }
-
-    public void exitMenu(){
-        projectRepo.saveProjects();
     }
 
     public void displayProjectDashboard(Applicant applicant) {
         projectUI.displayProjectDashboard(applicant);
     }
 
-    public HashMap<String,Project> filterByTypeAndDate(Flat.Type flatType){ //SOMETHING WRONG W FILTER
-//        HashMap<String,Project> allProjects = projectRepo.getProjectListings();
-//        return allProjects.entrySet().stream()
-//                .filter(entry -> entry.getValue().hasAvailUnits(flatType) && entry.getValue().isWithinDateRange())
-//                .collect(Collectors.toMap(
-//                        Map.Entry::getKey,
-//                        Map.Entry::getValue,
-//                        (e1, e2) -> e1,
-//                        HashMap::new
-//                ));
-        return null;
+    public void displayFlat(Applicant applicant,Flat.Type flatType) {
+
+
     }
 
 

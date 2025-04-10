@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class HdbOfficerController implements UserController{
-    private static Scanner sc;
     //Dependencies
     private static HdbOfficer currentUser = null;
     private static HdbOfficerRepo repo;
@@ -9,12 +8,11 @@ public class HdbOfficerController implements UserController{
     private static TeamApplicationRepo teamAppRepo;
     private static HdbOfficerUI UI;
 
-    public HdbOfficerController(Scanner scanner) {
-        sc = scanner;
+    public HdbOfficerController() {
         resAppRepo = new ResidentialApplicationRepo();
         teamAppRepo = new TeamApplicationRepo();
         repo = new HdbOfficerRepo(resAppRepo,teamAppRepo);
-        UI = new HdbOfficerUI(sc,this, repo);
+        UI = new HdbOfficerUI(this, repo);
     }
 
     public void runPortal() {
