@@ -4,6 +4,7 @@ public class Flat {
             TWOROOM,
             THREEROOM,
             NONE;
+
         }
 
         private final Type flatType;

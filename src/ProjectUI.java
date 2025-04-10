@@ -118,5 +118,51 @@ public class ProjectUI {
 
     }
 
+    public void displayEssentialProjectDetails(Project project){
+        String name = project.getName();
+        String neighbourhood = project.getNeighbourhood();
+        LocalDate openDate = project.getOpenDate();
+        LocalDate closeDate = project.getCloseDate();
+        Flat twoRoom = project.getFlatInfo().get(Flat.Type.TWOROOM);
+        int totalTwoRoom = twoRoom.getTotalUnits();
+        int availTwoRoom = twoRoom.getAvailableUnits();
+        int twoRoomPrice = twoRoom.getSellingPrice();
+        Flat threeRoom = project.getFlatInfo().get(Flat.Type.THREEROOM);
+        int totalThreeRoom = threeRoom.getTotalUnits();
+        int availThreeRoom = threeRoom.getAvailableUnits();
+        int threeRoomPrice = threeRoom.getSellingPrice();
+
+        System.out.println("Name: " + name);
+        System.out.println("Neighbourhood:" + neighbourhood);
+        System.out.println("Application from " + openDate + " - " + closeDate);
+        System.out.println("---------------------------------------------------");
+        System.out.println("3-Room units left: " + availThreeRoom + "/" + totalThreeRoom);
+        System.out.println("3-Room selling price: $" + threeRoomPrice);
+        System.out.println("2-Room units left: " + availTwoRoom);
+        System.out.println("2-Room units selling price: $" + twoRoomPrice);
+        System.out.println("---------------------------------------------------");
+    }
+
+    public void displayProjectFlatDetails(Project project, Flat.Type flatType){
+        Flat flat = project.getFlatInfo().get(flatType);
+        int totalUnits = flat.getTotalUnits();
+        int availableUnits = flat.getAvailableUnits();
+        int price = flat.getSellingPrice();
+        int roomCount = (flatType == Flat.Type.THREEROOM) ? 3 : 2;
+        System.out.println("---------------------------------------------------");
+        System.out.println(roomCount + "-Room units left: " + availableUnits + "/" + totalUnits);
+        System.out.println("3-Room selling price: $" + price);
+        System.out.println("---------------------------------------------------");
+    }
+
+    public void displayProjectAdminDetails(Project project){
+        String managerInCharge = project.getManagerId();
+        ArrayList<String> assignedOfficers = project.getAssignedOfficers();
+        ArrayList<String> pendingOfficers = project.getPendingOfficers();
+
+        System.out.println("---------------------------------------------------");
+        System.out.println("");
+    }
+
 
 }//end of class
