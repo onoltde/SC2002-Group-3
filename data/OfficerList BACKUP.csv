@@ -1,5 +1,5 @@
 Name,NRIC,Age,Marital Status,Password,OfficerID,Has Residential Application?,Residential Application Status,Residential Project Name,Flat Type,Blacklist,Has Assigned Project,Assigned Project Name,Has Team Application,Team Application,Team Application Status
 Daniel,S1234201F,36,SINGLE,password,OF-201F,TRUE,BOOKED,Stirling Horizon,TWOROOM,"Acacia Breeze,Stirling Horizon",TRUE,Acacia Breeze,FALSE,,
-David,S1234202F,29,MARRIED,password,OF-202F,FALSE,,,,,,,FALSE,,
+David,S1234202F,29,MARRIED,password,OF-202F,FALSE,,,,,FALSE,,FALSE,,
 Emily,S1234203F,28,SINGLE,password,OF-203F,FALSE,,,,Acacia Breeze,TRUE,Acacia Breeze,FALSE,,
-Preston,S1234204F,33,SINGLE,password,OF-204F,FALSE,,,,,,,FALSE,,
+Preston,S1234204F,33,SINGLE,password,OF-204F,FALSE,,,,,FALSE,,FALSE,,

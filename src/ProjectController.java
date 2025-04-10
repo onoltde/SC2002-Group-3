@@ -1,14 +1,22 @@
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.HashMap;
-//
-//public class ProjectController {
-//	private ArrayList<Project> projectListings;
-//
-//	public ProjectController() {
-//		projectListings = new ArrayList<Project>();
-//	}
-//
+import java.util.*;
+
+public class ProjectController{
+    private static Scanner sc;
+
+    //Dependencies
+    private static ProjectUI projectUI;
+    private static ProjectRepo projectRepo;
+
+	public ProjectController(Scanner scanner) {
+		sc = scanner;
+        projectRepo = new ProjectRepo();
+        projectUI = new ProjectUI();
+	}
+    HashMap<String,Project> listings = projectRepo.getProjectListings();
+    public void displayProjects1(HashMap<String,Project> listings){
+        projectUI.displayProjects(listings);
+    }
+
 //	// Need to check if he is managing any other "active" projects
 //	public void createProjectListing(String id, String n, String nh, HashMap ft, Date o, Date c, String manID, int slots) {
 //		Project newProject = new Project(id, n, nh, ft, o, c, manID, slots);
@@ -158,4 +166,4 @@
 //
 //		}
 //	}
-//}
+}

@@ -1,6 +1,7 @@
+
+import java.sql.SQLOutput;
 import java.util.*;
 import java.io.*;
-import java.util.stream.Collectors;
 
 public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
     private static final String filePath = "data\\OfficerList.csv";
@@ -21,11 +22,17 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
             // Skip the header line
             br.readLine();
 
-            String line = br.readLine();
-            while (line != null) {
-                String[] values = line.split(",");
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Split on commas NOT inside quotes, then trim quotes
+                String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
-                if (values.length >= 7) {
+                // Clean each value by removing surrounding quotes
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = values[i].replaceAll("^\"|\"$", "").trim();
+                }
+
+                if (values.length >= 6) {
                     //officer has essential information
                     String name = values[0].trim();
                     String nric = values[1].trim();
@@ -44,12 +51,12 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
                         residentialApplication = new ResidentialApplication(officerID,status,projectName,flatType);
                         resAppRepo.addApplication(residentialApplication);
                     }
-
                     ArrayList<String> blacklist = stringToList(values[10]);
 
                     //assignedProject portion
                     boolean hasAssignedProject = Boolean.parseBoolean(values[11].trim().toLowerCase());
                     String assignedProjectName = "";
+
                     if(hasAssignedProject){
                         assignedProjectName = values[12].trim();
                     }
@@ -67,7 +74,6 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
                     addUser(newOfficer);    //adds to repo
 
                 }
-                line = br.readLine();
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
@@ -75,75 +81,76 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
     }
 
     public void saveFile(){ //BROKEN NEEDS DEBUGGING ON WRITING BLACKLIST BACK INTO CSV
-//        File file = new File(filePath);
-//        try {
-//            // First truncate the file (clear all contents)
-//            new FileOutputStream(file).close();
-//
-//            // Then rewrite the file including any new officers and changes made
-//            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-//                // Write the header line
-//                bw.write("Name,NRIC,Age,Marital Status,Password,OfficerID,Has Residential Application?,Residential Application Status,Residential Project Name,Flat Type,Blacklist,Has Assigned Project,Assigned Project Name,Has Team Application,Team Application,Team Application Status");
-//                bw.newLine();
-//
-//                // Write each officerPerson's data
-//                for (HdbOfficer officerPerson : officers.values()) {
-//
-//                    StringBuilder sb = new StringBuilder()
-//                            .append(officerPerson.getName()).append(",")
-//                            .append(officerPerson.getNric()).append(",")
-//                            .append(String.valueOf(officerPerson.getAge())).append(",")
-//                            .append(officerPerson.getMaritalStatus().toString()).append(",")
-//                            .append(officerPerson.getPassword()).append(",")
-//                            .append(officerPerson.getId()).append(",")
-//                            .append(Boolean.toString(officerPerson.hasResidentialApplication()));
-//
-//                    if (officerPerson.hasResidentialApplication()) {    //has residential application
-//                        sb.append(",")
-//                                .append(officerPerson.getResidentialApplication().getStatus())
-//                                .append(",")
-//                                .append(officerPerson.getResidentialApplication().getProjectName())
-//                                .append(",")
-//                                .append(officerPerson.getResidentialApplication().getFlatType());
-//                    }else{
-//                        sb.append(",")
-//                                .append(",")
-//                                .append(",");
-//                    }
-//                    sb.append(",")
-//                            .append(listToString(officerPerson.getBlacklist()))
-//                            .append(",")
-//                            .append(officerPerson.hasAssignedProject());
-//
-//                    if(officerPerson.hasAssignedProject()){
-//                        sb.append(",")
-//                        .append(officerPerson.getAssignedProjectName())
-//                                .append(",")
-//                                .append(officerPerson.hasTeamApplication());
-//                    }else{
-//                        sb.append(",")
-//                                .append(",");
-//                    }
-//
-//                    if(officerPerson.hasTeamApplication()){
-//                        sb.append(",")
-//                                .append(officerPerson.getTeamApplication().getProjectName())
-//                                .append(",")
-//                                .append(officerPerson.getTeamApplication().getStatus());
-//                    }else{
-//                        sb.append(",")
-//                                .append(",");
-//                    }
-//
-//                    bw.write(sb.toString());
-//                    bw.newLine();
-//
-//                }
-//            }
-//        } catch (IOException e) {
-//            System.err.println("Error writing to file: " + e.getMessage());
-//        }
-//    }
+        File file = new File(filePath);
+        try {
+            // First truncate the file (clear all contents)
+            new FileOutputStream(file).close();
+
+            // Then rewrite the file including any new officers and changes made
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                // Write the header line
+                bw.write("Name,NRIC,Age,Marital Status,Password,OfficerID,Has Residential Application?,Residential Application Status,Residential Project Name,Flat Type,Blacklist,Has Assigned Project,Assigned Project Name,Has Team Application,Team Application,Team Application Status");
+                bw.newLine();
+
+                // Write each officerPerson's data
+                for (HdbOfficer officerPerson : officers.values()) {
+
+                    StringBuilder sb = new StringBuilder()
+                            .append(officerPerson.getName()).append(",")
+                            .append(officerPerson.getNric()).append(",")
+                            .append(String.valueOf(officerPerson.getAge())).append(",")
+                            .append(officerPerson.getMaritalStatus().toString()).append(",")
+                            .append(officerPerson.getPassword()).append(",")
+                            .append(officerPerson.getId()).append(",")
+                            .append(Boolean.toString(officerPerson.hasResidentialApplication()));
+
+                    if (officerPerson.hasResidentialApplication()) {    //has residential application
+                        sb.append(",")
+                                .append(officerPerson.getResidentialApplication().getStatus())
+                                .append(",")
+                                .append(officerPerson.getResidentialApplication().getProjectName())
+                                .append(",")
+                                .append(officerPerson.getResidentialApplication().getFlatType());
+                    }else{
+                        sb.append(",")
+                                .append(",")
+                                .append(",");
+                    }
+                    sb.append(",")
+                            .append(listToString(officerPerson.getBlacklist()))
+                            .append(",")
+                            .append(officerPerson.hasAssignedProject());
+
+                    if(officerPerson.hasAssignedProject()){
+                        sb.append(",")
+                        .append(officerPerson.getAssignedProjectName())
+                                .append(",")
+                                .append(officerPerson.hasTeamApplication());
+                    }else{
+                        sb.append(",")
+                                .append(",")
+                        .append(officerPerson.hasTeamApplication());
+                    }
+
+                    if(officerPerson.hasTeamApplication()){
+                        sb.append(",")
+                                .append(officerPerson.getTeamApplication().getProjectName())
+                                .append(",")
+                                .append(officerPerson.getTeamApplication().getStatus());
+                    }else{
+                        sb.append(",")
+                                .append(",");
+                    }
+
+                    bw.write(sb.toString());
+                    bw.newLine();
+
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
 
     public void addUser(HdbOfficer newOfficer){
         officers.put(newOfficer.getId(), newOfficer);
@@ -163,20 +170,24 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
             System.out.println(officer.toString());
         }
     }
-
     //helper functions
-    private ArrayList<String> stringToList(String values) {
-        String[] splitValues = values.split(",");
-        return new ArrayList<>(Arrays.asList(splitValues));
+    public static ArrayList<String> stringToList(String input) {
+        // Remove surrounding quotes if they exist
+        String content = input;
+        if (input.startsWith("\"") && input.endsWith("\"")) {
+            content = input.substring(1, input.length() - 1);
+        }
+
+        // Split by comma and trim whitespace from each element
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(content.split("\\s*,\\s*")));
+        return list;
     }
 
-    private String escapeCsv(String value) {
-        if (value == null) return "";
-        return value.contains(",") ? "\"" + value + "\"" : value;
-    }
-
-    private String listToString(ArrayList<String> list) {
-        return String.join(",", list);
+    public static String listToString(ArrayList<String> list) {
+        // Join elements with ", " delimiter
+        String joined = String.join(", ", list);
+        // Add surrounding quotes
+        return "\"" + joined + "\"";
     }
 
 }

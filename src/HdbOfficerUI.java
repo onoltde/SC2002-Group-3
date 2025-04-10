@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -147,7 +149,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
                         displayAssignmentMenu(hdbOfficer);
                     }
                     case 3 -> {//view enquiry menu
-
+                        displayBlackList(hdbOfficer);
                     }
                     case 4 -> {//exit
                         controller.exitPortal();
@@ -186,6 +188,15 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
         }else{
             System.out.println("You do not have an active Assigned Project");
         }
+    }
+
+    public void displayBlackList(HdbOfficer hdbOfficer){
+        printDivider();
+        System.out.println(listToString(hdbOfficer.getBlacklist()));
+    }
+
+    private String listToString(ArrayList<String> list) {
+        return  String.join(", ", list);
     }
 
 }

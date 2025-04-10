@@ -10,7 +10,9 @@ public class MainMenu {
 
 
     public static void displayWelcome() {
-
+        ApplicantController applicantController = new ApplicantController(sc);
+        HdbOfficerController officerController = new HdbOfficerController(sc);
+        HdbManagerController managerController = new HdbManagerController(sc);
 
         while (true) {
             // Menu Options
@@ -36,18 +38,15 @@ public class MainMenu {
                 switch(choice) {
                     case 1 -> {
                         //Applicant portal
-                        ApplicantController controller = new ApplicantController(sc);
-                        controller.runPortal();
+                        applicantController.runPortal();
                     }
                     case 2 -> {
                         //Officer portal
-                        HdbOfficerController controller = new HdbOfficerController(sc);
-                        controller.runPortal();
+                        officerController.runPortal();
                     }
                     case 3 -> {
                         //Manager portal
-                        HdbManagerController controller = new HdbManagerController(sc);
-                        controller.runPortal();
+                        managerController.runPortal();
                     }
                     case 4 -> {
                         System.out.println("Exiting program. Goodbye!");

@@ -30,9 +30,15 @@ public class ProjectRepo {
             // Skip the header line
             br.readLine();
 
-            String line = br.readLine();
-            while (line != null) {
-                String[] values = line.split(",");
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Split on commas NOT inside quotes, then trim quotes
+                String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+
+                // Clean each value by removing surrounding quotes
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = values[i].replaceAll("^\"|\"$", "").trim();
+                }
 
                 if (values.length >= 14) {
                     String name = values[0].trim();
@@ -55,7 +61,7 @@ public class ProjectRepo {
                     Project newProject = new Project(name,  neighbourhood,  flatInfo, openDate,  closeDate, managerId, officerSlots, assignedOfficers, visibility, pendingOfficers);
                     this.projectListings.put(name,newProject);
                 }
-                line = br.readLine();
+
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
@@ -102,7 +108,9 @@ public class ProjectRepo {
         }
     }
 
-
+    public HashMap<String,Project> getProjectListings(){
+        return projectListings;
+    }
 
     //helper methods for loadfile and savefile
     private ArrayList<Flat> flatInfoGen(Flat.Type type1, int numOfType1,int priceOfType1, Flat.Type type2, int numOfType2, int priceOfType2) {
@@ -114,13 +122,23 @@ public class ProjectRepo {
         return flatInfo;
     }
 
-    private String listToString(ArrayList<String> list) {
-        return String.join(",", list);
+    public static String listToString(ArrayList<String> list) {
+        // Join elements with ", " delimiter
+        String joined = String.join(", ", list);
+        // Add surrounding quotes
+        return "\"" + joined + "\"";
     }
 
-    private ArrayList<String> stringToList(String values) {
-        String[] splitValues = values.split(",");
-        return new ArrayList<>(Arrays.asList(splitValues));
+    public static ArrayList<String> stringToList(String input) {
+        // Remove surrounding quotes if they exist
+        String content = input;
+        if (input.startsWith("\"") && input.endsWith("\"")) {
+            content = input.substring(1, input.length() - 1);
+        }
+
+        // Split by comma and trim whitespace from each element
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(content.split("\\s*,\\s*")));
+        return list;
     }
 
     public LocalDate stringToDate(String stringDate) {

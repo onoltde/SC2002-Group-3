@@ -55,16 +55,19 @@ public class Project {
 //    }
 
 
-    public void addApplicant(Applicant applicant) {
-        applicants.put(applicant.getNric(), applicant);
-    }
-
-    public Applicant getApplicant(String nric) {
-        return applicants.get(nric);
-    }
-
-    public List<Applicant> getAllApplicants() {
-        return new ArrayList<>(applicants.values());
+    public String toString() {
+        return "Project{" +
+                "name='" + name + '\'' +
+                ", neighbourhood='" + neighbourhood + '\'' +
+                ", flatInfo=" + flatInfo +
+                ", openDate=" + openDate +
+                ", closeDate=" + closeDate +
+                ", managerId='" + managerId + '\'' +
+                ", officerSlots=" + officerSlots +
+                ", assignedOfficers=" + assignedOfficers +
+                ", visibility=" + visibility +
+                ", pendingOfficers=" + pendingOfficers +
+                '}';
     }
 
     // Officer management

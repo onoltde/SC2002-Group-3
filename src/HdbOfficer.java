@@ -29,6 +29,7 @@ public class HdbOfficer extends Applicant{
         return blacklist;
     }
 
+
     public boolean hasAssignedProject() {
         return hasAssignedProject;
     }
