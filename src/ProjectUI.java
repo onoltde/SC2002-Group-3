@@ -45,7 +45,12 @@ public class ProjectUI {
 
 
     public void displayFlat(Applicant applicant, Flat.Type flatType){
-        int roomCount= (flatType == Flat.Type.TWOROOM) ? 2 : 3;
+
+        if (!applicant.canApply(flatType)){
+            System.out.println("You are not eligible to apply for " + Flat.typeToString(flatType) + "-Room flats.");
+            return;
+        }
+
         ArrayList<Project> filteredList = controller.getRepo().filterByAvailUnitType(flatType);
         int currentIndex = 0;
 
@@ -54,7 +59,7 @@ public class ProjectUI {
 
             // Display project counter (x/n)
             System.out.println();
-            System.out.printf(roomCount +  "-Room Project (%d/%d):\n", currentIndex + 1, filteredList.size());
+            System.out.printf(Flat.typeToString(flatType) + "Project (%d/%d):\n", currentIndex + 1, filteredList.size());
 
             // Display project details
             displayEssentialProjectDetails(currentProject);
@@ -120,9 +125,8 @@ public class ProjectUI {
         int totalUnits = flat.getTotalUnits();
         int availableUnits = flat.getAvailableUnits();
         int price = flat.getSellingPrice();
-        int roomCount = (flatType == Flat.Type.THREEROOM) ? 3 : 2;
-        System.out.println(roomCount + "-Room units left: " + availableUnits + "/" + totalUnits);
-        System.out.println(roomCount + "-Room selling price: $" + price);
+        System.out.println(Flat.typeToString(flatType) + "-Room units left: " + availableUnits + "/" + totalUnits);
+        System.out.println(Flat.typeToString(flatType) + "-Room selling price: $" + price);
         System.out.println("---------------------------------------------------");
     }
 

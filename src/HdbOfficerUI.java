@@ -147,7 +147,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
                     displayAssignmentMenu(hdbOfficer);
                 }
                 case 3 -> {//view enquiry menu
-                    displayBlackList(hdbOfficer);
+
                 }
                 case 4 -> {//exit
                     controller.exitPortal();

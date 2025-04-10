@@ -37,6 +37,11 @@ public class Flat {
 
         public int getAvailableUnits() { return totalUnits-unitsBooked; }
 
+        public static String typeToString(Flat.Type flatType){
+            int roomCount = (flatType == Type.TWOROOM) ? 2 : 3;
+            return (roomCount + "-Room");
+        }
+
 
     }
 

@@ -32,13 +32,24 @@ public class Applicant extends User {
         return hasResidentialApplication;
     }
 
-    public boolean canApplyTwoRoom() {
+    public boolean canApply(Flat.Type flatType){
+        if (flatType == Flat.Type.TWOROOM){
+            return canApplyTwoRoom();
+        }else if (flatType == Flat.Type.THREEROOM){
+            return canApplyThreeRoom();
+        }
+        return false;
+    }
+
+    private boolean canApplyTwoRoom() {
         return (getMaritalStatus() == MaritalStatus.MARRIED && getAge() >= 21);
     }
 
-    public boolean canApplyThreeRoom(){
+    private boolean canApplyThreeRoom(){
         return (canApplyTwoRoom() || (getMaritalStatus() == MaritalStatus.SINGLE && getAge() >= 35));
     }
+
+
 
 
 }//end of class

@@ -165,8 +165,10 @@ public final class ApplicantUI implements UserUI<Applicant>{
         if (applicant.getResidentialApplication() == null){
             System.out.println("You do not have an active application.");
         }else{
+
+
             System.out.println("Applied to: " + applicant.getResidentialApplication().getProjectName());
-            System.out.println("Flat type: " + applicant.getResidentialApplication().getFlatType());
+            System.out.println("Flat type: " + Flat.typeToString(applicant.getResidentialApplication().getFlatType()));
             System.out.println("Application Status: " + applicant.getResidentialApplication().getStatus());
         }
     }
