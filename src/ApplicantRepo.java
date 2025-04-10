@@ -4,11 +4,9 @@ import java.util.*;
 public class ApplicantRepo implements UserRepo<Applicant>{
     private static final String applicantFilePath = "data\\ApplicantList.csv";
     private static HashMap<String, Applicant> applicants;
-    private static int numOfApplicants;
     private ResidentialApplicationRepo applicationRepo;
 
     public ApplicantRepo(ResidentialApplicationRepo applicationRepo) {
-        numOfApplicants = 0;
         applicants = new HashMap<String,Applicant>();
         this.applicationRepo = applicationRepo;
         loadFile();
@@ -54,8 +52,6 @@ public class ApplicantRepo implements UserRepo<Applicant>{
         }
     }
 
-
-
     public void saveFile(){
         File file = new File(applicantFilePath);
         try {
@@ -99,26 +95,18 @@ public class ApplicantRepo implements UserRepo<Applicant>{
         }
     }
 
-    public String generateID(String nric){
-        return "AP-" + nric.substring(5);
-    }
-
     public void addUser(Applicant newApplicant){
         applicants.put(newApplicant.getId(), newApplicant);
-        numOfApplicants += 1;
     }
 
     public Applicant getUser(String applicantId){
         return applicants.get(applicantId);
     }
 
-    //for debugging
-    public void printApplicants(){
-        for (Applicant applicant : applicants.values()){
-            System.out.println(applicant.toString());
-        }
+    //helper functions
+    public String generateID(String nric){
+        return "AP-" + nric.substring(5);
     }
 
-    public int getNumOfApplicants(){ return numOfApplicants;}
 
 }

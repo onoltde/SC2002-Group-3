@@ -1,15 +1,73 @@
 import java.time.LocalDate;
 import java.util.*;
 
-
 public class ProjectUI {
+
     private static ProjectController controller;
 
     public ProjectUI(ProjectController projectController){
         controller = projectController;
     }
 
+    // display project detail methods
+    public void displayEssentialProjectDetails(Project project){
+        String name = project.getName();
+        String neighbourhood = project.getNeighbourhood();
+        LocalDate openDate = project.getOpenDate();
+        LocalDate closeDate = project.getCloseDate();
+        System.out.println("Name: " + name);
+        System.out.println("Neighbourhood: " + neighbourhood);
+        System.out.println("Applications open from: " + TimeUtils.dateToString(openDate) + " to " + TimeUtils.dateToString(closeDate));
+        System.out.println("---------------------------------------------------");
+    }
 
+    public void displayProjectFlatDetails(Project project, Flat.Type flatType){
+        Flat flat = project.getFlatInfo().get(flatType);
+        int totalUnits = flat.getTotalUnits();
+        int availableUnits = flat.getAvailableUnits();
+        int price = flat.getSellingPrice();
+        System.out.println(Flat.typeToString(flatType) + "-Room units left: " + availableUnits + "/" + totalUnits);
+        System.out.println(Flat.typeToString(flatType) + "-Room selling price: $" + price);
+        System.out.println("---------------------------------------------------");
+    }
+
+    public void displayProjectAdminDetails(Project project, HashMap<String, HdbManager> managerMap, HashMap<String, HdbOfficer> officerMap) {
+        String managerId = project.getManagerId();
+        String managerName = managerMap.get(managerId).getName();
+        ArrayList<String> assignedOfficers = project.getAssignedOfficers();
+        ArrayList<String> pendingOfficers = project.getPendingOfficers();
+
+        System.out.println("---------------------------------------------------");
+        System.out.println("Manager-in-Charge: " + managerName + " (" + managerId + ")");
+
+        // Print assigned officers
+        System.out.print("Assigned Officers: ");
+        if (assignedOfficers.isEmpty()) {
+            System.out.println("None");
+        } else {
+            System.out.println();
+            for (String officerId : assignedOfficers) {
+                HdbOfficer officer = officerMap.get(officerId);
+                System.out.println("  - " + officer.getName() + " (" + officerId + ")");
+            }
+        }
+
+        // Print pending officers
+        System.out.print("Pending Officers: ");
+        if (pendingOfficers.isEmpty()) {
+            System.out.println("None");
+        } else {
+            System.out.println();
+            for (String officerId : pendingOfficers) {
+                HdbOfficer officer = officerMap.get(officerId);
+                System.out.println("  - " + officer.getName() + " (" + officerId + ")");
+            }
+        }
+        System.out.println("---------------------------------------------------");
+    }
+
+
+    //applicant methods
     public void displayProjectDashboard(Applicant applicant){
 
             while (true) {
@@ -42,7 +100,6 @@ public class ProjectUI {
 
             }
     }
-
 
     public void displayFlat(Applicant applicant, Flat.Type flatType){
 
@@ -101,70 +158,20 @@ public class ProjectUI {
     }
 
 
-    public void displayProjectMenu(HdbManager applicant){
-
-    }
-
+    //officer methods
     public void displayProjectMenu(HdbOfficer officer){
 
     }
 
-    public void displayEssentialProjectDetails(Project project){
-        String name = project.getName();
-        String neighbourhood = project.getNeighbourhood();
-        LocalDate openDate = project.getOpenDate();
-        LocalDate closeDate = project.getCloseDate();
-        System.out.println("Name: " + name);
-        System.out.println("Neighbourhood: " + neighbourhood);
-        System.out.println("Applications open from: " + TimeUtils.dateToString(openDate) + " to " + TimeUtils.dateToString(closeDate));
-        System.out.println("---------------------------------------------------");
+
+    // manager methods
+    public void displayProjectMenu(HdbManager applicant){
+
     }
 
-    public void displayProjectFlatDetails(Project project, Flat.Type flatType){
-        Flat flat = project.getFlatInfo().get(flatType);
-        int totalUnits = flat.getTotalUnits();
-        int availableUnits = flat.getAvailableUnits();
-        int price = flat.getSellingPrice();
-        System.out.println(Flat.typeToString(flatType) + "-Room units left: " + availableUnits + "/" + totalUnits);
-        System.out.println(Flat.typeToString(flatType) + "-Room selling price: $" + price);
-        System.out.println("---------------------------------------------------");
-    }
 
-    public void displayProjectAdminDetails(Project project, HashMap<String, HdbManager> managerMap, HashMap<String, HdbOfficer> officerMap) {
-        String managerId = project.getManagerId();
-        String managerName = managerMap.get(managerId).getName();
-        ArrayList<String> assignedOfficers = project.getAssignedOfficers();
-        ArrayList<String> pendingOfficers = project.getPendingOfficers();
 
-        System.out.println("---------------------------------------------------");
-        System.out.println("Manager-in-Charge: " + managerName + " (" + managerId + ")");
-
-        // Print assigned officers
-        System.out.print("Assigned Officers: ");
-        if (assignedOfficers.isEmpty()) {
-            System.out.println("None");
-        } else {
-            System.out.println();
-            for (String officerId : assignedOfficers) {
-                HdbOfficer officer = officerMap.get(officerId);
-                System.out.println("  - " + officer.getName() + " (" + officerId + ")");
-            }
-        }
-
-        // Print pending officers
-        System.out.print("Pending Officers: ");
-        if (pendingOfficers.isEmpty()) {
-            System.out.println("None");
-        } else {
-            System.out.println();
-            for (String officerId : pendingOfficers) {
-                HdbOfficer officer = officerMap.get(officerId);
-                System.out.println("  - " + officer.getName() + " (" + officerId + ")");
-            }
-        }
-        System.out.println("---------------------------------------------------");
-    }
-
+    //misc methods
     public void printDivider(){
         System.out.println("===================================================================");
     }

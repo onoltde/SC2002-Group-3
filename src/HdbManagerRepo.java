@@ -80,11 +80,5 @@ public class HdbManagerRepo implements UserRepo <HdbManager>{
         return managers.get(managerId) ;
     }
 
-    //for debugging
-    public void printManagers(){
-        for (HdbManager manager : managers.values()){
-            System.out.println(manager.toString());
-        }
-    }
 
 }

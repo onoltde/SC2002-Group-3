@@ -29,8 +29,6 @@ public class Project {
         this.pendingOfficers = pendingOfficers;
     }
 
-    // Applicant NRIC → Applicant
-    private Map<String, Applicant> applicants = new HashMap<>();
 
 //    // Flat booking methods
 //    public boolean hasFlatAvailable(String flatType) {
@@ -41,7 +39,7 @@ public class Project {
 //        }
 //        return false;
 //    }
-
+//
 //    public boolean decreaseFlatCount(String flatType) {
 //        for (Flat flat : flatInfo) {
 //            if (flat.getFlatType() != null && flat.getFlatType().equalsIgnoreCase(flatType)) {
@@ -55,20 +53,6 @@ public class Project {
 //    }
 
 
-    public String toString() {
-        return "Project{" +
-                "name='" + name + '\'' +
-                ", neighbourhood='" + neighbourhood + '\'' +
-                ", flatInfo=" + flatInfo +
-                ", openDate=" + openDate +
-                ", closeDate=" + closeDate +
-                ", managerId='" + managerId + '\'' +
-                ", officerSlots=" + officerSlots +
-                ", assignedOfficers=" + assignedOfficers +
-                ", visibility=" + visibility +
-                ", pendingOfficers=" + pendingOfficers +
-                '}';
-    }
 
     // Officer management
     public void addPendingOfficer(String officerId) {
@@ -146,4 +130,22 @@ public class Project {
     public ArrayList<String> getPendingOfficers() {
         return new ArrayList<>(pendingOfficers);
     }
-}
+
+    //for debugging
+    public String toString() {
+        return "Project{" +
+                "name='" + name + '\'' +
+                ", neighbourhood='" + neighbourhood + '\'' +
+                ", flatInfo=" + flatInfo +
+                ", openDate=" + openDate +
+                ", closeDate=" + closeDate +
+                ", managerId='" + managerId + '\'' +
+                ", officerSlots=" + officerSlots +
+                ", assignedOfficers=" + assignedOfficers +
+                ", visibility=" + visibility +
+                ", pendingOfficers=" + pendingOfficers +
+                '}';
+    }
+
+
+}//end of class

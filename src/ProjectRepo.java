@@ -18,16 +18,6 @@ public class ProjectRepo {
         loadFile();
     }
 
-    public int getNumOfProjects(){return projectListings.size();}
-
-    public Project getProject(String name){
-        return projectListings.get(name);
-    }
-
-    public void addProject(Project newProject) {
-        this.projectListings.put(newProject.getName(), newProject);
-    }
-
     private void loadFile() {
         File file = new File(filePath);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -123,17 +113,24 @@ public class ProjectRepo {
         }
     }
 
+    public Project getProject(String name){
+        return projectListings.get(name);
+    }
+
+    public void addProject(Project newProject) {
+        this.projectListings.put(newProject.getName(), newProject);
+    }
 
     public HashMap<String,Project> getProjectListings(){
         return projectListings;
     }
 
     //filter methods
-    public ArrayList<Project> filterByAvailUnitType(Flat.Type roomType) {
+    public ArrayList<Project> filterByAvailUnitType(Flat.Type flatType) {
         return projectListings.values().stream()
                 .filter(project -> project.isVisible()
                         && project.isWithinDateRange()
-                        && project.hasAvailUnits(roomType))
+                        && project.hasAvailUnits(flatType))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -182,8 +179,6 @@ public class ProjectRepo {
 
         return result;
     }
-
-
 
 
 }//end of class

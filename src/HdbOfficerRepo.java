@@ -164,12 +164,6 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
         return "OF-" + nric.substring(5);
     }
 
-    //for debugging
-    public void printOfficers(){
-        for (HdbOfficer officer : officers.values()){
-            System.out.println(officer.toString());
-        }
-    }
     //helper functions
     public static ArrayList<String> stringToList(String input) {
         // Remove surrounding quotes if they exist

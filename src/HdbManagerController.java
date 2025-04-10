@@ -1,6 +1,3 @@
-import java.util.*;
-import java.io.*;
-
 public class HdbManagerController{
 
     //Dependencies
@@ -23,7 +20,7 @@ public class HdbManagerController{
 
     }
 
-    public void exitProgram() {
+    public void exitPortal() {
         repo.saveFile();
     }
 

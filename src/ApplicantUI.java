@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public final class ApplicantUI implements UserUI<Applicant>{
@@ -156,8 +155,6 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
         }
     }
-
-
 
     public void displayApplicationMenu(Applicant applicant){
         printDivider();

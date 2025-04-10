@@ -1,17 +1,14 @@
 import java.util.*;
 
-/**
- * Represents an HDB officer who can manage BTO projects and related operations.
- * Extends the Applicant class which also inherits basic User properties as well as Applicant properties.
- */
 public class HdbOfficer extends Applicant{
 
+    private final String officerId;
     private ArrayList<String> blacklist;     //list of previously applied project as applicant OR current application
     private boolean hasAssignedProject;
     private String assignedProjectName;
     private boolean hasTeamApplication;
     private TeamApplication teamApplication;
-    private final String officerId;
+
 
     public HdbOfficer(String name, String nric, int age, User.MaritalStatus maritalStatus, String password, ResidentialApplication residentialApplication, ArrayList<String> blacklist, boolean hasAssignedProject, String assignedProjectName, boolean hasTeamApplication, TeamApplication teamApplication) {
         super(name, nric, age, maritalStatus, password, residentialApplication);

@@ -21,13 +21,7 @@ public class ProjectController{
     public void displayProjectDashboard(Applicant applicant) {
         projectUI.displayProjectDashboard(applicant);
     }
-
-    public void displayFlat(Applicant applicant,Flat.Type flatType) {
-
-
-    }
-
-
+    
 }
 
 //	// Need to check if he is managing any other "active" projects

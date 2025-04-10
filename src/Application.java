@@ -7,8 +7,8 @@ public interface Application {
         BOOKED;
     }
 
-    public String getProjectName();
+    String getProjectName();
 
-    public TeamApplication.Status getStatus();
+    Status getStatus();
 
 }

@@ -161,7 +161,6 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
 
     }
 
-
     public void displayResidentialMenu(HdbOfficer hdbOfficer){
         printDivider();
         System.out.println("RESIDENTIAL APPLICATION MENU");
@@ -186,9 +185,8 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer>{
         }
     }
 
-    public void displayBlackList(HdbOfficer hdbOfficer){
-        printDivider();
-        System.out.println(listToString(hdbOfficer.getBlacklist()));
+    public void displayOfficerMenu(){
+        //implement
     }
 
     private String listToString(ArrayList<String> list) {

@@ -1,5 +1,3 @@
-import java.sql.SQLOutput;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public final class HdbManagerUI implements UserUI<HdbManager>{
@@ -148,7 +146,7 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
 
                 }
                 case 4 -> {//exit
-                    controller.exitProgram();
+                    controller.exitPortal();
                     printDivider();
                     return;
                 }

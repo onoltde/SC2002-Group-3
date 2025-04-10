@@ -1,7 +1,7 @@
 public class TeamApplication implements Application{
 
-    private String officerID;
-    private String projectName;
+    private final String officerID;
+    private final String projectName;
     private Application.Status status;
 
     public TeamApplication(String officerID,String projectName, Status status){
