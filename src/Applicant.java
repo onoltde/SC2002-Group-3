@@ -32,6 +32,14 @@ public class Applicant extends User {
         return hasResidentialApplication;
     }
 
+    public boolean canApplyTwoRoom() {
+        return (getMaritalStatus() == MaritalStatus.MARRIED && getAge() >= 21);
+    }
 
-}
+    public boolean canApplyThreeRoom(){
+        return (canApplyTwoRoom() || (getMaritalStatus() == MaritalStatus.SINGLE && getAge() >= 35));
+    }
+
+
+}//end of class
 

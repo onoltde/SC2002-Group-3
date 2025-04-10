@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProjectController{
     private static Scanner sc;
@@ -10,12 +11,36 @@ public class ProjectController{
 	public ProjectController(Scanner scanner) {
 		sc = scanner;
         projectRepo = new ProjectRepo();
-        projectUI = new ProjectUI();
+        projectUI = new ProjectUI(scanner,this);
 	}
-    HashMap<String,Project> listings = projectRepo.getProjectListings();
-    public void displayProjects1(HashMap<String,Project> listings){
-        projectUI.displayProjects(listings);
+
+    public ProjectRepo getRepo(){
+        return projectRepo;
     }
+
+    public void exitMenu(){
+        projectRepo.saveProjects();
+    }
+
+    public void displayProjectDashboard(Applicant applicant) {
+        projectUI.displayProjectDashboard(applicant);
+    }
+
+    public HashMap<String,Project> filterByTypeAndDate(Flat.Type flatType){ //SOMETHING WRONG W FILTER
+//        HashMap<String,Project> allProjects = projectRepo.getProjectListings();
+//        return allProjects.entrySet().stream()
+//                .filter(entry -> entry.getValue().hasAvailUnits(flatType) && entry.getValue().isWithinDateRange())
+//                .collect(Collectors.toMap(
+//                        Map.Entry::getKey,
+//                        Map.Entry::getValue,
+//                        (e1, e2) -> e1,
+//                        HashMap::new
+//                ));
+        return null;
+    }
+
+
+}
 
 //	// Need to check if he is managing any other "active" projects
 //	public void createProjectListing(String id, String n, String nh, HashMap ft, Date o, Date c, String manID, int slots) {
@@ -166,4 +191,5 @@ public class ProjectController{
 //
 //		}
 //	}
-}
+
+

@@ -132,7 +132,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
             System.out.println("Please choose an option:");
             System.out.println("1. View application menu");
             System.out.println("2. View current BTO projects");
-            System.out.println("3. View enquiry menu");
+            System.out.println("3. View my enquiries");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
@@ -144,13 +144,15 @@ public final class ApplicantUI implements UserUI<Applicant>{
                         displayApplicationMenu(applicant);
                     }
                     case 2 ->{//view current BTO projects
-
+                        System.out.println("hello");
+                        ProjectController projectController = new ProjectController(sc);
+                        projectController.displayProjectDashboard(applicant);
                     }
-                    case 3 -> {//view enquiry menu
-
+                    case 3 -> {//view my enquiries
+                        //create enquirycontroller then call method from there
                     }
                     case 4 -> {//exit
-                        controller.exitPortal();
+                        controller.exitPortal();    //saves changes to file
                         printDivider();
                         return;
                     }

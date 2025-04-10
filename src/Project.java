@@ -5,7 +5,7 @@ public class Project {
 
     private final String name;
     private final String neighbourhood;
-    private ArrayList<Flat> flatInfo;
+    private HashMap<Flat.Type,Flat> flatInfo;
     private final LocalDate openDate;
     private final LocalDate closeDate;
     private String managerId;
@@ -14,7 +14,7 @@ public class Project {
     private boolean visibility;
     private ArrayList<String> pendingOfficers;
 
-    public Project(String name, String neighbourhood, ArrayList<Flat> flatInfo, LocalDate openDate,
+    public Project(String name, String neighbourhood, HashMap<Flat.Type,Flat> flatInfo, LocalDate openDate,
                    LocalDate closeDate, String managerId, int officerSlots,
                    ArrayList<String> assignedOfficers, boolean visibility, ArrayList<String> pendingOfficers) {
         this.name = name;
@@ -89,6 +89,46 @@ public class Project {
         assignedOfficers.remove(officerId);
     }
 
+    //for filters
+    public boolean hasAvailUnits(Flat.Type roomType){
+        Flat flat= this.getFlatInfo().get(roomType);
+        return flat != null && flat.getAvailableUnits() > 0;
+    }
+
+    public boolean isWithinDateRange() {
+        LocalDate currentDate = LocalDate.now();
+        return !currentDate.isBefore(openDate) && !currentDate.isAfter(closeDate);
+    }
+
+    public void displayProjectDetails(){
+        int totalUnits2 = this.getFlatInfo().get(Flat.Type.TWOROOM).getTotalUnits();
+        int availUnits2 = this.getFlatInfo().get(Flat.Type.TWOROOM).getAvailableUnits();
+        int price2 = this.getFlatInfo().get(Flat.Type.TWOROOM).getSellingPrice();
+
+        int totalUnits3 = this.getFlatInfo().get(Flat.Type.THREEROOM).getTotalUnits();
+        int availUnits3 = this.getFlatInfo().get(Flat.Type.THREEROOM).getAvailableUnits();
+        int price3 = this.getFlatInfo().get(Flat.Type.THREEROOM).getSellingPrice();
+
+        LocalDate openDate = this.getOpenDate();
+        LocalDate closeDate = this.getCloseDate();
+
+        System.out.println("Project Name: " + getName());
+        System.out.println("Neigbourhood: " + getNeighbourhood());
+        System.out.println("Flat Type: " + Flat.Type.TWOROOM);
+        System.out.println("Number of Available units2: " + availUnits2 + "/" + totalUnits2);
+        System.out.println("Price of each unit2: $" + price2);
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println("Flat Type: " + Flat.Type.THREEROOM);
+        System.out.println("Number of Available units3: " + availUnits3 + "/" + totalUnits3);
+        System.out.println("Price of each unit3: $" + price3);
+
+        System.out.println("Application open date: " + openDate);
+        System.out.println("Application close date: " + closeDate);
+        System.out.println("------------------------------------------------------------");
+
+    }
+
+
     // Getters
     public String getName() {
         return name;
@@ -106,7 +146,7 @@ public class Project {
         return closeDate;
     }
 
-    public ArrayList<Flat> getFlatInfo() {
+    public HashMap<Flat.Type,Flat> getFlatInfo() {
         return flatInfo;
     }
 

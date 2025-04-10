@@ -2,6 +2,7 @@ import java.io.*;
 import java.time.format.*;
 import java.util.*;
 import java.time.*;
+import java.util.stream.Collectors;
 
 
 public class ProjectRepo {
@@ -40,23 +41,25 @@ public class ProjectRepo {
                     values[i] = values[i].replaceAll("^\"|\"$", "").trim();
                 }
 
-                if (values.length >= 14) {
+                if (values.length >= 2) {
                     String name = values[0].trim();
                     String neighbourhood = values[1].trim();
                     Flat.Type type1 = Flat.Type.valueOf(values[2].trim().toUpperCase());
-                    int numOfType1 = Integer.parseInt(values[3].trim());
-                    int priceOfType1 = Integer.parseInt(values[4].trim());
-                    Flat.Type type2 = Flat.Type.valueOf(values[5].trim().toUpperCase());
-                    int numOfType2 = Integer.parseInt(values[6].trim());
-                    int priceOfType2 = Integer.parseInt(values[7].trim());
-                    LocalDate openDate = stringToDate(values[8].trim());
-                    LocalDate closeDate = stringToDate(values[9].trim());
-                    String managerId = values[10].trim();
-                    int officerSlots = Integer.parseInt(values[11].trim());
-                    ArrayList<String> assignedOfficers = stringToList(values[12]);
-                    boolean visibility = Boolean.parseBoolean(values[13].trim().toLowerCase());
-                    ArrayList<String> pendingOfficers = stringToList(values[14]);
-                    ArrayList<Flat> flatInfo = flatInfoGen(type1, numOfType1, priceOfType1, type2, numOfType2, priceOfType2);
+                    int totalNumOfType1 = Integer.parseInt(values[3].trim());
+                    int numOfType1Booked = Integer.parseInt(values[4].trim());
+                    int priceOfType1 = Integer.parseInt(values[5].trim());
+                    Flat.Type type2 = Flat.Type.valueOf(values[6].trim().toUpperCase());
+                    int totalNumOfType2 = Integer.parseInt(values[7].trim());
+                    int numOfType2Booked = Integer.parseInt(values[8].trim());
+                    int priceOfType2 = Integer.parseInt(values[9].trim());
+                    LocalDate openDate = stringToDate(values[10].trim());
+                    LocalDate closeDate = stringToDate(values[11].trim());
+                    String managerId = values[12].trim();
+                    int officerSlots = Integer.parseInt(values[13].trim());
+                    ArrayList<String> assignedOfficers = stringToList(values[14]);
+                    boolean visibility = Boolean.parseBoolean(values[15].trim().toLowerCase());
+                    ArrayList<String> pendingOfficers = stringToList(values[16]);
+                    HashMap<Flat.Type,Flat> flatInfo = flatInfoGen(type1, totalNumOfType1, numOfType1Booked, priceOfType1, type2, totalNumOfType2,numOfType2Booked, priceOfType2);
 
                     Project newProject = new Project(name,  neighbourhood,  flatInfo, openDate,  closeDate, managerId, officerSlots, assignedOfficers, visibility, pendingOfficers);
                     this.projectListings.put(name,newProject);
@@ -77,29 +80,37 @@ public class ProjectRepo {
             // Then rewrite the file including any new Projects and changes made
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                 // Write the header line
-                bw.write("Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,ManagerID,Officer Team Slots,Officer Team,Visibility,Pending Officers");
+                bw.write("Project Name,Neighborhood,Type 1,Total number of units for Type 1,Number of units Booked for Type 1,Selling price for Type 1,Type 2,Total number of units for Type 2,Number of units Booked for Type 2,Selling price for Type 2,Application opening date,Application closing date,ManagerID,Officer Team Slots,Officer Team,Visibility,Pending Officers,END");
                 bw.newLine();
 
                 // Write each Project's data
-                for (Project project: projectListings.values()) {
-                    String line = String.join(",",
-                            project.getName(),
-                            project.getNeighbourhood(),
-                            project.getFlatInfo().get(0).getFlatType().toString(),
-                            String.valueOf(project.getFlatInfo().get(0).getTotalUnits()),
-                            String.valueOf(project.getFlatInfo().get(0).getSellingPrice()),
-                            project.getFlatInfo().get(1).getFlatType().toString(),
-                            String.valueOf(project.getFlatInfo().get(1).getTotalUnits()),
-                            String.valueOf(project.getFlatInfo().get(1).getSellingPrice()),
-                            project.getOpenDate().toString(),
-                            project.getCloseDate().toString(),
-                            project.getManagerId(),
-                            String.valueOf(project.getOfficerSlots()),
-                            listToString(project.getAssignedOfficers()),
-                            String.valueOf(project.isVisible()),
-                            listToString(project.getPendingOfficers())
-                    );
-                    bw.write(line);
+                for (Project project : projectListings.values()) {
+                    StringBuilder sb = new StringBuilder();
+
+                    // Get flats for easier reference
+                    Flat type1Flat = project.getFlatInfo().get(Flat.Type.TWOROOM);
+                    Flat type2Flat = project.getFlatInfo().get(Flat.Type.THREEROOM);
+
+                    // Build the CSV line
+                    sb.append(project.getName()).append(",")
+                            .append(project.getNeighbourhood()).append(",")
+                            .append(type1Flat.getFlatType()).append(",")
+                            .append(type1Flat.getTotalUnits()).append(",")
+                            .append(type1Flat.getUnitsBooked()).append(",")
+                            .append(type1Flat.getSellingPrice()).append(",")
+                            .append(type2Flat.getFlatType()).append(",")
+                            .append(type2Flat.getTotalUnits()).append(",")
+                            .append(type2Flat.getUnitsBooked()).append(",")
+                            .append(project.getOpenDate()).append(",")
+                            .append(project.getCloseDate()).append(",")
+                            .append(project.getManagerId()).append(",")
+                            .append(project.getOfficerSlots()).append(",")
+                            .append(listToString(project.getAssignedOfficers())).append(",")
+                            .append(project.isVisible()).append(",")
+                            .append(listToString(project.getPendingOfficers())).append(",")
+                            .append("END");
+
+                    bw.write(sb.toString());
                     bw.newLine();
                 }
             }
@@ -108,17 +119,29 @@ public class ProjectRepo {
         }
     }
 
+
     public HashMap<String,Project> getProjectListings(){
         return projectListings;
     }
 
+    public HashMap<String, Project> filterByAvailUnitType(Flat.Type roomType) {
+        return projectListings.entrySet().stream()
+                .filter(entry -> entry.getValue().hasAvailUnits(roomType))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        HashMap::new
+                ));
+    }
+
     //helper methods for loadfile and savefile
-    private ArrayList<Flat> flatInfoGen(Flat.Type type1, int numOfType1,int priceOfType1, Flat.Type type2, int numOfType2, int priceOfType2) {
-        ArrayList<Flat> flatInfo = new ArrayList<>();
-        Flat flat1 = new Flat(type1,numOfType1,priceOfType1);
-        Flat flat2 = new Flat(type1,numOfType2,priceOfType2);
-        flatInfo.add(flat1);
-        flatInfo.add(flat2);
+    private HashMap<Flat.Type,Flat> flatInfoGen(Flat.Type type1, int totalNumOfType1, int numOfType1Booked,int priceOfType1, Flat.Type type2, int totalNumOfType2, int numOfType2Booked, int priceOfType2) {
+        HashMap<Flat.Type,Flat> flatInfo = new HashMap<>();
+        Flat flat1 = new Flat(type1,totalNumOfType1,numOfType1Booked,priceOfType1);
+        Flat flat2 = new Flat(type1,totalNumOfType2,numOfType2Booked,priceOfType2);
+        flatInfo.put(type1,flat1);
+        flatInfo.put(type2,flat2);
         return flatInfo;
     }
 
@@ -130,15 +153,32 @@ public class ProjectRepo {
     }
 
     public static ArrayList<String> stringToList(String input) {
+        ArrayList<String> result = new ArrayList<>();
+
+        // Handle null or empty input
+        if (input == null || input.trim().isEmpty()) {
+            return result;  // Return empty list
+        }
+
         // Remove surrounding quotes if they exist
-        String content = input;
-        if (input.startsWith("\"") && input.endsWith("\"")) {
-            content = input.substring(1, input.length() - 1);
+        String content = input.trim();
+        if (content.startsWith("\"") && content.endsWith("\"")) {
+            content = content.substring(1, content.length() - 1);
+        }
+
+        // Handle case where content is empty after quote removal
+        if (content.isEmpty()) {
+            return result;
         }
 
         // Split by comma and trim whitespace from each element
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(content.split("\\s*,\\s*")));
-        return list;
+        // Also filter out any empty strings that might result from splitting
+        result = new ArrayList<>(Arrays.asList(content.split("\\s*,\\s*")))
+                .stream()
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        return result;
     }
 
     public LocalDate stringToDate(String stringDate) {

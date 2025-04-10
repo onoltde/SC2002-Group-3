@@ -3,7 +3,7 @@ public class Flat {
         public enum Type {
             TWOROOM,
             THREEROOM,
-            NONE
+            NONE;
         }
 
         private final Type flatType;
@@ -11,10 +11,11 @@ public class Flat {
         private int sellingPrice;
         private int unitsBooked;
 
-        public Flat(Type flatType, int totalUnits, int sellingPrice){
+        public Flat(Type flatType, int totalUnits, int numOfBookedUnits, int sellingPrice){
             this.flatType = flatType;
             this.totalUnits = totalUnits;
             this.sellingPrice = sellingPrice;
+            this.unitsBooked = numOfBookedUnits;
         }
 
         public Type getFlatType() {
