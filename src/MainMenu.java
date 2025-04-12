@@ -1,4 +1,8 @@
 import java.util.*;
+import Utility.*;
+import Applicant.*;
+import HdbOfficer.*;
+import HdbManager.*;
 
 public class MainMenu {
 

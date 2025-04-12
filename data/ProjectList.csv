@@ -1,4 +1,5 @@
 Project Name,Neighborhood,Type 1,Total number of units for Type 1,Number of units Booked for Type 1,Selling price for Type 1,Type 2,Total number of units for Type 2,Number of units Booked for Type 2,Selling price for Type 2,Application opening date,Application closing date,ManagerID,Officer Team Slots,Officer Team,Visibility,Pending Officers,END
-West BrickVille,Chua Chu Kang,TWOROOM,3,0,340000,THREEROOM,4,0,430000,10/01/2025,20/06/2025,MA-303F,1,"",true,"",END
-Acacia Breeze,Yishun,TWOROOM,2,0,350000,THREEROOM,3,0,450000,10/02/2025,20/07/2025,MA-301F,3,"OF-201F, OF-203F",true,"",END
-Stirling Horizon,Queenstown,TWOROOM,4,0,380000,THREEROOM,5,0,500000,10/03/2025,20/08/2025,MA-302F,2,"",true,"",END
+West BrickVille,Chua Chu Kang,TWOROOM,3,0,340000,THREEROOM,4,0,430000,10/1/2025,20/6/2025,MA-303F,1,,TRUE,,END
+Acacia Breeze,Yishun,TWOROOM,2,0,350000,THREEROOM,3,0,450000,10/2/2025,20/7/2025,MA-301F,3,"OF-201F, OF-203F",TRUE,,END
+Stirling Horizon,Queenstown,TWOROOM,4,0,380000,THREEROOM,5,0,500000,10/3/2025,20/8/2025,MA-302F,2,,TRUE,,END
+Dawson Sky,Pioneer,TWOROOM,4,0,380000,THREEROOM,5,0,500000,4/12/2026,4/4/2027,MA-304F,1,,TRUE,,END
