@@ -46,11 +46,21 @@ public class Applicant extends User {
     }
 
     private boolean canApplyTwoRoom() {
-        return (getMaritalStatus() == MaritalStatus.MARRIED && getAge() >= 21);
+        if(getMaritalStatus() == MaritalStatus.SINGLE){
+            return (getAge() >= 35);
+        }else if ( getMaritalStatus() == MaritalStatus.MARRIED){
+            return (getAge() >= 21);
+        }
+        return false; //default
     }
 
     private boolean canApplyThreeRoom(){
-        return (canApplyTwoRoom() || (getMaritalStatus() == MaritalStatus.SINGLE && getAge() >= 35));
+        if(getMaritalStatus() == MaritalStatus.SINGLE){
+            return false;
+        }else if ( getMaritalStatus() == MaritalStatus.MARRIED){
+            return (getAge() >= 21);
+        }
+        return false; //default
     }
 
 

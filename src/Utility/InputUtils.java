@@ -21,4 +21,16 @@ public final class InputUtils {
 
     }
 
+    public static void printBigDivider(){
+        System.out.println();
+        System.out.println("===================================================================");
+        System.out.println();
+    }
+
+    public static void printSmallDivider(){
+        System.out.println();
+        System.out.println("------------------------------------------------------------------");
+        System.out.println();
+    }
+
 }

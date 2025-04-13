@@ -20,15 +20,16 @@ public class ProjectUI {
         String neighbourhood = project.getNeighbourhood();
         LocalDate openDate = project.getOpenDate();
         LocalDate closeDate = project.getCloseDate();
-        System.out.println();
+        InputUtils.printSmallDivider();
         System.out.println("Name: " + name);
         System.out.println("Neighbourhood: " + neighbourhood);
         System.out.println("Applications open from: " + TimeUtils.dateToString(openDate) + " to " + TimeUtils.dateToString(closeDate));
-        System.out.println("---------------------------------------------------");
+
     }
 
     public void displayProjectFlatDetails(Project project, Flat.Type flatType){
         Flat flat = project.getFlatInfo().get(flatType);
+        InputUtils.printSmallDivider();
         if (flat == null){
             System.out.println("Project does not have " + Flat.typeToString(flatType) + "-Room units");
         }else{
@@ -38,7 +39,7 @@ public class ProjectUI {
             System.out.println(Flat.typeToString(flatType) + "-Room units left: " + availableUnits + "/" + totalUnits);
             System.out.println(Flat.typeToString(flatType) + "-Room selling price: $" + price);
         }
-        System.out.println("---------------------------------------------------");
+        InputUtils.printSmallDivider();
     }
 
     public void displayProjectAdminDetails(Project project, HashMap<String, HdbManager> managerMap, HashMap<String, HdbOfficer> officerMap) {
@@ -47,9 +48,9 @@ public class ProjectUI {
         ArrayList<String> assignedOfficers = project.getAssignedOfficers();
         ArrayList<String> pendingOfficers = project.getPendingOfficers();
 
-        System.out.println("---------------------------------------------------");
+        InputUtils.printSmallDivider();
         System.out.println("Manager-in-Charge: " + managerName + " (" + managerId + ")");
-
+        System.out.println("---------------------------------------------");
         // Print assigned officers
         System.out.print("Assigned Officers: ");
         if (assignedOfficers.isEmpty()) {
@@ -61,7 +62,7 @@ public class ProjectUI {
                 System.out.println("  - " + officer.getName() + " (" + officerId + ")");
             }
         }
-
+        System.out.println("---------------------------------------------");
         // Print pending officers
         System.out.print("Pending Officers: ");
         if (pendingOfficers.isEmpty()) {
@@ -73,23 +74,21 @@ public class ProjectUI {
                 System.out.println("  - " + officer.getName() + " (" + officerId + ")");
             }
         }
-        System.out.println("---------------------------------------------------");
+        InputUtils.printSmallDivider();
     }
 
     //applicant methods
     public void displayProjectDashboard(Applicant applicant){
 
             while (true) {
-                printDivider();
-                System.out.println();
+                InputUtils.printSmallDivider();
                 System.out.println("Applicant Project Dashboard");
-                System.out.println("--------------------------");
+                System.out.println("----------------------------");
                 System.out.println("Please choose an option:");
                 System.out.println("1. View current 2-Room projects");
                 System.out.println("2. View current 3-Room projects");
                 System.out.println("3. Back to menu");
                 System.out.print("Enter your choice (1-3): ");
-
 
                 int choice = InputUtils.readInt();
 
@@ -113,6 +112,7 @@ public class ProjectUI {
     private void displayFlat(Applicant applicant, Flat.Type flatType){
 
         if (!applicant.canApply(flatType)){
+            InputUtils.printSmallDivider();
             System.out.println("You are not eligible to apply for " + Flat.typeToString(flatType) + "-Room flats.");
             return;
         }
@@ -128,7 +128,7 @@ public class ProjectUI {
             Project currentProject = filteredList.get(currentIndex);
 
             // Display project counter (x/n)
-            System.out.println();
+            InputUtils.printSmallDivider();
             System.out.printf(Flat.typeToString(flatType) + " Project (%d/%d):\n", currentIndex + 1, filteredList.size());
 
             // Display project details
@@ -136,7 +136,9 @@ public class ProjectUI {
             displayProjectFlatDetails(currentProject, flatType);
 
             // Show menu options
+            System.out.println("-------------------------------");
             System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
             System.out.println("1. Apply for this project");
             System.out.println("2. Enquire about this project");
             System.out.println("3. Next project");
@@ -174,6 +176,7 @@ public class ProjectUI {
     //officer methods
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
         if (!officer.canApply(flatType)){
+            InputUtils.printSmallDivider();
             System.out.println("You are not eligible to apply for " + Flat.typeToString(flatType) + "-Room flats.");
             return;
         }
@@ -185,7 +188,7 @@ public class ProjectUI {
             Project currentProject = filteredList.get(currentIndex);
 
             // Display project counter (x/n)
-            System.out.println();
+            InputUtils.printSmallDivider();
             System.out.printf(Flat.typeToString(flatType) + " Project (%d/%d):\n", currentIndex + 1, filteredList.size());
 
             // Display project details
@@ -193,7 +196,9 @@ public class ProjectUI {
             displayProjectFlatDetails(currentProject, flatType);
 
             // Show menu options
+            System.out.println("-------------------------------");
             System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
             System.out.println("1. Apply for this project");
             System.out.println("2. Enquire about this project");
             System.out.println("3. Next project");
@@ -239,14 +244,16 @@ public class ProjectUI {
             Project currentProject = filteredList.get(currentIndex);
 
             // Display project counter (x/n)
-            System.out.println();
+            InputUtils.printSmallDivider();
             System.out.printf("Project (%d/%d):\n", currentIndex + 1, filteredList.size());
 
             // Display admin project details
             controller.displayAdminProjectDetails(currentProject.getName());
 
             // Show menu options
+            System.out.println("-------------------------------");
             System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
             System.out.println("1. Apply for this team");
             System.out.println("2. Next project");
             System.out.println("3. Exit to menu");
@@ -279,12 +286,6 @@ public class ProjectUI {
     // manager methods
     public void displayProjectDashboard(HdbManager applicant){
 
-    }
-
-
-    //misc methods
-    public void printDivider(){
-        System.out.println("===================================================================");
     }
 
 

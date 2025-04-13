@@ -1,17 +1,27 @@
 package Application.Team;
 import Application.*;
+
 import java.util.HashMap;
 
-public class TeamApplicationRepo implements ApplicationRepoInterface <TeamApplication>{
+public class TeamApplicationRepo implements ApplicationRepo<TeamApplication> {
 
-    private HashMap<String, TeamApplication > teamApplications; // projectName : TeamApplicaiton
+    //hashmap -> officerID : teamApplication
+    private HashMap<String, TeamApplication > teamApplications;
 
     public TeamApplicationRepo(){
         teamApplications = new HashMap<String, TeamApplication>();
     }
 
     public void addApplication(TeamApplication newApplication) {
-        teamApplications.put(newApplication.getProjectName(),newApplication);
+        teamApplications.put(newApplication.getOfficerID(),newApplication);
+    }
+
+    public HashMap<String, TeamApplication> getApplications(){
+        return teamApplications;
+    }
+
+    public void deleteApplication(String officerID){
+        teamApplications.remove(officerID);
     }
 
 }

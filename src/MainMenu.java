@@ -1,12 +1,34 @@
 import java.util.*;
+
+import Application.Residential.ResidentialApplicationController;
+import Application.Team.TeamApplicationController;
+import Project.ProjectController;
+import Project.ProjectControllerInterface;
 import Utility.*;
 import Applicant.*;
 import HdbOfficer.*;
 import HdbManager.*;
 
 public class MainMenu {
+    private ProjectControllerInterface projectController;
+
+    private ResidentialApplicationController resAppController;
+    private TeamApplicationController teamAppController;
+
+    private static ApplicantController applicantController;
+    private static HdbOfficerController officerController;
+    private static HdbManagerController managerController;
+
 
     public MainMenu(){
+        projectController = new ProjectController();
+
+        resAppController = new ResidentialApplicationController(projectController);
+        teamAppController = new TeamApplicationController(projectController);
+
+        applicantController = new ApplicantController(resAppController,projectController);
+        officerController = new HdbOfficerController(projectController,resAppController,teamAppController);
+        managerController = new HdbManagerController(projectController,resAppController,teamAppController);
     }
 
 
@@ -37,17 +59,15 @@ public class MainMenu {
             switch(choice) {
                 case 1 -> {
                     //Applicant portal
-                    ApplicantController applicantController = new ApplicantController();
                     applicantController.runPortal();
                 }
                 case 2 -> {
                     //Officer portal
-                    HdbOfficerController officerController = new HdbOfficerController();
+
                     officerController.runPortal();
                 }
                 case 3 -> {
                     //Manager portal
-                    HdbManagerController managerController = new HdbManagerController();
                     managerController.runPortal();
                 }
                 case 4 -> {
