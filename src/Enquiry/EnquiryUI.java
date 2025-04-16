@@ -24,12 +24,12 @@ public class EnquiryUI {
             
             switch(choice) {
                 case 1:
-                    System.out.print("Enter student ID: ");
+                    System.out.print("Enter manager ID: ");
                     currentUserId = scanner.nextLine();
                     showApplicantMenu();
                     break;
                 case 2:
-                    System.out.print("Enter staff ID: ");
+                    System.out.print("Enter applicant ID: ");
                     currentUserId = scanner.nextLine();
                     System.out.print("Enter project ID you're managing: ");
                     currentProjectId = scanner.nextLine();
@@ -79,7 +79,7 @@ public class EnquiryUI {
 
     private static void showManagerMenu() {
         while(true) {
-            System.out.println("\n=== Staff Menu ===");
+            System.out.println("\n=== Enquiry Menu ===");
             System.out.println("1. View Project Enquiries");
             System.out.println("2. Respond to Enquiry");
             System.out.println("3. Back to Main Menu");

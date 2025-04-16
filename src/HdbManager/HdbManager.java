@@ -6,7 +6,7 @@ public class HdbManager extends User {
 
     private final String managerId;
     private Project managedProject;
-
+    
     public HdbManager(String name,String nric, int age, MaritalStatus maritalStatus, String password) {
         super(name, nric, age, maritalStatus, password);
         this.managerId = "MA-" + nric.substring(5);
