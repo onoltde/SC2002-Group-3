@@ -1,4 +1,5 @@
 package Application.Team;
+import Application.Application.Status;
 import Application.ApplicationController;
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
@@ -23,7 +24,7 @@ public class TeamApplicationController implements ApplicationController {
 
     @Override   //view team applications as officer to view/apply
     public void displayApplicationMenu(HdbOfficer officer) {
-        teamAppUI.displayApplicationMenu(officer);
+        applicationMenu(officer);
     }
 
     @Override   //view team application as manager to accept/reject team applications
@@ -35,9 +36,24 @@ public class TeamApplicationController implements ApplicationController {
         String appliedProjectName = officer.getTeamApplication().getProjectName();
         projectController.displayAdminProjectDetails(appliedProjectName);
     }
+    
+    //view team applications as officer to view/apply and returns TeamApplication object
+    public TeamApplication applicationMenu(HdbOfficer officer) {
+    	return teamAppUI.displayApplicationMenu(officer);
+    }
 
-    public void displayProjects(HdbOfficer officer){
-        projectController.displayTeamProjectsToApply(officer);
+    // DisplayProjects and add TeamApplication if applicable
+    public TeamApplication displayProjects(HdbOfficer officer){
+    	String check = projectController.displayTeamProjectsToApply(officer);
+    	if (check != null) {
+    		TeamApplication ta = new TeamApplication(officer.getId(), check, Status.PENDING);
+    		teamAppRepo.addApplication(ta);
+    		// need to update officer's information
+    		return ta;
+    	}
+    	else {
+    		return null;
+    	}
     }
 
     public TeamApplicationRepo getRepo(){

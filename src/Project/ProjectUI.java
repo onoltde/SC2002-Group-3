@@ -232,11 +232,11 @@ public class ProjectUI {
         System.out.println("No more projects to display.");
     }
 
-    public void displayTeamProjectsToApply(HdbOfficer officer){
+    public String displayTeamProjectsToApply(HdbOfficer officer){
         ArrayList<Project> filteredList = controller.getRepo().filterForTeamApplication(officer);
         if (filteredList.size() == 0){
             System.out.println("No projects to display.");
-            return;
+            return null;
         }
         int currentIndex = 0;
 
@@ -264,14 +264,14 @@ public class ProjectUI {
 
             switch (choice) {
                 case 1: // Apply for current team
-                    System.out.println("call TeamApplication menu method applyProject(Officer,currentProject)");
+                    return currentProject.getName();
 
                 case 2: // Next project
                     currentIndex++;
                     break;
 
                 case 3: //exit to menu
-                    return;
+                    return null;
 
                 default:
                     System.out.println("Invalid option, please try again.");
@@ -279,6 +279,7 @@ public class ProjectUI {
         }
 
         System.out.println("No more projects to display.");
+        return null;
     }
 
 

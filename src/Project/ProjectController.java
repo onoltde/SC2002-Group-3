@@ -39,8 +39,8 @@ public class ProjectController implements ProjectControllerInterface{
 
 
     //officer methods
-    public void displayTeamProjectsToApply(HdbOfficer officer){
-        projectUI.displayTeamProjectsToApply(officer);
+    public String displayTeamProjectsToApply(HdbOfficer officer){
+        return projectUI.displayTeamProjectsToApply(officer);
     }
 
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){

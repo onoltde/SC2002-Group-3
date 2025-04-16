@@ -11,7 +11,7 @@ public class TeamApplicationUI {
         this.teamAppController = teamAppController;
     }
 
-    public void displayApplicationMenu(HdbOfficer officer){
+    public TeamApplication displayApplicationMenu(HdbOfficer officer){
         if (!officer.hasTeamApplication()){
             System.out.println("You do not have an an active Team application.");
             System.out.println("To make an application, please go to \'Apply for Team\'.");
@@ -42,10 +42,11 @@ public class TeamApplicationUI {
                     }
                 }
                 case 2 -> {//apply for projects
-                    teamAppController.displayProjects(officer);
+                    TeamApplication ta = teamAppController.displayProjects(officer);
+                    return ta;
                 }
                 case 3 -> {//exit
-                    return;
+                    return null;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }

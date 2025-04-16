@@ -45,8 +45,13 @@ public class HdbOfficerController implements UserController{
         resAppController.displayApplicationMenu(hdbOfficer);
     }
 
+    // Display and add teamApplication to the officer when applicable
     public void displayTeamApplicationMenu(HdbOfficer hdbOfficer) {
-        teamAppController.displayApplicationMenu(hdbOfficer);
+        TeamApplication ta = teamAppController.applicationMenu(hdbOfficer);
+        if (ta != null) {
+        	hdbOfficer.appliedTeam(ta);
+        	System.out.printf("Successfully applied for %s \n", ta.getProjectName());
+        }
     }
 
     public void displayAssignedProjectMenu(HdbOfficer officer){
