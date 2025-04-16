@@ -1,14 +1,18 @@
 package HdbManager;
+import Project.ProjectController;
+import Project.ProjectControllerInterface;
 import Users.*;
 import java.util.*;
 import java.io.*;
 
 public class HdbManagerRepo implements UserRepo <HdbManager>{
     private static final String filePath = "data\\ManagerList.csv";
+    private ProjectControllerInterface projectController;
     private HashMap<String, HdbManager> managers;
 
-    public HdbManagerRepo() {
+    public HdbManagerRepo(ProjectControllerInterface projectController) {
         this.managers = new HashMap<String, HdbManager>();
+        this.projectController = projectController;
         loadFile();
     }
 
@@ -27,8 +31,11 @@ public class HdbManagerRepo implements UserRepo <HdbManager>{
                     String nric = values[1].trim();
                     int age = Integer.parseInt(values[2].trim());
                     String password = values[4].trim();
+                    String projectName = values[6].trim();
+                    System.out.println("HEREEEEEE-------------" + projectName);
                     User.MaritalStatus maritalStatus = User.MaritalStatus.valueOf(values[3].trim().toUpperCase());
-                    HdbManager newManager  = new HdbManager(name, nric, age, maritalStatus, password);
+                    HdbManager newManager  = new HdbManager(name, nric, age, maritalStatus, password,
+                            (projectName == "null" ? null : projectController.getRepo().getProject(projectName)));
                     addUser(newManager);
 
                 }
@@ -48,7 +55,7 @@ public class HdbManagerRepo implements UserRepo <HdbManager>{
             // Then rewrite the file including any new managers and changes made
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                 // Write the header line
-                bw.write("Name,NRIC,Age,Marital Status,Password,ManagerId");
+                bw.write("Name,NRIC,Age,Marital Status,Password,ManagerId,AssignedProjectName");
                 bw.newLine();
 
                 // Write each applicant's data
@@ -59,7 +66,9 @@ public class HdbManagerRepo implements UserRepo <HdbManager>{
                             String.valueOf(managerPerson.getAge()),
                             managerPerson.getMaritalStatus().toString(),
                             managerPerson.getPassword(),
-                            managerPerson.getId()
+                            managerPerson.getId(),
+                            (managerPerson.getManagedProject() == null ? "null" :
+                                    managerPerson.getManagedProject().getName())
                     );
                     bw.write(line);
                     bw.newLine();

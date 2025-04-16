@@ -19,10 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HdbManagerController implements UserController{
-
     //Dependencies
-    private static HdbManagerRepo managerRepo;
-    private static HdbManagerUI managerUI;
+    private final HdbManagerRepo managerRepo;
+    private final HdbManagerUI managerUI;
     //controller dependencies
     private final ProjectControllerInterface projectController;
     private final HdbOfficerController officerController;
@@ -42,8 +41,8 @@ public class HdbManagerController implements UserController{
         this.resAppController = resAppController;
         this.enquiryController = enquiryController;
 
-        managerRepo = new HdbManagerRepo();
-        managerUI = new HdbManagerUI(this);
+        managerRepo = new HdbManagerRepo(this.projectController);
+        managerUI = new HdbManagerUI(this, this.enquiryController);
     }
 
     public void runPortal() {
@@ -135,6 +134,8 @@ public class HdbManagerController implements UserController{
     public boolean approveOfficerApplication(String managerId, String officerId) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return false;
+
+        ////////////////////////////////////////////////////////
         HdbOfficer officer = officerController.getRepo().getUser(officerId);
         if(officer == null) {
             System.out.println("No such officer!");
@@ -144,6 +145,8 @@ public class HdbManagerController implements UserController{
             System.out.println("The officer has no application at the moment!");
             return false;
         }
+
+        /////////////////////////////////////////////////////////
         TeamApplication application = officer.getTeamApplication();
         if(application == null) {
             System.out.println("No such application!");
@@ -161,9 +164,18 @@ public class HdbManagerController implements UserController{
             System.out.println("The officer is already rejected!");
             return false;
         }
+
+        ///////////////////////////////////////////////////////////
+        Project project = projectController.getRepo().getProject(application.getProjectName());
+
+        if(project.getOfficerSlots() == 0) {
+            System.out.println("There is no slots left!");
+            return false;
+        }
         System.out.println("Successfully approved!");
         officer.assignProject(application.getProjectName());
         application.updateStatus(Application.Status.SUCCESSFUL);
+        project.setOfficerSlots(project.getOfficerSlots() - 1);
         return true;
     }
 

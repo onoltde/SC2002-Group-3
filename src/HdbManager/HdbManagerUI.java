@@ -1,13 +1,17 @@
 package HdbManager;
+import Enquiry.EnquiryController;
 import Users.*;
 import Utility.*;
 import java.util.regex.Pattern;
 
 public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
     private static HdbManagerController managerController;
+    private final EnquiryController enquiryController;
 
-    public HdbManagerUI( HdbManagerController hdbManagerController){
-        managerController = hdbManagerController;
+    public HdbManagerUI( HdbManagerController hdbManagerController,
+                         EnquiryController enquiryController){
+        this.managerController = hdbManagerController;
+        this.enquiryController = enquiryController;
     }
 
     public HdbManager displayLogin(HdbManagerRepo managerRepo){
@@ -128,7 +132,7 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
             System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. Project menu");
-            System.out.println("2. xxxxxxxxxxx");
+            System.out.println("2. Enquiry menu");
             System.out.println("3. xxxxxxxxxxxxxxxxx");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
@@ -139,8 +143,8 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                 case 1 -> {//project menu CRUD
                     managerController.displayProjectMenu(hdbManager);
                 }
-                case 2 ->{//xxxxxxxxxxx
-
+                case 2 ->{//enquiry menu
+                    enquiryController.showManagerMenu(hdbManager);
                 }
                 case 3 -> {//xxxxxxxxxxxx
 
