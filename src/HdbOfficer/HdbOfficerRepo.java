@@ -172,20 +172,34 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
     public static ArrayList<String> stringToList(String input) {
         // Remove surrounding quotes if they exist
         String content = input;
+        ArrayList<String> list;
         if (input.startsWith("\"") && input.endsWith("\"")) {
             content = input.substring(1, input.length() - 1);
         }
 
-        // Split by comma and trim whitespace from each element
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(content.split("\\s*,\\s*")));
+        if (!content.isBlank()) {
+        	// Split by comma and trim whitespace from each element
+            list = new ArrayList<>(Arrays.asList(content.split("\\s*,\\s*")));
+        }
+        else {
+        	System.out.println("Blacklist is empty");
+        	list = new ArrayList<>();
+        }
         return list;
     }
 
     public static String listToString(ArrayList<String> list) {
         // Join elements with ", " delimiter
         String joined = String.join(", ", list);
-        // Add surrounding quotes
-        return "\"" + joined + "\"";
+        if (list.size() > 1) {
+        	// Add surrounding quotes
+            return "\"" + joined + "\"";
+        }
+        else {
+        	// Add surrounding quotes
+            return joined;
+        }
+        
     }
 
     public HashMap<String, HdbOfficer> getOfficers(){
