@@ -9,20 +9,17 @@ import Application.*;
 
 import java.util.HashMap;
 
-public class ProjectController implements ProjectControllerInterface{
+public class ProjectController implements ProjectControllerInterface {
 
-    //Dependencies
     private static ProjectUI projectUI;
     private static ProjectRepo projectRepo;
-    private HashMap<String,HdbManager> managerMap;
-    private HashMap<String,HdbOfficer> officerMap;
+    private HashMap<String, HdbManager> managerMap = new HdbManagerRepo().getManagers();
+    private HashMap<String, HdbOfficer> officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
 
-	public ProjectController() {
+    public ProjectController() {
         projectRepo = new ProjectRepo();
         projectUI = new ProjectUI(this);
-        managerMap = new HdbManagerRepo(this).getManagers();
-        officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
-	}
+    }
 
     public void saveChanges(){
         projectRepo.saveProjects();
@@ -32,33 +29,31 @@ public class ProjectController implements ProjectControllerInterface{
         return projectRepo;
     }
 
+    @Override
+    public Project getProject(String projectName) {
+        return projectRepo.getProject(projectName);
+    }
 
-    //applicant methods
     public void displayProjectDashboard(Applicant applicant) {
         projectUI.displayProjectDashboard(applicant);
     }
 
-
-    //officer methods
-    public String displayTeamProjectsToApply(HdbOfficer officer){
-        return projectUI.displayTeamProjectsToApply(officer);
+    public void displayTeamProjectsToApply(HdbOfficer officer){
+        projectUI.displayTeamProjectsToApply(officer);
     }
 
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
-        projectUI.displayResProjectsToApply(officer,flatType);
+        projectUI.displayResProjectsToApply(officer, flatType);
     }
 
-
-    //manager methods
     public void displayProjectDashboard(HdbManager manager) {
         projectUI.displayProjectDashboard(manager);
     }
 
-
     public void displayProjectFlatDetails(String projectName, Flat.Type flatType){
         Project project = projectRepo.getProject(projectName);
         projectUI.displayEssentialProjectDetails(project);
-        projectUI.displayProjectFlatDetails(project,flatType);
+        projectUI.displayProjectFlatDetails(project, flatType);
     }
 
     public void displayAdminProjectDetails(String projectName){
@@ -66,7 +61,7 @@ public class ProjectController implements ProjectControllerInterface{
         projectUI.displayEssentialProjectDetails(project);
         projectUI.displayProjectFlatDetails(project, Flat.Type.TWOROOM);
         projectUI.displayProjectFlatDetails(project, Flat.Type.THREEROOM);
-        projectUI.displayProjectAdminDetails(project,managerMap,officerMap);
+        projectUI.displayProjectAdminDetails(project, managerMap, officerMap);
     }
     
 }
