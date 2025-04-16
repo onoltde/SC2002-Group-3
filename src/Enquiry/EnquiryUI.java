@@ -123,16 +123,20 @@ public class EnquiryUI {
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
             if(e.getStatus() == EnquiryStatus.PENDING) {
-                System.out.printf("[%s] %s\n%s\n-----------------------------\n",
-                        e.getStatus(),
-                        e.getTitle(),
-                        e.getMessage());
-            } else {
-                System.out.printf("[%s] %s\n%s\n\nResponse: %s\n-----------------------------\n",
+                System.out.printf("[%s] %s\n%s\n%s\n-----------------------------\n",
                         e.getStatus(),
                         e.getTitle(),
                         e.getMessage(),
-                        (e.getResponse() == null ? "None response yet." : e.getResponse()));
+                        e.getId()
+                );
+            } else {
+                System.out.printf("[%s] %s\n%s\n\nResponse: %s\n%s\n-----------------------------\n",
+                        e.getStatus(),
+                        e.getTitle(),
+                        e.getMessage(),
+                        (e.getResponse() == null ? "None response yet." : e.getResponse()),
+                        e.getId()
+                );
             }
         }
     }
@@ -164,6 +168,10 @@ public class EnquiryUI {
     }
 
     private void viewProjectEnquiries(HdbManager user) {
+        if(user.getManagedProject() == null) {
+            System.out.println("The manager does not have managed project!");
+            return;
+        }
         List<String> enquiryIds = enquiryRepo.getEnquiriesByProject(user.getManagedProject().getName());
         if(enquiryIds.isEmpty()) {
             System.out.println("No enquiries found for this project!");
@@ -174,21 +182,26 @@ public class EnquiryUI {
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
             if(e.getStatus() == EnquiryStatus.ANSWERED) continue;
-            System.out.printf("By: %s\n[%s] %s\n%s\n-----------------------------\n",
+            System.out.printf("By: %s\n[%s] %s\n%s\n%s\n-----------------------------\n",
+                    e.getAuthorId(),
                     e.getStatus(),
                     e.getTitle(),
-                    e.getMessage());
+                    e.getMessage(),
+                    e.getId()
+            );
         }
 
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
             if(e.getStatus() == EnquiryStatus.PENDING) continue;
-            System.out.printf("By: %s\n[%s] %s\n    %s\n\nResponse: %s\n-----------------------------\n",
+            System.out.printf("By: %s\n[%s] %s\n%s\n\nResponse: %s\n%s\n-----------------------------\n",
                     e.getAuthorId(),
                     e.getStatus(),
                     e.getTitle(),
                     e.getMessage(),
-                    (e.getResponse() == null ? "Null." : e.getResponse()));
+                    (e.getResponse() == null ? "Null." : e.getResponse()),
+                    e.getId()
+            );
         }
     }
 

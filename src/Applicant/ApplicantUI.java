@@ -134,7 +134,7 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             System.out.println("Please choose an option:");
             System.out.println("1. View my application");
             System.out.println("2. View current BTO projects");
-            System.out.println("3. Go to enquiry menu");
+            System.out.println("3. Enquiry menu");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
