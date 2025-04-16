@@ -35,11 +35,11 @@ public class EnquiryRepo {
         return ret;
     }
 
-    public ArrayList<String> getEnquiriesByProject(String projectId) {
+    public ArrayList<String> getEnquiriesByProject(String name) {
         ArrayList<String> ret = new ArrayList<>();
         for (Map.Entry<String, Enquiry> entry : enquiries.entrySet()) {
             Enquiry enquiry = entry.getValue();
-            if(enquiry.getProjectId().equals(projectId)) {
+            if(enquiry.getProjectName().equals(name)) {
                 ret.add(enquiry.getId());
             }
         }
@@ -91,14 +91,14 @@ public class EnquiryRepo {
 
     public void saveFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write("enquiryId,projectId,authorId,title,message,status,response");
+            bw.write("EnquiryID,Project Name,AuthorID,Title,Message,Status,Response");
             bw.newLine();
 
             for (Enquiry enq : enquiries.values()) {
                 String response = enq.getResponse() == null ? "null" : enq.getResponse();
                 String line = String.join(",",
                         enq.getId(),
-                        enq.getProjectId(),
+                        enq.getProjectName(),
                         enq.getAuthorId(),
                         enq.getTitle(),
                         enq.getMessage(),
@@ -112,7 +112,7 @@ public class EnquiryRepo {
         }
     }
 
-    public void addEnqruiry(Enquiry enquiry) {
+    public void addEnquiry(Enquiry enquiry) {
         enquiries.put(enquiry.getId(), enquiry);
     }
 }

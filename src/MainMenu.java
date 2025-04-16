@@ -24,12 +24,12 @@ public class MainMenu {
 
     public MainMenu(){
         projectController = new ProjectController();
-        enquiryController = new EnquiryController();
+        enquiryController = new EnquiryController(projectController);
 
         resAppController = new ResidentialApplicationController(projectController);
         teamAppController = new TeamApplicationController(projectController);
 
-        applicantController = new ApplicantController(resAppController,projectController);
+        applicantController = new ApplicantController(resAppController,projectController, enquiryController);
         officerController = new HdbOfficerController(projectController,resAppController,teamAppController);
         managerController = new HdbManagerController(   projectController, officerController,
                                                         resAppController,teamAppController, enquiryController);

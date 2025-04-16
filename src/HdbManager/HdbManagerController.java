@@ -145,6 +145,14 @@ public class HdbManagerController implements UserController{
             return false;
         }
         TeamApplication application = officer.getTeamApplication();
+        if(application == null) {
+            System.out.println("No such application!");
+            return false;
+        }
+        if(application.getProjectName().compareTo(manager.getManagedProject().getName()) != 0) {
+            System.out.println("The manager is not managing the project!");
+            return false;
+        }
         if(application.getStatus() == Application.Status.SUCCESSFUL) {
             System.out.println("The officer is already approved!");
             return false;
@@ -175,6 +183,11 @@ public class HdbManagerController implements UserController{
             System.out.println("No such application!");
             return false;
         }
+        if(application.getProjectName().compareTo(manager.getManagedProject().getName()) != 0) {
+            System.out.println("The manager is not managing the project!");
+            return false;
+        }
+
         if(application.getStatus() == Application.Status.WITHDRAWN) {
             System.out.println("The application is already withdrawn!");
             return false;

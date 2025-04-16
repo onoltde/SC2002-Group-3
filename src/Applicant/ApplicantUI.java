@@ -1,4 +1,5 @@
 package Applicant;
+import Enquiry.EnquiryController;
 import Utility.*;
 import Users.*;
 import java.util.regex.Pattern;
@@ -6,9 +7,12 @@ import java.util.regex.Pattern;
 public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
 
     private final ApplicantController applicantController;
+    private final EnquiryController enquiryController;
 
-    public ApplicantUI(ApplicantController applicantController){
+    public ApplicantUI(ApplicantController applicantController,
+                       EnquiryController enquiryController) {
         this.applicantController = applicantController;
+        this.enquiryController = enquiryController;
     }
 
     public Applicant displayLogin(ApplicantRepo applicantRepo){
@@ -130,7 +134,7 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             System.out.println("Please choose an option:");
             System.out.println("1. View my application");
             System.out.println("2. View current BTO projects");
-            System.out.println("3. View my enquiries");
+            System.out.println("3. Go to enquiry menu");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
@@ -143,8 +147,8 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
                 case 2 ->{//view current BTO projects
                     applicantController.viewCurrentProjects(applicant);
                 }
-                case 3 -> {//view my enquiries
-                    //method to show pages of applicant created enquiries
+                case 3 -> {//go to enquiry menu
+                    enquiryController.showApplicantMenu(applicant);
                 }
                 case 4 -> {//exit
                     applicantController.saveFile();    //saves changes to file
