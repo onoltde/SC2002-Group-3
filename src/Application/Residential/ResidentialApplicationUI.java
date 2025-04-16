@@ -33,8 +33,7 @@ public class ResidentialApplicationUI {
 
             switch (choice) {
                 case 1 -> {//view project details
-                    ProjectController projectController = new ProjectController(controller);
-                    projectController.displayProjectFlatDetails(projectName,flatType);
+                    controller.displayProjectFlatDetails(projectName,flatType);
                 }
                 case 2 -> {//request withdrawal
                     controller.requestWithdrawal(application);
@@ -98,8 +97,7 @@ public class ResidentialApplicationUI {
 
                 switch (choice) {
                     case 1 -> {//view project details
-                        ProjectController projectController = new ProjectController(controller);
-                        projectController.displayProjectFlatDetails(projectName, flatType);
+                        controller.displayProjectFlatDetails(projectName, flatType);
                     }
                     case 2 -> {//request withdrawal
                         controller.requestWithdrawal(application);

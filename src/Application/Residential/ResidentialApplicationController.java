@@ -1,25 +1,29 @@
 package Application.Residential;
 
-import Application.Application;
+import Application.*;
 import Application.ApplicationController;
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
 import Project.Flat;
-import Project.Project;
 import Project.ProjectController;
-import Users.UserController;
 import Applicant.*;
-import Utility.InputUtils;
+import Project.ProjectControllerInterface;
 
 
 public class ResidentialApplicationController implements ApplicationController{
 
-    private UserController sourceController;
-    private ResidentialApplicationUI resAppUI;
+    //dependencies
+    private final ResidentialApplicationUI resAppUI;
+    private final ResidentialApplicationRepo resAppRepo;
 
-    public ResidentialApplicationController(UserController sourceController) {
-        this.sourceController = sourceController;
-        resAppUI = new ResidentialApplicationUI(this);
+    private final ProjectControllerInterface projectController;
+
+
+    public ResidentialApplicationController(ProjectControllerInterface projectController) {
+        this.resAppUI = new ResidentialApplicationUI(this);
+        this.resAppRepo = new ResidentialApplicationRepo();
+
+        this.projectController = projectController;
     }
 
     public void displayApplicationMenu(Applicant applicant) {
@@ -46,7 +50,15 @@ public class ResidentialApplicationController implements ApplicationController{
     }
 
     public void displayProjectsToApply(HdbOfficer officer, Flat.Type flatType) {
-        ProjectController projectController = new ProjectController(this);
         projectController.displayResProjectsToApply(officer,flatType);
     }
+
+    public ResidentialApplicationRepo getRepo(){
+        return resAppRepo;
+    }
+
+    public void displayProjectFlatDetails(String projectName, Flat.Type flatType){
+        projectController.displayProjectFlatDetails(projectName,flatType);
+    }
+
 }//end of class

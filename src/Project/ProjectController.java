@@ -9,29 +9,19 @@ import Application.*;
 
 import java.util.HashMap;
 
-public class ProjectController{
+public class ProjectController implements ProjectControllerInterface{
+
     //Dependencies
     private static ProjectUI projectUI;
     private static ProjectRepo projectRepo;
-    private UserController userController = null;
-    private ApplicationController applicationController = null;
     private HashMap<String,HdbManager> managerMap = new HdbManagerRepo().getManagers();
     private HashMap<String,HdbOfficer> officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
 
-    //constructor for when applicant/officer/manager controller wants to view projects
-	public ProjectController(UserController sourceController) {
-        this.userController = sourceController;
+	public ProjectController() {
         projectRepo = new ProjectRepo();
         projectUI = new ProjectUI(this);
 
 	}
-
-    //constructor for application controller wants to view projects
-    public ProjectController(ApplicationController sourceController) {
-        projectRepo = new ProjectRepo();
-        projectUI = new ProjectUI(this);
-
-    }
 
     public void saveChanges(){
         projectRepo.saveProjects();

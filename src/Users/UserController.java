@@ -2,5 +2,5 @@ package Users;
 public interface UserController {
 
     void runPortal();
-    void exitPortal();
+    void saveFile();
 }

@@ -1,25 +1,22 @@
 package Applicant;
 import Utility.*;
 import Users.*;
-
 import java.util.regex.Pattern;
 
-public final class ApplicantUI implements UserUI<Applicant>{
-    private static ApplicantController applicantController;
-    private static ApplicantRepo applicantRepo;
+public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
 
-    public ApplicantUI(ApplicantController applicantController, ApplicantRepo applicantRepo){
-        ApplicantUI.applicantController = applicantController;
-        ApplicantUI.applicantRepo = applicantRepo;
+    private final ApplicantController applicantController;
+
+    public ApplicantUI(ApplicantController applicantController){
+        this.applicantController = applicantController;
     }
 
-    public Applicant displayLogin(){
+    public Applicant displayLogin(ApplicantRepo applicantRepo){
 
         while (true) {
-            System.out.println();
-            printDivider();
+            InputUtils.printBigDivider();
             System.out.println("\nApplicant Portal:");
-            System.out.println("--------------------------");
+            System.out.println("--------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Forget Password");
@@ -30,12 +27,12 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
             switch (choice) {
                 case 1 -> {
-                    Applicant applicant = login();
+                    Applicant applicant = login(applicantRepo);
                     if (applicant != null) {
                         return applicant; // Return immediately on successful login
                     }
                 }
-                case 2 -> forgetPassword();
+                case 2 -> forgetPassword(applicantRepo);
                 case 3 -> {
                     exitToMenu();
                     return null; // Explicitly return null on exit
@@ -46,9 +43,9 @@ public final class ApplicantUI implements UserUI<Applicant>{
         }
     }
 
-    public Applicant login(){
+    public Applicant login(ApplicantRepo applicantRepo){
         try {
-            printDivider();
+            InputUtils.printBigDivider();
             System.out.print("Enter NRIC: ");
 
             String nric = InputUtils.nextLine().trim().toUpperCase();
@@ -87,8 +84,9 @@ public final class ApplicantUI implements UserUI<Applicant>{
 
     }
 
-    public void forgetPassword() {
+    public void forgetPassword(ApplicantRepo applicantRepo) {
         try {
+            InputUtils.printBigDivider();
             System.out.print("Enter NRIC: ");
             String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
@@ -120,17 +118,15 @@ public final class ApplicantUI implements UserUI<Applicant>{
     }
 
     public void displayDashboard(Applicant applicant){
-        printDivider();
-        System.out.println();
-        System.out.printf("APPLICANT DASHBOARD" +
-                        "\n---------------------\n" +
-                        "Name: %s | Marital status: %s | Age: %d\n",
-                applicant.getName(),
-                applicant.getMaritalStatus(),
-                applicant.getAge());
-
         while (true) {
-            System.out.println("----------------------------------");
+            InputUtils.printBigDivider();
+            System.out.printf("APPLICANT DASHBOARD" +
+                            "\n---------------------\n" +
+                            "Name: %s | Marital status: %s | Age: %d\n",
+                    applicant.getName(),
+                    applicant.getMaritalStatus(),
+                    applicant.getAge());
+            InputUtils.printSmallDivider();
             System.out.println("Please choose an option:");
             System.out.println("1. View my application");
             System.out.println("2. View current BTO projects");
@@ -148,10 +144,10 @@ public final class ApplicantUI implements UserUI<Applicant>{
                     applicantController.viewCurrentProjects(applicant);
                 }
                 case 3 -> {//view my enquiries
-                    //xxxxxxxxxxxxxxxxxxxxx
+                    //method to show pages of applicant created enquiries
                 }
                 case 4 -> {//exit
-                    applicantController.exitPortal();    //saves changes to file
+                    applicantController.saveFile();    //saves changes to file
                     return;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-4.\n");
@@ -161,8 +157,7 @@ public final class ApplicantUI implements UserUI<Applicant>{
     }
 
     public void displayApplicationMenu(Applicant applicant){
-        printDivider();
-        System.out.println();
+        InputUtils.printBigDivider();
         if (applicant.getResidentialApplication() == null){
             System.out.println("You do not have an active application.");
             System.out.println("To apply for a BTO, please go to \"View current BTO projects\".");

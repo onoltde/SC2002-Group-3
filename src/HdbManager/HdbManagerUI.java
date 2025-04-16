@@ -3,20 +3,17 @@ import Users.*;
 import Utility.*;
 import java.util.regex.Pattern;
 
-public final class HdbManagerUI implements UserUI<HdbManager>{
+public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
     private static HdbManagerController managerController;
-    private static HdbManagerRepo managerRepo;
 
-    public HdbManagerUI( HdbManagerController hdbManagerController, HdbManagerRepo hdbManagerRepo){
+    public HdbManagerUI( HdbManagerController hdbManagerController){
         managerController = hdbManagerController;
-        managerRepo = hdbManagerRepo;
     }
 
-    public HdbManager displayLogin(){
+    public HdbManager displayLogin(HdbManagerRepo managerRepo){
 
         while (true) {
-            System.out.println();
-            printDivider();
+            InputUtils.printBigDivider();
             System.out.println("\nManager Portal:");
             System.out.println("Please choose an option:");
             System.out.println("1. Login");
@@ -28,12 +25,12 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
 
             switch (choice) {
                 case 1 -> {
-                    HdbManager hdbManager = login();
+                    HdbManager hdbManager = login(managerRepo);
                     if (hdbManager != null) {
                         return hdbManager; // Return immediately on successful login
                     }
                 }
-                case 2 -> forgetPassword();
+                case 2 -> forgetPassword(managerRepo);
                 case 3 -> {
                     exitToMenu();
                     return null; // return null to exit
@@ -44,9 +41,9 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
         }
     }
 
-    public HdbManager login() {
+    public HdbManager login(HdbManagerRepo managerRepo) {
         try {
-            printDivider();
+            InputUtils.printBigDivider();
             System.out.print("Enter NRIC: ");
             String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
@@ -84,8 +81,9 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
 
     }
 
-    public void forgetPassword() {
+    public void forgetPassword(HdbManagerRepo managerRepo) {
         try {
+            InputUtils.printBigDivider();
             System.out.print("Enter NRIC: ");
             String nric = InputUtils.nextLine().trim().toUpperCase();
             //1.check if nric is valid format
@@ -117,24 +115,23 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
     }
 
     public void displayDashboard(HdbManager hdbManager){
-        printDivider();
-        System.out.println();
-        System.out.printf("MANAGER DASHBOARD" +
-                        "\n---------------------\n" +
-                        "Name: %s | Marital status: %s | Age: %d\n",
-                hdbManager.getName(),
-                hdbManager.getMaritalStatus(),
-                hdbManager.getAge());
+
 
         while (true) {
+            InputUtils.printBigDivider();
+            System.out.printf("MANAGER DASHBOARD" +
+                            "\n---------------------\n" +
+                            "Name: %s | Marital status: %s | Age: %d\n",
+                    hdbManager.getName(),
+                    hdbManager.getMaritalStatus(),
+                    hdbManager.getAge());
             System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. Project menu");
-            System.out.println("2. Application menu");
-            System.out.println("3. Enquiry menu");
+            System.out.println("2. xxxxxxxxxxx");
+            System.out.println("3. xxxxxxxxxxxxxxxxx");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
-
 
             int choice = InputUtils.readInt();
 
@@ -142,15 +139,14 @@ public final class HdbManagerUI implements UserUI<HdbManager>{
                 case 1 -> {//project menu CRUD
                     managerController.displayProjectMenu(hdbManager);
                 }
-                case 2 ->{//application menu for team and residential
+                case 2 ->{//xxxxxxxxxxx
 
                 }
-                case 3 -> {//enquiry menu
+                case 3 -> {//xxxxxxxxxxxx
 
                 }
                 case 4 -> {//exit
-                    managerController.exitPortal();
-                    printDivider();
+                    managerController.saveFile();
                     return;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-4.\n");

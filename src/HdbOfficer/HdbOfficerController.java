@@ -1,26 +1,31 @@
 package HdbOfficer;
 import Application.Team.*;
 import Application.Residential.*;
+import Project.ProjectControllerInterface;
 import Users.*;
 
 public class HdbOfficerController implements UserController{
-    //Dependencies
-    private static HdbOfficer currentUser = null;
-    private static HdbOfficerRepo officerRepo;
-    private static ResidentialApplicationRepo resAppRepo;
-    private static TeamApplicationRepo teamAppRepo;
-    private static HdbOfficerUI officerUI;
 
-    public HdbOfficerController() {
-        resAppRepo = new ResidentialApplicationRepo();
-        teamAppRepo = new TeamApplicationRepo();
-        officerRepo = new HdbOfficerRepo(resAppRepo,teamAppRepo);
-        officerUI = new HdbOfficerUI(this, officerRepo);
+    //Dependencies
+    private final HdbOfficerRepo officerRepo;
+    private final HdbOfficerUI officerUI;
+    //controller dependencies
+    private final ProjectControllerInterface projectController;
+    private final TeamApplicationController teamAppController;
+    private final ResidentialApplicationController resAppController;
+
+
+    public HdbOfficerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController, TeamApplicationController teamAppController) {
+        this.projectController = projectController;
+        this.resAppController = resAppController;
+        this.teamAppController = teamAppController;
+        officerRepo = new HdbOfficerRepo(resAppController.getRepo(),teamAppController.getRepo());
+        officerUI = new HdbOfficerUI(this);
     }
 
     public void runPortal() {
         //welcome menu display
-        currentUser = officerUI.displayLogin();
+        HdbOfficer currentUser = officerUI.displayLogin(officerRepo);
         if (currentUser == null) {
             return;
         }         //if returns null == user exits program
@@ -28,31 +33,25 @@ public class HdbOfficerController implements UserController{
 
     }
 
-    public void exitPortal() {
+    public void saveFile() {
         officerRepo.saveFile();
     }
 
     public void displayResApplicationMenu(HdbOfficer hdbOfficer){
-        ResidentialApplicationController resAppController = new ResidentialApplicationController(this);
         resAppController.displayApplicationMenu(hdbOfficer);
     }
 
     public void displayResidentialMenu(HdbOfficer hdbOfficer) {
-        ResidentialApplicationController resAppController = new ResidentialApplicationController(this);
         resAppController.displayApplicationMenu(hdbOfficer);
     }
 
     public void displayTeamApplicationMenu(HdbOfficer hdbOfficer) {
-        TeamApplicationController teamAppController = new TeamApplicationController(this);
         teamAppController.displayApplicationMenu(hdbOfficer);
     }
 
     public void displayAssignedProjectMenu(HdbOfficer officer){
         officerUI.displayAssignedProjectMenu(officer);
     }
-
-
-
 
 
     public HdbOfficerRepo getRepo(){

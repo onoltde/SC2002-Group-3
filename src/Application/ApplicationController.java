@@ -7,4 +7,6 @@ public interface ApplicationController{
 
     public void displayApplicationMenu(HdbManager manager);
     public void displayApplicationMenu(HdbOfficer officer);
+    public ApplicationRepo getRepo();
+
 }

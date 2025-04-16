@@ -1,42 +1,46 @@
 package Applicant;
+import Application.Residential.ResidentialApplicationController;
 import Users.*;
-import Application.Residential.*;
+import Application.*;
 import Project.*;
 
 public class ApplicantController implements UserController{
 
     //Dependencies
-    private static Applicant currentUser = null;
-    private static ApplicantUI applicantUI;
-    private static ResidentialApplicationRepo resApplicationRepo;
-    private static ApplicantRepo applicantRepo;
+    private final ApplicantUI applicantUI;
+    private final ApplicantRepo applicantRepo;
+    //controller dependencies
+    private final ProjectControllerInterface projectController;
+    private final ResidentialApplicationController resAppController;
 
-    public ApplicantController() {
-        resApplicationRepo = new ResidentialApplicationRepo();
-        applicantRepo = new ApplicantRepo(resApplicationRepo);
-        applicantUI = new ApplicantUI(this , applicantRepo);
 
+    //constructor
+    public ApplicantController(ResidentialApplicationController resAppController, ProjectControllerInterface projectController) {
+
+        this.resAppController = resAppController;
+        this.projectController = projectController;
+
+        applicantRepo = new ApplicantRepo(resAppController.getRepo());
+        applicantUI = new ApplicantUI(this);
     }
 
     public void runPortal() {
         //welcome menu display
-        currentUser = applicantUI.displayLogin();
+        Applicant currentUser = applicantUI.displayLogin(applicantRepo);
         if (currentUser == null){return;}         //if returns null == user exits program
         applicantUI.displayDashboard(currentUser);
 
     }
 
     public void viewCurrentProjects(Applicant applicant){
-        ProjectController projectController = new ProjectController(this);
         projectController.displayProjectDashboard(applicant);
     }
 
     public void displayApplicationMenu(Applicant applicant){
-        ResidentialApplicationController resAppController = new ResidentialApplicationController(this);
         resAppController.displayApplicationMenu(applicant);
     }
 
-    public void exitPortal(){
+    public void saveFile(){
         applicantRepo.saveFile();     //saves ApplicantList.csv file
     }
 

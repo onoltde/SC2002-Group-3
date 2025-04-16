@@ -1,22 +1,33 @@
 package HdbManager;
+import Application.Residential.ResidentialApplicationController;
+import Application.Team.TeamApplicationController;
 import Project.ProjectController;
+import Project.ProjectControllerInterface;
 import Users.*;
 
 public class HdbManagerController implements UserController{
 
     //Dependencies
-    private static HdbManager currentUser= null;
     private static HdbManagerRepo managerRepo;
     private static HdbManagerUI managerUI;
+    //controller dependencies
+    private final ProjectControllerInterface projectController;
+    private final ResidentialApplicationController resAppController;
+    private final TeamApplicationController teamAppController;
 
-    public HdbManagerController() {
+    //constructor
+    public HdbManagerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController, TeamApplicationController teamAppController) {
+        this.projectController = projectController;
+        this.teamAppController = teamAppController;
+        this.resAppController = resAppController;
+
         managerRepo = new HdbManagerRepo();
-        managerUI = new HdbManagerUI(this, managerRepo);
+        managerUI = new HdbManagerUI(this);
     }
 
     public void runPortal() {
         //welcome menu display
-        currentUser = managerUI.displayLogin();
+        HdbManager currentUser = managerUI.displayLogin(managerRepo);
         if (currentUser == null) {
             return;
         }         //if returns null == user exits program
@@ -25,17 +36,17 @@ public class HdbManagerController implements UserController{
     }
 
     public void displayProjectMenu(HdbManager manager){
-        ProjectController projectController = new ProjectController(this);
         projectController.displayProjectDashboard(manager);
     }
 
-    public void exitPortal() {
+    public void saveFile() {
         managerRepo.saveFile();
     }
 
     public HdbManagerRepo getRepo(){
         return managerRepo;
     }
+
 
 //    public void createProjectListing(String managerId, String projectId, String name, String neighbourhood, HashMap<String,Integer> flatTypes,
 //                                        Date applicationOpenDate, Date applicationCloseDate, int officerSlots) {
