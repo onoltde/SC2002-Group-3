@@ -132,6 +132,7 @@ public class Project {
     public boolean isVisible() {
         return visibility;
     }
+    public void toggleVisibility() { visibility = !visibility; }
 
     public ArrayList<String> getPendingOfficers() {
         return new ArrayList<>(pendingOfficers);

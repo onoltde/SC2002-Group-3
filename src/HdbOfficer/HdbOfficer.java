@@ -26,7 +26,7 @@ public class HdbOfficer extends Applicant{
         this.officerId = "OF-" + nric.substring(5);
     }
 
-    public String getId(){return officerId;}
+    public String getId(){ return officerId; }
 
     public ArrayList<String> getBlacklist(){
         return blacklist;
@@ -35,6 +35,12 @@ public class HdbOfficer extends Applicant{
 
     public boolean hasAssignedProject() {
         return hasAssignedProject;
+    }
+    public void assignProject(String name) {
+        hasAssignedProject = true;
+        hasTeamApplication = false;
+        assignedProjectName = name;
+        blacklist.add(name);
     }
 
     public String getAssignedProjectName() {

@@ -2,6 +2,7 @@ import java.util.*;
 
 import Application.Residential.ResidentialApplicationController;
 import Application.Team.TeamApplicationController;
+import Enquiry.EnquiryController;
 import Project.ProjectController;
 import Project.ProjectControllerInterface;
 import Utility.*;
@@ -11,6 +12,7 @@ import HdbManager.*;
 
 public class MainMenu {
     private ProjectControllerInterface projectController;
+    private EnquiryController enquiryController;
 
     private ResidentialApplicationController resAppController;
     private TeamApplicationController teamAppController;
@@ -22,13 +24,15 @@ public class MainMenu {
 
     public MainMenu(){
         projectController = new ProjectController();
+        enquiryController = new EnquiryController();
 
         resAppController = new ResidentialApplicationController(projectController);
         teamAppController = new TeamApplicationController(projectController);
 
         applicantController = new ApplicantController(resAppController,projectController);
         officerController = new HdbOfficerController(projectController,resAppController,teamAppController);
-        managerController = new HdbManagerController(projectController,resAppController,teamAppController);
+        managerController = new HdbManagerController(   projectController, officerController,
+                                                        resAppController,teamAppController, enquiryController);
     }
 
 
