@@ -38,5 +38,9 @@ public class ResidentialApplication implements Application {
     public void updateStatus(Status status) {
         this.status = status;
     }
+    
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
 }
