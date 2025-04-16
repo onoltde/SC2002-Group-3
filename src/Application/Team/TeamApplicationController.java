@@ -46,6 +46,14 @@ public class TeamApplicationController implements ApplicationController {
     public TeamApplication displayProjects(HdbOfficer officer){
     	String check = projectController.displayTeamProjectsToApply(officer);
     	if (check != null) {
+    		// check whether officer is currently an officer for other projects
+    		if (officer.hasAssignedProject()) {
+    			String source = officer.getAssignedProjectName();
+    			boolean clash = projectController.checkClash(check, source);
+    			if (clash) {
+    				return null;
+    			}
+    		}
     		TeamApplication ta = new TeamApplication(officer.getId(), check, Status.PENDING);
     		teamAppRepo.addApplication(ta);
     		// need to update officer's information

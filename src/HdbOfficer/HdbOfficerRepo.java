@@ -182,7 +182,6 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
             list = new ArrayList<>(Arrays.asList(content.split("\\s*,\\s*")));
         }
         else {
-        	System.out.println("Blacklist is empty");
         	list = new ArrayList<>();
         }
         return list;

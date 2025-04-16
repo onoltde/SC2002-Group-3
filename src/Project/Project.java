@@ -53,7 +53,15 @@ public class Project {
 //        return false;
 //    }
 
-
+    // for checking projectTiming clash
+    public boolean checkClash(Project p) {
+    	if ((p.getOpenDate().isAfter(openDate) && p.getOpenDate().isBefore(closeDate))||(p.getCloseDate().isAfter(openDate) && p.getCloseDate().isBefore(closeDate))){
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 
     // Officer management
     public void addPendingOfficer(String officerId) {

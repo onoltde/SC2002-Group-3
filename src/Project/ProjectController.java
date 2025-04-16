@@ -47,6 +47,12 @@ public class ProjectController implements ProjectControllerInterface{
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
         projectUI.displayResProjectsToApply(officer,flatType);
     }
+    
+    public boolean checkClash(String target, String source) {
+    	Project t = projectRepo.getProject(target);
+    	Project s = projectRepo.getProject(source);
+    	return s.checkClash(t);
+    }
 
 
     //manager methods
