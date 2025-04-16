@@ -64,13 +64,37 @@ public class HdbOfficer extends Applicant{
         return null;
     }
     
-    public void appliedTeam(TeamApplication ta) {
-    	this.hasTeamApplication = true;
-    	this.teamApplication = ta;
-    	if (blacklist.isEmpty() || blacklist.contains(" ")) {
-    		blacklist.clear();
-    	}
-    	this.blacklist.add(ta.getProjectName());
+ // Check Residential Application status
+    public ResidentialApplication.Status checkResidentialApplicationStatus() {
+        if (this.hasResidentialApplication())
+            return getResidentialApplication().getStatus();
+        else
+            return null;
+    }
+
+    // Withdraw Residential Application
+    public void withdrawResidentialApplication() {
+        if (hasResidentialApplication()) {
+            getResidentialApplication().setStatus(ResidentialApplication.Status.WITHDRAWN);
+        }
+    }
+
+    // Create a Residential Application
+    public void createResidentialApplication(String projectName, Flat.Type flatType) {
+        ResidentialApplication newApp = new ResidentialApplication(this.getId(), ResidentialApplication.Status.PENDING, projectName, flatType);
+        this.setResidentialApplication(newApp);
+    }
+
+    private void setResidentialApplication(ResidentialApplication newApp) {
+		
+	}
+
+	// Check assigned project details
+    public Project checkAssignedProject(ProjectControllerInterface projectController) {
+        if (hasAssignedProject) {
+            return projectController.getProject(assignedProjectName);
+        }
+        return null;
     }
 
 //
