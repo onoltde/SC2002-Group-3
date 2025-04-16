@@ -186,7 +186,7 @@ public class HdbManagerController implements UserController{
         application.updateStatus(Application.Status.WITHDRAWN);
         return true;
     }
-    
+
     public void replyEnquiry(String managerId, String enquiryId, String response) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return;
