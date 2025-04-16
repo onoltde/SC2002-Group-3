@@ -14,13 +14,14 @@ public class ProjectController implements ProjectControllerInterface{
     //Dependencies
     private static ProjectUI projectUI;
     private static ProjectRepo projectRepo;
-    private HashMap<String,HdbManager> managerMap = new HdbManagerRepo().getManagers();
-    private HashMap<String,HdbOfficer> officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
+    private HashMap<String,HdbManager> managerMap;
+    private HashMap<String,HdbOfficer> officerMap;
 
 	public ProjectController() {
         projectRepo = new ProjectRepo();
         projectUI = new ProjectUI(this);
-
+        managerMap = new HdbManagerRepo(this).getManagers();
+        officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
 	}
 
     public void saveChanges(){
