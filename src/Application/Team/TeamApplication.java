@@ -20,6 +20,7 @@ public class TeamApplication implements Application{
     public Status getStatus() {
         return status;
     }
+    public void updateStatus(Application.Status status) { this.status = status; }
 
     public String getOfficerID(){
         return officerID;

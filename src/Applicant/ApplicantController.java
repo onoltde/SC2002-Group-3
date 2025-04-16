@@ -1,5 +1,6 @@
 package Applicant;
 import Application.Residential.ResidentialApplicationController;
+import Enquiry.EnquiryController;
 import Users.*;
 import Application.*;
 import Project.*;
@@ -12,16 +13,20 @@ public class ApplicantController implements UserController{
     //controller dependencies
     private final ProjectControllerInterface projectController;
     private final ResidentialApplicationController resAppController;
+    private final EnquiryController enquiryController;
 
 
     //constructor
-    public ApplicantController(ResidentialApplicationController resAppController, ProjectControllerInterface projectController) {
+    public ApplicantController(ResidentialApplicationController resAppController,
+                               ProjectControllerInterface projectController,
+                               EnquiryController enquiryController) {
 
         this.resAppController = resAppController;
         this.projectController = projectController;
+        this.enquiryController = enquiryController;
 
         applicantRepo = new ApplicantRepo(resAppController.getRepo());
-        applicantUI = new ApplicantUI(this);
+        applicantUI = new ApplicantUI(this, enquiryController);
     }
 
     public void runPortal() {

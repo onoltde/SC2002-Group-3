@@ -121,6 +121,8 @@ public class ProjectRepo {
         this.projectListings.put(newProject.getName(), newProject);
     }
 
+    public void deleteProject(String name) { this.projectListings.remove(name); }
+
     public HashMap<String,Project> getProjectListings(){
         return projectListings;
     }

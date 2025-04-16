@@ -4,16 +4,16 @@ import java.io.*;
 
 public class Enquiry {
 	private String enquiryId;
-	private String projectId;
+	private String projectName;
 	private String authorId;
 	private String title;
 	private String message;
 	private EnquiryStatus status;
 	private String response;
 
-	public Enquiry(String enquiryId, String projectId, String authorId, String title, String message) {
+	public Enquiry(String enquiryId, String projectName, String authorId, String title, String message) {
 		this.enquiryId = enquiryId;
-		this.projectId = projectId;
+		this.projectName = projectName;
 		this.authorId = authorId;
 		this.title = title;
 		this.message = message;
@@ -23,7 +23,7 @@ public class Enquiry {
 
 	// getter
 	public String getId() { return enquiryId; }
-	public String getProjectId() { return projectId; }
+	public String getProjectName() { return projectName; }
 	public String getAuthorId() { return authorId; }
 	public String getTitle() { return title; }
 	public String getMessage() { return message; }
@@ -31,7 +31,7 @@ public class Enquiry {
 	public EnquiryStatus getStatus() { return status; }
 
 	// setter
-	public void setProjectId(String projectId) { this.projectId = projectId; }
+	public void setProjectName(String projectName) { this.projectName = projectName; }
 	public void setAuthorId(String authorId) { this.authorId = authorId; }
 	public void setTitle(String title) { this.title = title; }
 	public void setMessage(String message) { this.message = message; }

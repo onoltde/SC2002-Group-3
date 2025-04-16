@@ -3,7 +3,7 @@
 public class Main {
     public static void main(String[] args) {
 
-        //ACTUAL MAIN METHOD DONT DELETE
+        //ACTUAL MAIN METHOD DON'T DELETE
         new MainMenu();
         MainMenu.displayWelcome();
     }

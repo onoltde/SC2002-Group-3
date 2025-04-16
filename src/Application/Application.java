@@ -7,7 +7,8 @@ public interface Application {
         SUCCESSFUL,
         UNSUCCESSFUL,
         BOOKED,
-        WITHDRAWING;
+        WITHDRAWING,
+        WITHDRAWN;
     }
 
     String getProjectName();
