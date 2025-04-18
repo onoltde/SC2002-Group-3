@@ -151,7 +151,7 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                     enquiryController.showManagerMenu(hdbManager);
                 }
                 case 3 -> {//xxxxxxxxxxxx
-//                    reportController.showManagerMenu(hdbManager);
+                    reportController.showManagerMenu(hdbManager);
                 }
                 case 4 -> {//exit
                     managerController.saveFile();

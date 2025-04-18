@@ -118,7 +118,7 @@ public class EnquiryUI {
             return;
         }
 
-        System.out.println("\n--- Your Enquiries ---");
+        System.out.println("\n------- Your Enquiries -------");
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
             if(e.getStatus() == EnquiryStatus.PENDING) {
@@ -177,7 +177,7 @@ public class EnquiryUI {
             return;
         }
 
-        System.out.println("\n--- Project Enquiries ---");
+        System.out.println("\n------- Project Enquiries -------");
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
             if(e.getStatus() == EnquiryStatus.ANSWERED) continue;
