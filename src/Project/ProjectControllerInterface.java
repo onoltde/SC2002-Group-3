@@ -35,6 +35,9 @@ public interface ProjectControllerInterface{
     
     public Project getProject(String projectName);
 
+    //misc
+    boolean bookFlat(String projectName, Flat.Type flatType);
+
 }
 
 

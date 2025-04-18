@@ -119,7 +119,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
             switch (choice) {
                 case 1 -> officerController.displayResidentialMenu(hdbOfficer);
                 case 2 -> officerController.displayTeamApplicationMenu(hdbOfficer);
-                case 3 -> displayAssignedProjectMenu(hdbOfficer);
+                case 3 -> officerController.displayAssignedProjectMenu(hdbOfficer);
                 case 4 -> {
                     officerController.saveFile();
                     return;
@@ -129,29 +129,26 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         }
     }
 
-    public void displayAssignedProjectMenu(HdbOfficer officer) {
+    public void displayAssignedProjectMenu(HdbOfficer hdbOfficer) {
+        while (true) {
+            InputUtils.printSmallDivider();
+            System.out.println("====Assigned Project Menu===");
+            System.out.println("1. View applications to this project");
+            System.out.println("2. View enquiries to this project");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice (1-3): ");
 
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1 -> officerController.viewProjectApplications(hdbOfficer);
+                case 2 -> officerController.viewProjectEnquiries(hdbOfficer);
+                case 3 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-3.\n");
+            }
+        }
     }
 
-    public void printStatus(String message) {
-        System.out.println("\n[STATUS]: " + message + "\n");
-    }
-
-    public void printProjectDetails(Project project) {
-        System.out.println("\nPROJECT DETAILS:");
-        System.out.println("Name: " + project.getName());
-        //System.out.println("Flat Availability:");
-
-        //Map<Flat.Type, Integer> flatAvailability = (Map<Type, Integer>) project.getFlatTypesAvailability();
-
-        //for (Map.Entry<Flat.Type, Integer> entry : flatAvailability.entrySet()) {
-            //System.out.println(entry.getKey() + ": " + entry.getValue() + " units remaining");
-        //}
-
-        System.out.println();
-    }
-
-    //public void displayResidentialMenu(HdbOfficer officer) {
-    //    officerController.displayResidentialMenu(officer);
-    //}
 }

@@ -1,6 +1,10 @@
 package Application.Residential;
 import Application.*;
+import Project.Project;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class ResidentialApplicationRepo implements ApplicationRepo<ResidentialApplication> {
 
@@ -21,6 +25,14 @@ public class ResidentialApplicationRepo implements ApplicationRepo<ResidentialAp
 
     public void deleteApplication(String applicantID){
         residentialApplications.remove(applicantID);
+    }
+
+    //for officer/manager to approve applications
+    //filters
+    public ArrayList<ResidentialApplication> filterByProjectName(String projectName) {
+        return residentialApplications.values().stream()
+                .filter(application -> application.getProjectName().equals(projectName))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 }

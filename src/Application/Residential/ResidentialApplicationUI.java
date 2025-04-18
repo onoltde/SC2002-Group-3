@@ -2,8 +2,11 @@ package Application.Residential;
 import Applicant.*;
 import Application.Application;
 import HdbOfficer.HdbOfficer;
+import Project.Project;
 import Utility.*;
 import Project.Flat;
+
+import java.util.ArrayList;
 
 
 public class ResidentialApplicationUI {
@@ -51,6 +54,8 @@ public class ResidentialApplicationUI {
     }
 
     //officer methods
+
+    //to apply
     public ResidentialApplication displayApplicationMenu(HdbOfficer officer) {
         if (!officer.hasResidentialApplication()) {
             System.out.println();
@@ -146,4 +151,78 @@ public class ResidentialApplicationUI {
             }
         }
     }
+
+
+    public void viewApplications(ArrayList<ResidentialApplication> applications){
+        if (applications.size() == 0){
+            System.out.println("No applications to display.");
+            return;
+        }
+        int currentIndex = 0;
+
+        while (currentIndex < applications.size()) {
+            ResidentialApplication currentApplication = applications.get(currentIndex);
+
+            InputUtils.printSmallDivider();
+            System.out.printf("Application (%d/%d):\n", currentIndex + 1, applications.size());
+
+            // Display application details
+            System.out.println("--------------------------------");
+            System.out.println("Applicant: " + currentApplication.getApplicantId());
+            System.out.println("Application status: " + currentApplication.getStatus());
+
+            // Show menu options
+            System.out.println("-------------------------------");
+            System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
+            System.out.println("1. Approve application");
+            System.out.println("2. Reject application");
+            System.out.println("3. Book unit for applicant");
+            System.out.println("4. Next application");
+            System.out.println("5. Exit to menu");
+            System.out.println("Enter your choice (1-5): ");
+
+
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1: // approve application
+                    if(currentApplication.approve() != true){
+                        System.out.println("Error! Cannot approve this application");
+                        return;
+                    }else{
+                        return;
+                    }
+
+                case 2: // reject applicatiom
+                    if (currentApplication.reject() != true) {
+                        System.out.println("Error! cannot reject this application!");
+                        return;
+                    }else{
+                        return;
+                    }
+                case 3: //book unit
+                    if (currentApplication.getStatus() != Application.Status.BOOKING){
+                        System.out.println("Error! Cannot book a Non-Booking application!");
+                        return;
+                    }
+                    else if (controller.bookUnit(currentApplication) == false){
+                        System.out.println("Error! cannot make booking! Not enough units!");
+                    }else{
+                        System.out.println("Success! Booking made!");
+                    }
+                    return;
+                case 4:
+                    currentIndex++;
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid option, please try again.");
+            }
+        }
+
+        System.out.println("No more projects to display.");
+    }
+
 }

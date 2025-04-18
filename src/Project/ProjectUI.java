@@ -30,13 +30,12 @@ public class ProjectUI {
     }
 
     public void displayFlatDetails(Flat flat){
-        InputUtils.printSmallDivider();
         int totalUnits = flat.getTotalUnits();
         int availableUnits = flat.getAvailableUnits();
         int price = flat.getSellingPrice();
+        InputUtils.printSmallDivider();
         System.out.println(flat.typeToString() + "-Room units left: " + availableUnits + "/" + totalUnits);
         System.out.println(flat.typeToString() + "-Room selling price: $" + price);
-        InputUtils.printSmallDivider();
     }
 
     public void displayProjectAdminDetails(Project project, HashMap<String, HdbManager> managerMap, HashMap<String, HdbOfficer> officerMap) {
@@ -71,7 +70,6 @@ public class ProjectUI {
                 System.out.println("  - " + officer.getName() + " (" + officerId + ")");
             }
         }
-        InputUtils.printSmallDivider();
     }
 
     //applicant methods
