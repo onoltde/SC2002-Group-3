@@ -36,30 +36,30 @@ public class TeamApplicationController implements ApplicationController {
         projectController.displayAdminProjectDetails(appliedProjectName);
     }
 
-    public void displayProjects(HdbOfficer officer){
+    public void displayProjects(HdbOfficer officer) {
         projectController.displayTeamProjectsToApply(officer);
-    // DisplayProjects and add TeamApplication if applicable
-    public TeamApplication displayProjects(HdbOfficer officer){
-    	String check = projectController.displayTeamProjectsToApply(officer);
-    	if (check != null) {
-    		// check whether officer is currently an officer for other projects
-    		if (officer.hasAssignedProject()) {
-    			String source = officer.getAssignedProjectName();
-    			boolean clash = projectController.checkClash(check, source);
-    			if (clash) {
-    				return null;
-    			}
-    		}
-    		TeamApplication ta = new TeamApplication(officer.getId(), check, Status.PENDING);
-    		teamAppRepo.addApplication(ta);
-    		// need to update officer's information
-    		return ta;
-    	}
-    	else {
-    		return null;
-    	}
-
     }
+//     DisplayProjects and add TeamApplication if applicable
+//    public TeamApplication displayProjects(HdbOfficer officer){
+//    	String check = projectController.displayTeamProjectsToApply(officer);
+//    	if (check != null) {
+//    		 check whether officer is currently an officer for other projects
+//    		if (officer.hasAssignedProject()) {
+//    			String source = officer.getAssignedProjectName();
+//    			boolean clash = projectController.checkClash(check, source);
+//    			if (clash) {
+//    				return null;
+//    			}
+//    		}
+//    		TeamApplication ta = new TeamApplication(officer.getId(), check, Status.PENDING);
+//    		teamAppRepo.addApplication(ta);
+//    		 need to update officer's information
+//    		return ta;
+//    	}
+//    	else {
+//    		return null;
+//    	}
+//    }
 
     public TeamApplicationRepo getRepo(){
         return teamAppRepo;
@@ -67,7 +67,7 @@ public class TeamApplicationController implements ApplicationController {
 
 	public void addApplication(TeamApplication teamApp) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
 

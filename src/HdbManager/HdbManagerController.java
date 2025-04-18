@@ -12,6 +12,7 @@ import Project.Flat;
 import Project.Project;
 import Project.ProjectController;
 import Project.ProjectControllerInterface;
+import Report.ReportController;
 import Users.*;
 
 import java.time.LocalDate;
@@ -28,21 +29,24 @@ public class HdbManagerController implements UserController{
     private final ResidentialApplicationController resAppController;
     private final TeamApplicationController teamAppController;
     private final EnquiryController enquiryController;
+    private final ReportController reportController;
 
     //constructor
     public HdbManagerController(ProjectControllerInterface projectController,
                                 HdbOfficerController officerController,
                                 ResidentialApplicationController resAppController,
                                 TeamApplicationController teamAppController,
-                                EnquiryController enquiryController) {
+                                EnquiryController enquiryController,
+                                ReportController reportController) {
         this.projectController = projectController;
         this.officerController = officerController;
         this.teamAppController = teamAppController;
         this.resAppController = resAppController;
         this.enquiryController = enquiryController;
+        this.reportController = reportController;
 
         managerRepo = new HdbManagerRepo(this.projectController);
-        managerUI = new HdbManagerUI(this, this.enquiryController);
+        managerUI = new HdbManagerUI(this, this.enquiryController, this.reportController);
     }
 
     public void runPortal() {
