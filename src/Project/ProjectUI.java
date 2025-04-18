@@ -7,6 +7,8 @@ import Utility.*;
 import HdbManager.*;
 import HdbOfficer.*;
 import Applicant.*;
+import java.time.format.DateTimeParseException;
+
 
 public class ProjectUI {
 
@@ -360,7 +362,7 @@ public class ProjectUI {
             System.out.println("1. Apply for this team");
             System.out.println("2. Next project");
             System.out.println("3. Exit to menu");
-            System.out.println("Enter your choice (1-3): ");
+            System.out.print("Enter your choice (1-3): ");
 
 
             int choice = InputUtils.readInt();
@@ -388,9 +390,104 @@ public class ProjectUI {
 
 
     // manager methods
-    public void displayProjectDashboard(HdbManager applicant){
-
+    public ArrayList<Object> displayProjectDashboard(HdbManager manager){
+        System.out.println("-------------------------------");
+        System.out.println("\n Please choose an option:");
+        System.out.println("-------------------------------");
+        System.out.println("1. Create project");
+        System.out.println("2. Edit project");
+        System.out.println("3. Delete project");
+        System.out.println("4. View project");
+        System.out.println("5. Back");
+        System.out.print("Enter your choice (1-5): ");
+        int choice = InputUtils.readInt();
+        switch (choice) {
+            case 1 -> {
+                return createProject(manager);
+            } case 2 -> {
+                return editProject(manager);
+            } case 3 -> {
+                return deleteProject(manager);
+            } case 4 -> {
+                if(manager.getManagedProject() == null) {
+                    InputUtils.printSmallDivider();
+                    System.out.println("The manager does not have project!");
+                } else {
+                    displayEssentialProjectDetails(manager.getManagedProject());
+                }
+                return null;
+            } case 5 -> {
+                return new ArrayList<>(Arrays.asList("d"));
+            } default -> {
+                System.out.println("Invalid option, please try again.");
+            }
+        }
+        return null;
     }
-
+    public ArrayList<Object> createProject(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.print("Enter name: ");
+        String name = InputUtils.nextLine();
+        System.out.print("Enter neighborhood: ");
+        String neighborhood = InputUtils.nextLine();
+//        HashMap<Flat.Type, Flat> flatType = read flat type !!!!!!!!!!!!!!!!!!!!!!!!!
+        HashMap<Flat.Type, Flat> flatType = null;
+        LocalDate openDate, closeDate;
+        ////// open date
+        while (true) {
+            System.out.print("Enter Opening Date (YYYY-MM-DD): ");
+            String e = InputUtils.nextLine();
+            try {
+                openDate = LocalDate.parse(e);
+                break;
+            } catch (DateTimeParseException ex) {
+                System.out.println("Invalid date format. Please try again.");
+            }
+        }
+        ///// close date
+        while (true) {
+            System.out.print("Enter Closing Date (YYYY-MM-DD): ");
+            String e = InputUtils.nextLine();
+            try {
+                closeDate = LocalDate.parse(e);
+                break;
+            } catch (DateTimeParseException ex) {
+                System.out.println("Invalid date format. Please try again.");
+            }
+        }
+        /////
+        System.out.print("Enter officer slots: ");
+        int officerSlots = InputUtils.readInt();
+        boolean visibility;
+        while(true) {
+            System.out.print("Enter visibility (Y/N): ");
+            String dummy = InputUtils.nextLine();
+            if(dummy.compareTo("Y") == 0) {
+                visibility = true;
+                break;
+            } else if(dummy.compareTo("N") == 0) {
+                visibility = false;
+                break;
+            } else {
+                System.out.println("Please enter valid input!");
+            }
+        }
+        return new ArrayList<>(Arrays.asList(   "a", name, neighborhood, flatType, openDate,
+                                                closeDate, officerSlots, visibility));
+    }
+    public ArrayList<Object> editProject(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.print("Enter name: ");
+        String name = InputUtils.nextLine();
+        System.out.print("Enter officer slots: ");
+        int officerSlots = InputUtils.readInt();
+        return new ArrayList<>(Arrays.asList("b", name, officerSlots));
+    }
+    public ArrayList<Object> deleteProject(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.print("Enter name: ");
+        String name = InputUtils.nextLine();
+        return new ArrayList<>(Arrays.asList("c", name));
+    }
 
 }//end of class

@@ -140,7 +140,7 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                 case 1 -> {//project menu CRUD
                     managerController.displayProjectMenu(hdbManager);
                 }
-                case 2 -> {
+                case 2 -> {//application menu
                     displayApplication(hdbManager);
                 }
                 case 3 -> {//enquiry menu
@@ -161,6 +161,7 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
     public void displayApplication(HdbManager hdbManager) {
         while (true) {
             InputUtils.printSmallDivider();
+            System.out.println("====== Application Menu ======");
             System.out.println("Please choose an option:");
             System.out.println("1. Residential application menu");
             System.out.println("2. Team application menu");
@@ -181,7 +182,6 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }
-
         }
     }
 
