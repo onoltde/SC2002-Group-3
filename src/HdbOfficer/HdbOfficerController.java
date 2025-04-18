@@ -16,7 +16,6 @@ public class HdbOfficerController implements UserController{
     private final TeamApplicationController teamAppController;
     private final ResidentialApplicationController resAppController;
 
-
     public HdbOfficerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController, TeamApplicationController teamAppController) {
         this.projectController = projectController;
         this.resAppController = resAppController;

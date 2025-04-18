@@ -7,6 +7,8 @@ import Project.*;
 import Applicant.*;
 import Project.ProjectControllerInterface;
 
+import java.sql.SQLOutput;
+
 
 public class ResidentialApplicationController implements ResidentialApplicationControllerInterface {
 
@@ -19,7 +21,6 @@ public class ResidentialApplicationController implements ResidentialApplicationC
     public ResidentialApplicationController(ProjectControllerInterface projectController) {
         this.resAppUI = new ResidentialApplicationUI(this);
         this.resAppRepo = new ResidentialApplicationRepo();
-
         this.projectController = projectController;
     }
 
@@ -68,5 +69,15 @@ public class ResidentialApplicationController implements ResidentialApplicationC
         addApplication(newApplication);
         applicant.newApplication(newApplication);
     }
+
+    public void makeBooking(ResidentialApplication application) {
+        if (application.getStatus() != Application.Status.SUCCESSFUL){
+            System.out.println("You cannot make a booking yet. Please wait until your application is successful.");
+        }else{
+            application.setStatus(Application.Status.BOOKING);
+        }
+    }
+
+
 
 }//end of class

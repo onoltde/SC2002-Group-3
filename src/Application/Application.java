@@ -7,6 +7,7 @@ public interface Application {
         SUCCESSFUL,
         UNSUCCESSFUL,
         BOOKED,
+        BOOKING,
         WITHDRAWING,
         WITHDRAWN;
     }

@@ -1,5 +1,5 @@
 Name,NRIC,Age,MaritalStatus,Password,ApplicantID,Has Application?,Application Status,Project Name,Flat Type
-James,S1234104F,30,MARRIED,password,AP-104F,false
+James,S1234104F,30,MARRIED,password,AP-104F,true,PENDING,West BrickVille,TWOROOM
 Rachel,S1234105F,25,SINGLE,password,AP-105F,false
 Sarah,S1234102F,40,MARRIED,password,AP-102F,true,PENDING,Acacia Breeze,TWOROOM
 Grace,S1234103F,37,MARRIED,password,AP-103F,false

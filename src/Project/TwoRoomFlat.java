@@ -31,4 +31,14 @@ public class TwoRoomFlat implements Flat{
         return flatType;
     }
 
+    public boolean bookUnit(){
+        if (getAvailableUnits() < 1) {
+            return false;
+        }
+        else{
+            this.unitsBooked += 1;
+            return true;
+        }
+    }
+
 }

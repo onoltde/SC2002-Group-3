@@ -16,7 +16,6 @@ public class ResidentialApplication implements Application {
         this.status = status;
         this.projectName = projectName;
         this.flatType = flatType;
-
     }
 
     public String getProjectName() {

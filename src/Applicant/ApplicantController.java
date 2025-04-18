@@ -14,7 +14,6 @@ public class ApplicantController implements UserController{
     private final ResidentialApplicationController resAppController;
     private final EnquiryController enquiryController;
 
-
     //constructor
     public ApplicantController(ResidentialApplicationController resAppController,
                                ProjectControllerInterface projectController,
@@ -33,7 +32,6 @@ public class ApplicantController implements UserController{
         Applicant currentUser = applicantUI.displayLogin(applicantRepo);
         if (currentUser == null){return;}         //if returns null == user exits program
         applicantUI.displayDashboard(currentUser);
-
     }
 
     public void viewCurrentProjects(Applicant applicant){

@@ -60,6 +60,12 @@ public class ProjectController implements ProjectControllerInterface {
         }
     }
 
+    public boolean bookFlat(String projectName, Flat.Type flatType){        //used to approve someones booking
+        Project project = projectRepo.getProject(projectName);
+        Flat flat= project.getFlatInfo().get(flatType);
+        return flat.bookUnit();
+    }
+
     //manager methods
     public void displayProjectDashboard(HdbManager manager) {
         projectUI.displayProjectDashboard(manager);
