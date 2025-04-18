@@ -33,9 +33,7 @@ public class ResidentialApplicationController implements ResidentialApplicationC
     }
 
     @Override
-    public void displayApplicationMenu(HdbManager manager) {
-
-    }
+    public void displayApplicationMenu(HdbManager manager) { resAppUI.displayApplicationMenu(manager); }
 
     public void viewApplications(String projectName){
         ArrayList<ResidentialApplication> filteredApplications = resAppRepo.filterByProjectName(projectName);
@@ -78,6 +76,24 @@ public class ResidentialApplicationController implements ResidentialApplicationC
 	public void addApplication(ResidentialApplication residentialApplication) {
         resAppRepo.addApplication(residentialApplication);
 	}
+
+    // manager methods
+
+    public void displayApplicationsByProject(Project project) {
+        if(project == null) {
+            System.out.println("Manager does not have project!");
+            return;
+        }
+        ArrayList<ResidentialApplication> applications = resAppRepo.filterByProjectName(project.getName());
+        resAppUI.displayApplications(applications);
+    }
+
+    public void processApplication(HdbManager manager, String applicantId, boolean status) {
+    }
+
+    public void approveWithdrawal(HdbManager manager, String applicantId) {
+
+    }
 
     //applicant methods
     public void applyProject(Applicant applicant, Project project, Flat.Type flatType){

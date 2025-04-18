@@ -1,6 +1,7 @@
 package Application.Residential;
 import Applicant.*;
 import Application.Application;
+import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
 import Project.Project;
 import Utility.*;
@@ -121,6 +122,67 @@ public class ResidentialApplicationUI {
             }
 
         }
+    }
+
+    public void displayApplicationMenu(HdbManager manager) {
+        while(true) {
+            InputUtils.printSmallDivider();
+            System.out.println("Please choose an option:");
+            System.out.println("1. View applications");
+            System.out.println("2. Approve application");
+            System.out.println("3. Reject application");
+            System.out.println("4. Approve withdrawal");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice (1-5): ");
+
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1 -> {
+                    controller.displayApplicationsByProject(manager.getManagedProject());
+                }
+                case 2 -> {
+                    approveApplication(manager);
+                }
+                case 3 -> {
+                    rejectApplication(manager);
+                }
+                case 4 -> {
+                    approveWithdrawal(manager);
+                }
+                case 5 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-3.\n");
+
+            }
+        }
+    }
+
+    public void approveApplication(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.println("Enter the applicant ID: ");
+        String applicantId = InputUtils.nextLine();
+        controller.processApplication(manager, applicantId, true);
+    }
+
+    public void rejectApplication(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.println("Enter the applicant ID: ");
+        String applicantId = InputUtils.nextLine();
+        controller.processApplication(manager, applicantId, false);
+    }
+
+    public void approveWithdrawal(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.println("Enter the applicant ID: ");
+        String applicantId = InputUtils.nextLine();
+        controller.approveWithdrawal(manager, applicantId);
+    }
+
+    void displayApplications(ArrayList<ResidentialApplication> applications) {
+        //////// !!!!!!!!!!!!!!!!!!!!!!!!!!
+        // printing applications
     }
 
 
