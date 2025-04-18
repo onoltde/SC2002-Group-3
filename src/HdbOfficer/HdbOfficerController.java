@@ -1,6 +1,8 @@
 package HdbOfficer;
 import Application.ResidentialApplicationControllerInterface;
 import Application.Team.*;
+import Enquiry.EnquiryController;
+import HdbManager.HdbManager;
 import Application.Residential.*;
 import Application.TeamApplicationControllerInterface;
 import Project.Flat;
@@ -17,11 +19,13 @@ public class HdbOfficerController implements UserController{
     private final ProjectControllerInterface projectController;
     private final TeamApplicationController teamAppController;
     private final ResidentialApplicationController resAppController;
+    private final EnquiryController enquiryController;
 
-    public HdbOfficerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController, TeamApplicationController teamAppController) {
+    public HdbOfficerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController, TeamApplicationController teamAppController, EnquiryController enquiryController) {
         this.projectController = projectController;
         this.resAppController = resAppController;
         this.teamAppController = teamAppController;
+        this.enquiryController = enquiryController;
         officerRepo = new HdbOfficerRepo(resAppController.getRepo(),teamAppController.getRepo());
         officerUI = new HdbOfficerUI(this);
     }
@@ -75,7 +79,8 @@ public class HdbOfficerController implements UserController{
     }
 
     public void viewProjectEnquiries(HdbOfficer officer){
-        //NEED ADD THIS
+    	enquiryController.showOfficerMenu(officer);
+        enquiryController.saveChanges();
     }
 
     public HdbOfficerRepo getRepo(){

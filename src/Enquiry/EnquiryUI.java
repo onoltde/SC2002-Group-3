@@ -2,6 +2,7 @@ package Enquiry;
 import java.util.*;
 import Applicant.*;
 import HdbManager.HdbManager;
+import HdbOfficer.HdbOfficer;
 import Project.*;
 import Utility.InputUtils;
 
@@ -136,6 +137,85 @@ public class EnquiryUI {
                 );
             }
         }
+    }
+    
+    //Officer
+    private void viewProjectEnquiries(HdbOfficer user) {
+        if(user.hasAssignedProject() == false) {
+            System.out.println("The Officer does not have assigned project!");
+            return;
+        }
+        List<String> enquiryIds = enquiryRepo.getEnquiriesByProject(user.getAssignedProjectName());
+        if(enquiryIds.isEmpty()) {
+            System.out.println("No enquiries found for this project!");
+            return;
+        }
+
+        System.out.println("\n------- Project Enquiries -------");
+        for(String id : enquiryIds) {
+            Enquiry e = enquiryRepo.getEnquiry(id);
+            if(e.getStatus() == Enquiry.Status.ANSWERED) continue;
+            System.out.printf("By: %s\n[%s] %s\n%s\n%s\n-----------------------------\n",
+                    e.getAuthorId(),
+                    e.getStatus(),
+                    e.getTitle(),
+                    e.getMessage(),
+                    e.getId()
+            );
+        }
+
+        for(String id : enquiryIds) {
+            Enquiry e = enquiryRepo.getEnquiry(id);
+            if(e.getStatus() == Enquiry.Status.PENDING) continue;
+            System.out.printf("By: %s\n[%s] %s\n%s\n\nResponse: %s\n%s\n-----------------------------\n",
+                    e.getAuthorId(),
+                    e.getStatus(),
+                    e.getTitle(),
+                    e.getMessage(),
+                    (e.getResponse() == null ? "Null." : e.getResponse()),
+                    e.getId()
+            );
+        }
+    }
+    
+    public void showOfficerMenu(HdbOfficer user) {
+    	viewProjectEnquiries(user);
+        while(true) {
+            System.out.println("\n======= Enquiry Menu =======");
+            System.out.println("1. Respond to Enquiry");
+            System.out.println("2. Back");
+            System.out.print("Enter choice: ");
+
+            int choice = InputUtils.readInt();
+
+
+            switch(choice) {
+                case 1:
+                    respondToEnquiry(user);
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+    
+    private void respondToEnquiry(HdbOfficer user) {
+        System.out.print("Enter enquiry ID to respond: ");
+        String id = InputUtils.nextLine();
+        Enquiry e = enquiryRepo.getEnquiry(id);
+
+        if(e == null || !e.getProjectName().equals(user.getAssignedProjectName())) {
+            System.out.println("Enquiry not found or not under your project!");
+            return;
+        }
+
+        System.out.print("Enter your response: ");
+        String response = InputUtils.nextLine();
+        e.respond(response);
+        enquiryRepo.saveFile();
+        System.out.println("Response submitted successfully!");
     }
 
     public void showManagerMenu(HdbManager user) {

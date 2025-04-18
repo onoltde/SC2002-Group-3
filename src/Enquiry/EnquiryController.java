@@ -1,5 +1,6 @@
 package Enquiry;
 import HdbManager.HdbManager;
+import HdbOfficer.HdbOfficer;
 import Applicant.*;
 import Project.ProjectControllerInterface;
 
@@ -29,4 +30,5 @@ public class EnquiryController {
 
     public void showApplicantMenu(Applicant user) { enquiryUI.showApplicantMenu(user); }
     public void showManagerMenu(HdbManager user) { enquiryUI.showManagerMenu(user); }
+    public void showOfficerMenu(HdbOfficer user) { enquiryUI.showOfficerMenu(user); }
 }
