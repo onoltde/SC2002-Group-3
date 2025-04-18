@@ -6,10 +6,10 @@ import java.util.Scanner;
 import HdbManager.HdbManager;
 import Project.*;
 import Users.*;
+import Utility.InputUtils;
 
 public class ReportUI {
     private ReportController reportController;
-    private final Scanner scanner = new Scanner(System.in);
 
     public ReportUI(ReportController reportController) {
         this.reportController = reportController;
@@ -23,8 +23,8 @@ public class ReportUI {
             System.out.println("3. Back");
             System.out.print("Enter choice: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = InputUtils.readInt();
+
 
             switch(choice) {
                 case 1:
@@ -53,26 +53,25 @@ public class ReportUI {
             System.out.println("6. Back");
             System.out.print("Enter choice: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = InputUtils.readInt();
 
             switch(choice) {
                 case 1:
                     System.out.print("Enter Applicant ID: ");
-                    String applicantId = scanner.nextLine();
+                    String applicantId = InputUtils.nextLine();
                     displayApplicantReports(applicantId);
                     break;
                 case 2:
                     System.out.print("Enter Project Name: ");
-                    String projectName = scanner.nextLine();
+                    String projectName = InputUtils.nextLine();
                     displayProjectReports(projectName);
                     break;
                 case 3:
                     System.out.println("Select Marital Status:");
                     System.out.println("1. SINGLE");
                     System.out.println("2. MARRIED");
-                    int statusChoice = scanner.nextInt();
-                    scanner.nextLine();
+                    int statusChoice = InputUtils.readInt();
+
                     User.MaritalStatus status = statusChoice == 1 ? User.MaritalStatus.SINGLE : User.MaritalStatus.MARRIED;
                     displayReportsByMaritalStatus(status);
                     break;
@@ -80,8 +79,8 @@ public class ReportUI {
                     System.out.println("Select Flat Type:");
                     System.out.println("1. Two Room");
                     System.out.println("2. Three Room");
-                    int typeChoice = scanner.nextInt();
-                    scanner.nextLine();
+                    int typeChoice = InputUtils.readInt();
+
                     Flat.Type flatType = typeChoice == 1 ? Flat.Type.TWOROOM : Flat.Type.THREEROOM;
                     displayReportsByFlatType(flatType);
                     break;

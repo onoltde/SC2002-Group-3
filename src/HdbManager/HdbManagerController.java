@@ -26,7 +26,6 @@ public class HdbManagerController implements UserController{
     //controller dependencies
     private final ProjectControllerInterface projectController;
     private final HdbOfficerController officerController;
-    private final ApplicantController applicantController;
     private final ResidentialApplicationController resAppController;
     private final TeamApplicationController teamAppController;
     private final EnquiryController enquiryController;
@@ -35,14 +34,12 @@ public class HdbManagerController implements UserController{
     //constructor
     public HdbManagerController(ProjectControllerInterface projectController,
                                 HdbOfficerController officerController,
-                                ApplicantController applicantController,
                                 ResidentialApplicationController resAppController,
                                 TeamApplicationController teamAppController,
                                 EnquiryController enquiryController,
                                 ReportController reportController) {
         this.projectController = projectController;
         this.officerController = officerController;
-        this.applicantController = applicantController;
         this.teamAppController = teamAppController;
         this.resAppController = resAppController;
         this.enquiryController = enquiryController;
