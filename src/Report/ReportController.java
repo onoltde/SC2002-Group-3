@@ -1,5 +1,7 @@
 package Report;
 
+import HdbManager.HdbManager;
+
 public class ReportController {
     private ReportRepo reportRepo;
     private ReportUI reportUI;
@@ -10,4 +12,5 @@ public class ReportController {
     }
 
     public ReportRepo getRepo() { return reportRepo; }
+    public void showManagerMenu(HdbManager manager) { reportUI.showManagerMenu(manager); }
 }
