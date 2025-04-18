@@ -20,7 +20,7 @@ public interface ProjectControllerInterface{
     public void displayProjectDashboard(Applicant applicant);
 
     //officer methods
-    public String displayTeamProjectsToApply(HdbOfficer officer);
+    public void displayTeamProjectsToApply(HdbOfficer officer);
 
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType);
     
@@ -32,6 +32,8 @@ public interface ProjectControllerInterface{
     public void displayProjectFlatDetails(String projectName, Flat.Type flatType);
 
     public void displayAdminProjectDetails(String projectName);
+    
+    public Project getProject(String projectName);
 
 }
 
