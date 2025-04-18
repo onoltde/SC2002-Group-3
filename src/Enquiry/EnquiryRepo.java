@@ -13,7 +13,7 @@ public class EnquiryRepo {
     }
 
     public String generateId() {
-        return "EN" + String.format("%06d", counter);
+        return "EN" + String.format("%06d", counter++);
     }
 
     public Enquiry getEnquiry(String enquiryId) {
