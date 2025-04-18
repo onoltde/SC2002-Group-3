@@ -65,6 +65,7 @@ public class Applicant extends User {
 
     public void newApplication(ResidentialApplication newApplication){
         this.residentialApplication = newApplication;
+        this.hasResidentialApplication = true;
     }
 
 
