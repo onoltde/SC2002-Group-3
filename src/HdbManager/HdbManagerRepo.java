@@ -32,7 +32,6 @@ public class HdbManagerRepo implements UserRepo <HdbManager>{
                     int age = Integer.parseInt(values[2].trim());
                     String password = values[4].trim();
                     String projectName = values[6].trim();
-                    System.out.println("HEREEEEEE-------------" + projectName);
                     User.MaritalStatus maritalStatus = User.MaritalStatus.valueOf(values[3].trim().toUpperCase());
                     HdbManager newManager  = new HdbManager(name, nric, age, maritalStatus, password,
                             (projectName == "null" ? null : projectController.getRepo().getProject(projectName)));

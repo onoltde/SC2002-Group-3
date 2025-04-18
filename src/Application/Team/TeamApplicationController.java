@@ -64,5 +64,9 @@ public class TeamApplicationController implements TeamApplicationControllerInter
         return teamAppRepo;
     }
 
+  public void addApplication(TeamApplication teamApp) {
+		// TODO Auto-generated method stub
+
+	}
 }
 

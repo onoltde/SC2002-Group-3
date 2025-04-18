@@ -1,5 +1,6 @@
 package HdbManager;
 import Enquiry.EnquiryController;
+import Report.ReportController;
 import Users.*;
 import Utility.*;
 import java.util.regex.Pattern;
@@ -7,11 +8,14 @@ import java.util.regex.Pattern;
 public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
     private static HdbManagerController managerController;
     private final EnquiryController enquiryController;
+    private final ReportController reportController;
 
-    public HdbManagerUI( HdbManagerController hdbManagerController,
-                         EnquiryController enquiryController){
+    public HdbManagerUI(HdbManagerController hdbManagerController,
+                        EnquiryController enquiryController,
+                        ReportController reportController){
         this.managerController = hdbManagerController;
         this.enquiryController = enquiryController;
+        this.reportController = reportController;
     }
 
     public HdbManager displayLogin(HdbManagerRepo managerRepo){
@@ -133,7 +137,7 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
             System.out.println("Please choose an option:");
             System.out.println("1. Project menu");
             System.out.println("2. Enquiry menu");
-            System.out.println("3. xxxxxxxxxxxxxxxxx");
+            System.out.println("3. Report Menu");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
@@ -147,7 +151,7 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                     enquiryController.showManagerMenu(hdbManager);
                 }
                 case 3 -> {//xxxxxxxxxxxx
-
+                    reportController.showManagerMenu(hdbManager);
                 }
                 case 4 -> {//exit
                     managerController.saveFile();
