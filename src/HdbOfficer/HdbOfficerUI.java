@@ -1,4 +1,5 @@
 package HdbOfficer;
+import HdbManager.HdbManager;
 import Project.Flat;
 import Project.Flat.Type;
 import Project.Project;
@@ -98,6 +99,30 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         }
     }
 
+    public void changePassword(HdbOfficer officer) {
+        final int MIN_PASSWORD_LENGTH = 8;
+
+        System.out.println("Changing password... (Enter 'x' to cancel)");
+
+        while (true) {
+            System.out.print("Enter new password (min " + MIN_PASSWORD_LENGTH + " chars): ");
+            String newPassword = InputUtils.nextLine().trim(); // Trim to remove extra spaces
+
+            if (newPassword.equalsIgnoreCase("x")) {
+                System.out.println("Password change cancelled.");
+                return;
+            }
+
+            if (newPassword.length() >= MIN_PASSWORD_LENGTH) {
+                officer.changePassword(newPassword);
+                System.out.println("Password changed successfully! Signing out...");
+                break;
+            } else {
+                System.out.println("Error: Password must be at least " + MIN_PASSWORD_LENGTH + " characters long.");
+            }
+        }
+    }
+
     public void displayDashboard(HdbOfficer hdbOfficer) {
         while (true) {
             InputUtils.printBigDivider();
@@ -111,8 +136,9 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
             System.out.println("1. Residential Application Menu");
             System.out.println("2. Team Application Menu");
             System.out.println("3. Assigned Project Menu");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice (1-4): ");
+            System.out.println("4. Change password");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice (1-5): ");
 
             int choice = InputUtils.readInt();
 
@@ -120,7 +146,8 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
                 case 1 -> officerController.displayResidentialMenu(hdbOfficer);
                 case 2 -> officerController.displayTeamApplicationMenu(hdbOfficer);
                 case 3 -> officerController.displayAssignedProjectMenu(hdbOfficer);
-                case 4 -> {
+                case 4 -> changePassword(hdbOfficer);
+                case 5 -> {
                     officerController.saveFile();
                     return;
                 }

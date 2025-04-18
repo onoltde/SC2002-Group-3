@@ -28,22 +28,9 @@ public class User {
     public int getAge() { return age; }
     public MaritalStatus getMaritalStatus() { return maritalStatus; }
     public String getPassword() { return password; }
-    //setters
-    public void setMaritalStatus(MaritalStatus newStatus) { this.maritalStatus = newStatus ; }
-    public void setAge(int age) { this.age = age; }
+
     public void changePassword(String newPassword) {
         this.password = newPassword;
-    }
-
-    public boolean login(String nricInput, String passwordInput) {
-        if (this.nric.equals(nricInput) && this.password.equals(passwordInput)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isValidNric(String nric) {
-        return nric.matches("[ST]\\d{7}[A-Z]");
     }
 
     @Override
@@ -58,4 +45,6 @@ public class User {
     public void resetPassword(){
         this.password = "password";
     }
+
+
 }

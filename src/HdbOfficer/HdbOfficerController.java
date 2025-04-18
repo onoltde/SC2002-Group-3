@@ -1,6 +1,8 @@
 package HdbOfficer;
+import Application.ResidentialApplicationControllerInterface;
 import Application.Team.*;
 import Application.Residential.*;
+import Application.TeamApplicationControllerInterface;
 import Project.Flat;
 import Project.Project;
 import Project.ProjectControllerInterface;
@@ -36,10 +38,6 @@ public class HdbOfficerController implements UserController{
 
     public void saveFile() {
         officerRepo.saveFile();
-    }
-
-    public void displayResApplicationMenu(HdbOfficer hdbOfficer){
-        resAppController.displayApplicationMenu(hdbOfficer);
     }
 
     // Display and add residentialApplication to the officer when applicable

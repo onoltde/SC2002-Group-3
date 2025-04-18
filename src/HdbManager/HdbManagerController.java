@@ -14,6 +14,7 @@ import Project.Project;
 import Project.ProjectControllerInterface;
 import Report.ReportController;
 import Users.*;
+import Application.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,9 +27,8 @@ public class HdbManagerController implements UserController{
     //controller dependencies
     private final ProjectControllerInterface projectController;
     private final HdbOfficerController officerController;
-    private final ApplicantController applicantController;
-    private final ResidentialApplicationController resAppController;
-    private final TeamApplicationController teamAppController;
+    private final ResidentialApplicationControllerInterface resAppController;
+    private final TeamApplicationControllerInterface teamAppController;
     private final EnquiryController enquiryController;
     private final ReportController reportController;
 
@@ -36,13 +36,12 @@ public class HdbManagerController implements UserController{
     public HdbManagerController(ProjectControllerInterface projectController,
                                 HdbOfficerController officerController,
                                 ApplicantController applicantController,
-                                ResidentialApplicationController resAppController,
-                                TeamApplicationController teamAppController,
+                                ResidentialApplicationControllerInterface resAppController,
+                                TeamApplicationControllerInterface teamAppController,
                                 EnquiryController enquiryController,
                                 ReportController reportController) {
         this.projectController = projectController;
         this.officerController = officerController;
-        this.applicantController = applicantController;
         this.teamAppController = teamAppController;
         this.resAppController = resAppController;
         this.enquiryController = enquiryController;
@@ -62,6 +61,14 @@ public class HdbManagerController implements UserController{
 
     }
 
+    public void saveFile() {
+        managerRepo.saveFile();
+    }
+
+    public HdbManagerRepo getRepo(){
+        return managerRepo;
+    }
+
     public void displayProjectMenu(HdbManager manager){
         projectController.displayProjectDashboard(manager);
     }
@@ -70,13 +77,9 @@ public class HdbManagerController implements UserController{
     public void displayTeamApplicationMenu(HdbManager manager) { teamAppController.displayApplicationMenu(manager);}
     public void displayReportMenu(HdbManager manager) { reportController.showManagerMenu(manager); }
 
-    public void saveFile() {
-        managerRepo.saveFile();
-    }
 
-    public HdbManagerRepo getRepo(){
-        return managerRepo;
-    }
+
+
 
     private boolean check(HdbManager manager) {
         if(manager == null) {

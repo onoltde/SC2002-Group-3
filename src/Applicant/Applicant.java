@@ -19,6 +19,7 @@ public class Applicant extends User {
         this.residentialApplication = residentialApplication;
     }
 
+
     public String getId() {
         return applicantId;
     }

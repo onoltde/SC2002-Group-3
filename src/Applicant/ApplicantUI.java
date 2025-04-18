@@ -121,6 +121,30 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
 
     }
 
+    public void changePassword(Applicant applicant) {
+        final int MIN_PASSWORD_LENGTH = 8;
+
+        System.out.println("Changing password... (Enter 'x' to cancel)");
+
+        while (true) {
+            System.out.print("Enter new password (min " + MIN_PASSWORD_LENGTH + " chars): ");
+            String newPassword = InputUtils.nextLine().trim(); // Trim to remove extra spaces
+
+            if (newPassword.equalsIgnoreCase("x")) {
+                System.out.println("Password change cancelled.");
+                return;
+            }
+
+            if (newPassword.length() >= MIN_PASSWORD_LENGTH) {
+                applicant.changePassword(newPassword);
+                System.out.println("Password changed successfully! Signing out...");
+                break;
+            } else {
+                System.out.println("Error: Password must be at least " + MIN_PASSWORD_LENGTH + " characters long.");
+            }
+        }
+    }
+
     public void displayDashboard(Applicant applicant){
         while (true) {
             InputUtils.printBigDivider();
@@ -135,8 +159,9 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             System.out.println("1. View my application");
             System.out.println("2. View current BTO projects");
             System.out.println("3. Enquiry menu");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice (1-4): ");
+            System.out.println("4. Change password");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice (1-5): ");
 
             int choice = InputUtils.readInt();
 
@@ -150,11 +175,15 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
                 case 3 -> {//go to enquiry menu
                     enquiryController.showApplicantMenu(applicant);
                 }
-                case 4 -> {//exit
+                case 4 -> {//change password
+                    changePassword(applicant);
+                    return;
+                }
+                case 5 -> {//exit
                     applicantController.saveFile();    //saves changes to file
                     return;
                 }
-                default -> System.out.println("Invalid choice! Please enter 1-4.\n");
+                default -> System.out.println("Invalid choice! Please enter 1-5.\n");
             }
 
         }
@@ -169,5 +198,7 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             applicantController.displayApplicationMenu(applicant);
         }
     }
+
+
 
 }//end of class

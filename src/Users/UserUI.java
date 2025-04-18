@@ -8,7 +8,7 @@ public interface UserUI<U extends User, R extends UserRepo>{
      U login(R userRepo);
     void forgetPassword(R userRepo);
     void displayDashboard(U user);
-
+    void changePassword(U user);
     default void exitToMenu(){
         System.out.println("Returning to Menu...");
         InputUtils.printBigDivider();
