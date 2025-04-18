@@ -46,7 +46,9 @@ public class HdbOfficerController implements UserController{
     public void displayResidentialMenu(HdbOfficer hdbOfficer) {
         ResidentialApplication ra = resAppController.applicationMenu(hdbOfficer);
         if (ra != null) {
-        	//
+        	hdbOfficer.newApplication(ra);
+        	hdbOfficer.addToBlackList(ra.getProjectName());
+        	System.out.printf("Successfully applied for %s \n", ra.getProjectName());
         }
     }
 

@@ -57,7 +57,7 @@ public class ProjectController implements ProjectControllerInterface {
         if (flatType == Flat.Type.TWOROOM){
             projName = projectUI.displayTwoRoomResProjectsToApply(officer);
         }else if (flatType == Flat.Type.THREEROOM){
-            projectUI.displayThreeRoomResProjectsToApply(officer);
+            projName = projectUI.displayThreeRoomResProjectsToApply(officer);
         }
         return projName;
     }

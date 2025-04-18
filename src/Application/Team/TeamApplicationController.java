@@ -22,7 +22,7 @@ public class TeamApplicationController implements TeamApplicationControllerInter
     }
 
     //maanger methods
-    @Override   //view team application as manager to accept/reject team applications
+    //@Override   //view team application as manager to accept/reject team applications
     public void displayApplicationMenu(HdbManager manager) {
 
     }
