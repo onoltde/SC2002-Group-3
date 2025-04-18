@@ -7,15 +7,9 @@ import java.util.regex.Pattern;
 
 public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
     private static HdbManagerController managerController;
-    private final EnquiryController enquiryController;
-    private final ReportController reportController;
 
-    public HdbManagerUI(HdbManagerController hdbManagerController,
-                        EnquiryController enquiryController,
-                        ReportController reportController){
+    public HdbManagerUI(HdbManagerController hdbManagerController){
         this.managerController = hdbManagerController;
-        this.enquiryController = enquiryController;
-        this.reportController = reportController;
     }
 
     public HdbManager displayLogin(HdbManagerRepo managerRepo){
@@ -123,8 +117,6 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
     }
 
     public void displayDashboard(HdbManager hdbManager){
-
-
         while (true) {
             InputUtils.printBigDivider();
             System.out.printf("MANAGER DASHBOARD" +
@@ -136,10 +128,11 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
             System.out.println("----------------------------------");
             System.out.println("Please choose an option:");
             System.out.println("1. Project menu");
-            System.out.println("2. Enquiry menu");
-            System.out.println("3. Report Menu");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice (1-4): ");
+            System.out.println("2. Application menu");
+            System.out.println("3. Enquiry menu");
+            System.out.println("4. Report Menu");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice (1-5): ");
 
             int choice = InputUtils.readInt();
 
@@ -147,13 +140,16 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                 case 1 -> {//project menu CRUD
                     managerController.displayProjectMenu(hdbManager);
                 }
-                case 2 ->{//enquiry menu
-                    enquiryController.showManagerMenu(hdbManager);
+                case 2 -> {
+                    displayApplication(hdbManager);
                 }
-                case 3 -> {//xxxxxxxxxxxx
-                    reportController.showManagerMenu(hdbManager);
+                case 3 -> {//enquiry menu
+                    managerController.displayEnquiryMenu(hdbManager);
                 }
-                case 4 -> {//exit
+                case 4 -> {// report
+                    managerController.displayReportMenu(hdbManager);
+                }
+                case 5 -> {//exit
                     managerController.saveFile();
                     return;
                 }
@@ -161,7 +157,32 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
             }
 
         }
+    }
+    public void displayApplication(HdbManager hdbManager) {
+        while (true) {
+            InputUtils.printSmallDivider();
+            System.out.println("Please choose an option:");
+            System.out.println("1. Residential application menu");
+            System.out.println("2. Team application menu");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice (1-3): ");
 
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1 -> {//project menu CRUD
+                    managerController.displayResApplicationMenu(hdbManager);
+                }
+                case 2 -> {
+                    managerController.displayTeamApplicationMenu(hdbManager);
+                }
+                case 3 -> {//enquiry menu
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-3.\n");
+            }
+
+        }
     }
 
 }//end of class

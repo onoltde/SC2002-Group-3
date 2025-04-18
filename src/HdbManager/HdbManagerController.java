@@ -49,7 +49,7 @@ public class HdbManagerController implements UserController{
         this.reportController = reportController;
 
         managerRepo = new HdbManagerRepo(this.projectController);
-        managerUI = new HdbManagerUI(this, this.enquiryController, this.reportController);
+        managerUI = new HdbManagerUI(this);
     }
 
     public void runPortal() {
@@ -65,6 +65,10 @@ public class HdbManagerController implements UserController{
     public void displayProjectMenu(HdbManager manager){
         projectController.displayProjectDashboard(manager);
     }
+    public void displayEnquiryMenu(HdbManager manager) { enquiryController.showManagerMenu(manager);}
+    public void displayResApplicationMenu(HdbManager manager) { resAppController.displayApplicationMenu(manager); }
+    public void displayTeamApplicationMenu(HdbManager manager) { teamAppController.displayApplicationMenu(manager);}
+    public void displayReportMenu(HdbManager manager) { reportController.showManagerMenu(manager); }
 
     public void saveFile() {
         managerRepo.saveFile();
@@ -192,12 +196,12 @@ public class HdbManagerController implements UserController{
         return true;
     }
 
-    public boolean processApplicantBTOApplication(String managerId, String applicationId, boolean status) {
+    public boolean processApplicantBTOApplication(String managerId, String applicantId, boolean status) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return false;
 
         ////////////////////////////////////////////////////////
-        ResidentialApplication application = resAppController.getRepo().getApplications().get(applicationId);
+        ResidentialApplication application = resAppController.getRepo().getApplications().get(applicantId);
         if(application == null) {
             System.out.println("No such application!");
             return false;
@@ -230,10 +234,35 @@ public class HdbManagerController implements UserController{
         return true;
     }
 
-    public boolean approveApplicantWithdrawal(String managerId, String applicationId) {
+    public boolean approveApplicantWithdrawal(String managerId, String applicantId) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return false;
-        ResidentialApplication application = resAppController.getRepo().getApplications().get(applicationId);
+        ResidentialApplication application = resAppController.getRepo().getApplications().get(applicantId);
+        if(application == null) {
+            System.out.println("No such application!");
+            return false;
+        }
+        if(application.getProjectName().compareTo(manager.getManagedProject().getName()) != 0) {
+            System.out.println("The manager is not managing the project!");
+            return false;
+        }
+
+        if(application.getStatus() == Application.Status.WITHDRAWN) {
+            System.out.println("The application is already withdrawn!");
+            return false;
+        }
+        if(application.getStatus() != Application.Status.WITHDRAWING) {
+            System.out.println("The application must request for withdrawal!");
+            return false;
+        }
+        application.updateStatus(Application.Status.WITHDRAWN);
+        return true;
+    }
+
+    public boolean approveOfficerWithdrawal(String managerId, String officerId) {
+        HdbManager manager = managerRepo.getUser(managerId);
+        if(check(manager)) return false;
+        TeamApplication application = teamAppController.getRepo().getApplications().get(officerId);
         if(application == null) {
             System.out.println("No such application!");
             return false;
