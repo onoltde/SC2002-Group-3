@@ -192,59 +192,43 @@ public class HdbManagerController implements UserController{
         return true;
     }
 
-//    public boolean processApplicantBTOApplication(String managerId, String applicationId, boolean status) {
-//        HdbManager manager = managerRepo.getUser(managerId);
-//        if(check(manager)) return false;
-//
-//        ////////////////////////////////////////////////////////
-//        HdbOfficer officer = applicantController.getRepo().getUser(officerId);
-//        if(officer == null) {
-//            System.out.println("No such officer!");
-//            return false;
-//        }
-//        if(!officer.hasAssignedProject()) {
-//            System.out.println("The officer has no application at the moment!");
-//            return false;
-//        }
-//
-//        /////////////////////////////////////////////////////////
-//        TeamApplication application = officer.getTeamApplication();
-//        if(application == null) {
-//            System.out.println("No such application!");
-//            return false;
-//        }
-//        if(application.getProjectName().compareTo(manager.getManagedProject().getName()) != 0) {
-//            System.out.println("The manager is not managing the project!");
-//            return false;
-//        }
-//        if(application.getStatus() == Application.Status.SUCCESSFUL) {
-//            System.out.println("The officer is already approved!");
-//            return false;
-//        }
-//        if(application.getStatus() == Application.Status.UNSUCCESSFUL) {
-//            System.out.println("The officer is already rejected!");
-//            return false;
-//        }
-//        ///////////////////////////////////////////////////////////
-//        if(!status) {
-//            System.out.println("Successfully rejected!");
-//            application.updateStatus(Application.Status.UNSUCCESSFUL);
-//            return true;
-//        }
-//
-//        ///////////////////////////////////////////////////////////
-//        Project project = projectController.getRepo().getProject(application.getProjectName());
-//
-//        if(project.getOfficerSlots() == 0) {
-//            System.out.println("There is no slots left!");
-//            return false;
-//        }
-//        System.out.println("Successfully approved!");
-//        officer.assignProject(application.getProjectName());
-//        application.updateStatus(Application.Status.SUCCESSFUL);
-//        project.setOfficerSlots(project.getOfficerSlots() - 1);
-//        return true;
-//    }
+    public boolean processApplicantBTOApplication(String managerId, String applicationId, boolean status) {
+        HdbManager manager = managerRepo.getUser(managerId);
+        if(check(manager)) return false;
+
+        ////////////////////////////////////////////////////////
+        ResidentialApplication application = resAppController.getRepo().getApplications().get(applicationId);
+        if(application == null) {
+            System.out.println("No such application!");
+            return false;
+        }
+
+        /////////////////////////////////////////////////////////
+        if(application.getProjectName().compareTo(manager.getManagedProject().getName()) != 0) {
+            System.out.println("The manager is not managing the project!");
+            return false;
+        }
+        if(application.getStatus() == Application.Status.SUCCESSFUL) {
+            System.out.println("The officer is already approved!");
+            return false;
+        }
+        if(application.getStatus() == Application.Status.UNSUCCESSFUL) {
+            System.out.println("The officer is already rejected!");
+            return false;
+        }
+        ///////////////////////////////////////////////////////////
+        if(!status) {
+            System.out.println("Successfully rejected!");
+            application.updateStatus(Application.Status.UNSUCCESSFUL);
+            return true;
+        }
+
+        ///////////////////////////////////////////////////////////
+
+        System.out.println("Successfully approved!");
+        application.updateStatus(Application.Status.SUCCESSFUL);
+        return true;
+    }
 
     public boolean approveApplicantWithdrawal(String managerId, String applicationId) {
         HdbManager manager = managerRepo.getUser(managerId);
