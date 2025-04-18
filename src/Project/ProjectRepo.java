@@ -166,8 +166,8 @@ public class ProjectRepo {
     //helper methods for loadfile and savefile
     private HashMap<Flat.Type,Flat> flatInfoGen(Flat.Type type1, int totalNumOfType1, int numOfType1Booked,int priceOfType1, Flat.Type type2, int totalNumOfType2, int numOfType2Booked, int priceOfType2) {
         HashMap<Flat.Type,Flat> flatInfo = new HashMap<>();
-        Flat flat1 = new Flat(type1,totalNumOfType1,numOfType1Booked,priceOfType1);
-        Flat flat2 = new Flat(type2,totalNumOfType2,numOfType2Booked,priceOfType2);
+        Flat flat1 = new TwoRoomFlat(type1,totalNumOfType1,numOfType1Booked,priceOfType1);
+        Flat flat2 = new ThreeRoomFlat(type2,totalNumOfType2,numOfType2Booked,priceOfType2);
         flatInfo.put(type1,flat1);
         flatInfo.put(type2,flat2);
         return flatInfo;

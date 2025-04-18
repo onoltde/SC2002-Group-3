@@ -1,23 +1,20 @@
 package Application.Residential;
 
 import Application.*;
-import Application.ApplicationController;
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
-import Project.Flat;
-import Project.ProjectController;
+import Project.*;
 import Applicant.*;
 import Project.ProjectControllerInterface;
 
 
-public class ResidentialApplicationController implements ApplicationController{
+public class ResidentialApplicationController implements ResidentialApplicationControllerInterface {
 
     //dependencies
     private final ResidentialApplicationUI resAppUI;
     private final ResidentialApplicationRepo resAppRepo;
 
     private final ProjectControllerInterface projectController;
-
 
     public ResidentialApplicationController(ProjectControllerInterface projectController) {
         this.resAppUI = new ResidentialApplicationUI(this);
@@ -62,8 +59,12 @@ public class ResidentialApplicationController implements ApplicationController{
     }
 
 	public void addApplication(ResidentialApplication residentialApplication) {
-		
-		
+        resAppRepo.addApplication(residentialApplication);
 	}
+    //applicant methods
+    public void applyProject(Applicant applicant, Project project, Flat.Type flatType){
+        ResidentialApplication newApplication = new ResidentialApplication(applicant.getId(), Application.Status.PENDING, project.getName(),flatType);
+        addApplication(newApplication);
+    }
 
 }//end of class

@@ -53,16 +53,6 @@ public class Project {
 //        return false;
 //    }
 
-    // for checking projectTiming clash
-    public boolean checkClash(Project p) {
-    	if ((p.getOpenDate().isAfter(openDate) && p.getOpenDate().isBefore(closeDate))||(p.getCloseDate().isAfter(openDate) && p.getCloseDate().isBefore(closeDate))){
-    		return true;
-    	}
-    	else {
-    		return false;
-    	}
-    }
-
     // Officer management
     public void addPendingOfficer(String officerId) {
         pendingOfficers.add(officerId);
@@ -97,7 +87,6 @@ public class Project {
         return !(this.getCloseDate().isBefore(otherProject.getOpenDate()) &&
                 !(otherProject.getCloseDate().isBefore(this.getOpenDate())));
     }
-
 
 
     // Getters
@@ -145,27 +134,6 @@ public class Project {
     public ArrayList<String> getPendingOfficers() {
         return new ArrayList<>(pendingOfficers);
     }
-
-    //for debugging
-    public String toString() {
-        return "Project{" +
-                "name='" + name + '\'' +
-                ", neighbourhood='" + neighbourhood + '\'' +
-                ", flatInfo=" + flatInfo +
-                ", openDate=" + openDate +
-                ", closeDate=" + closeDate +
-                ", managerId='" + managerId + '\'' +
-                ", officerSlots=" + officerSlots +
-                ", assignedOfficers=" + assignedOfficers +
-                ", visibility=" + visibility +
-                ", pendingOfficers=" + pendingOfficers +
-                '}';
-    }
-
-
-	public Object getFlatTypesAvailability() {
-		return null;
-	}
 
 
 }//end of class

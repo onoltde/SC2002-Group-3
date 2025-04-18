@@ -19,7 +19,7 @@ public class ResidentialApplicationUI {
         String projectName = application.getProjectName();
         Flat.Type flatType = application.getFlatType();
         System.out.println("Applied to: " + projectName );
-        System.out.println("Flat type: " + Flat.typeToString(flatType));
+        System.out.println("Flat type: " + flatType);
         System.out.println("Application Status: " + application.getStatus());
         while (true) {
             System.out.println("----------------------------------");
@@ -82,7 +82,7 @@ public class ResidentialApplicationUI {
             System.out.println("----------------------------------");
             System.out.println();
             System.out.println("Applied to: " + projectName);
-            System.out.println("Flat type: " + Flat.typeToString(flatType));
+            System.out.println("Flat type: " + flatType);
             System.out.println("Application Status: " + application.getStatus());
 
             while (true) {

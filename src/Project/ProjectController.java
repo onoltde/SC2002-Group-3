@@ -1,7 +1,9 @@
 package Project;
 import Applicant.*;
+import Application.Residential.ResidentialApplicationController;
 import Application.Residential.ResidentialApplicationRepo;
 import Application.Team.TeamApplicationRepo;
+import Enquiry.EnquiryController;
 import HdbManager.*;
 import HdbOfficer.*;
 import Users.*;
@@ -14,12 +16,13 @@ public class ProjectController implements ProjectControllerInterface {
     private static ProjectUI projectUI;
     private static ProjectRepo projectRepo;
     private HashMap<String, HdbManager> managerMap;
-    private HashMap<String, HdbOfficer> officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
+    private HashMap<String, HdbOfficer> officerMap;
 
     public ProjectController() {
         projectRepo = new ProjectRepo();
         projectUI = new ProjectUI(this);
         managerMap = new HdbManagerRepo(this).getManagers();
+        officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
     }
 
     public void saveChanges(){
@@ -30,44 +33,56 @@ public class ProjectController implements ProjectControllerInterface {
         return projectRepo;
     }
 
-    @Override
     public Project getProject(String projectName) {
         return projectRepo.getProject(projectName);
     }
 
+    //applicant methods
     public void displayProjectDashboard(Applicant applicant) {
         projectUI.displayProjectDashboard(applicant);
     }
 
-    public void displayTeamProjectsToApply(HdbOfficer officer){
-        projectUI.displayTeamProjectsToApply(officer);
+    public void applyProject(Applicant applicant, Project currentProject, Flat.Type flatType){
+        ResidentialApplicationController resAppController = new ResidentialApplicationController(this);
+        resAppController.applyProject(applicant,currentProject,flatType);
+    }
+
+    //offcier methods
+    public String displayTeamProjectsToApply(HdbOfficer officer){
+        return projectUI.displayTeamProjectsToApply(officer);
     }
 
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
-        projectUI.displayResProjectsToApply(officer, flatType);
-    }
-    
-    public boolean checkClash(String target, String source) {
-    	Project t = projectRepo.getProject(target);
-    	Project s = projectRepo.getProject(source);
-    	return s.checkClash(t);
+        if (flatType == Flat.Type.TWOROOM){
+            projectUI.displayTwoRoomResProjectsToApply(officer);
+        }else if (flatType == Flat.Type.THREEROOM){
+            projectUI.displayThreeRoomResProjectsToApply(officer);
+        }
     }
 
+    //manager methods
     public void displayProjectDashboard(HdbManager manager) {
         projectUI.displayProjectDashboard(manager);
     }
 
+
+    //projectUI methods
     public void displayProjectFlatDetails(String projectName, Flat.Type flatType){
         Project project = projectRepo.getProject(projectName);
         projectUI.displayEssentialProjectDetails(project);
-        projectUI.displayProjectFlatDetails(project, flatType);
+        if (flatType == Flat.Type.TWOROOM){
+            projectUI.displayFlatDetails(project.getFlatInfo().get(Flat.Type.TWOROOM));
+        }else if (flatType == Flat.Type.THREEROOM){
+            projectUI.displayFlatDetails((project.getFlatInfo().get(Flat.Type.THREEROOM)));
+        }
+
     }
 
     public void displayAdminProjectDetails(String projectName){
         Project project = projectRepo.getProject(projectName);
         projectUI.displayEssentialProjectDetails(project);
-        projectUI.displayProjectFlatDetails(project, Flat.Type.TWOROOM);
-        projectUI.displayProjectFlatDetails(project, Flat.Type.THREEROOM);
+        projectUI.displayFlatDetails(project.getFlatInfo().get(Flat.Type.TWOROOM));
+        projectUI.displayFlatDetails(project.getFlatInfo().get(Flat.Type.THREEROOM));
         projectUI.displayProjectAdminDetails(project, managerMap, officerMap);
     }
     

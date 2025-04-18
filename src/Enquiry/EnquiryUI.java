@@ -3,13 +3,13 @@ import java.util.*;
 import Applicant.*;
 import HdbManager.HdbManager;
 import Project.*;
-import Project.Project;
+import Utility.InputUtils;
+
 
 public class EnquiryUI {
     private final EnquiryRepo enquiryRepo;
     private final EnquiryController enquiryController;
     private final ProjectControllerInterface projectController;
-    private final Scanner scanner = new Scanner(System.in);
 
     public EnquiryUI(EnquiryController enquiryController, EnquiryRepo enquiryRepo,
                      ProjectControllerInterface projectController) {
@@ -28,8 +28,7 @@ public class EnquiryUI {
             System.out.println("5. Back");
             System.out.print("Enter choice: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = InputUtils.readInt();
 
             switch(choice) {
                 case 1:
@@ -54,7 +53,7 @@ public class EnquiryUI {
 
     private void editEnquiry(Applicant user) {
         System.out.print("Enter enquiry ID to edit: ");
-        String id = scanner.nextLine();
+        String id = InputUtils.nextLine();
         Enquiry e = enquiryRepo.getEnquiry(id);
 
         if(e == null || !e.getAuthorId().equals(user.getId())) {
@@ -68,7 +67,7 @@ public class EnquiryUI {
         }
 
         System.out.print("Enter new message (press enter to keep current): ");
-        String newMessage = scanner.nextLine();
+        String newMessage = InputUtils.nextLine();
         if(!newMessage.isEmpty()) {
             e.setMessage(newMessage);
             enquiryRepo.saveFile();
@@ -78,7 +77,7 @@ public class EnquiryUI {
 
     private void deleteEnquiry(Applicant user) {
         System.out.print("Enter enquiry ID to delete: ");
-        String id = scanner.nextLine();
+        String id = InputUtils.nextLine();
         Enquiry e = enquiryRepo.getEnquiry(id);
 
         if(e == null || !e.getAuthorId().equals(user.getId())) {
@@ -94,15 +93,15 @@ public class EnquiryUI {
     private void createEnquiry(Applicant user) {
         System.out.println("\n--- Create New Enquiry ---");
         System.out.print("Enter project name: ");
-        String projectName = scanner.nextLine();
+        String projectName = InputUtils.nextLine();
         if(projectController.getRepo().getProject(projectName) == null) {
             System.out.println("No such project!");
             return;
         }
         System.out.print("Enter enquiry title: ");
-        String title = scanner.nextLine();
+        String title = InputUtils.nextLine();
         System.out.print("Enter your message: ");
-        String message = scanner.nextLine();
+        String message = InputUtils.nextLine();
 
         String enquiryId = enquiryRepo.generateId();
         Enquiry newEnquiry = new Enquiry(enquiryId, projectName, user.getId(), title, message);
@@ -149,8 +148,8 @@ public class EnquiryUI {
             System.out.println("3. Back");
             System.out.print("Enter choice: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = InputUtils.readInt();
+
 
             switch(choice) {
                 case 1:
@@ -207,7 +206,7 @@ public class EnquiryUI {
 
     private void respondToEnquiry(HdbManager user) {
         System.out.print("Enter enquiry ID to respond: ");
-        String id = scanner.nextLine();
+        String id = InputUtils.nextLine();
         Enquiry e = enquiryRepo.getEnquiry(id);
 
         if(e == null || !e.getProjectName().equals(user.getManagedProject().getName())) {
@@ -216,7 +215,7 @@ public class EnquiryUI {
         }
 
         System.out.print("Enter your response: ");
-        String response = scanner.nextLine();
+        String response = InputUtils.nextLine();
         e.respond(response);
         enquiryRepo.saveFile();
         System.out.println("Response submitted successfully!");
