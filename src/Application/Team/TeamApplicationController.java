@@ -1,9 +1,14 @@
 package Application.Team;
 import Application.Application.Status;
+import Application.Residential.ResidentialApplication;
 import Application.TeamApplicationControllerInterface;
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
+import Project.Project;
 import Project.ProjectControllerInterface;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class TeamApplicationController implements TeamApplicationControllerInterface {
@@ -19,12 +24,6 @@ public class TeamApplicationController implements TeamApplicationControllerInter
         teamAppRepo = new TeamApplicationRepo();
 
         this.projectController = projectController;
-    }
-
-    //maanger methods
-    //@Override   //view team application as manager to accept/reject team applications
-    public void displayApplicationMenu(HdbManager manager) {
-
     }
 
     //officer methods
@@ -61,9 +60,29 @@ public class TeamApplicationController implements TeamApplicationControllerInter
         return teamAppRepo;
     }
 
-  public void addApplication(TeamApplication teamApp) {
+    public void addApplication(TeamApplication teamApp) {
 		// TODO Auto-generated method stub
 
 	}
+
+    // manager method
+    public void displayApplicationsByProject(Project project) {
+        if(project == null) {
+            System.out.println("Manager does not have project!");
+            return;
+        }
+        ArrayList<TeamApplication> applications = teamAppRepo.filterByProjectName(project.getName());
+        teamAppUI.displayApplications(applications);
+    }
+
+    public ArrayList<String> displayApplicationMenu(HdbManager manager) { return teamAppUI.displayApplicationMenu(manager); }
+
+    public ArrayList<String> processApplication(HdbManager manager, String officerId, boolean status) {
+        return new ArrayList<>(Arrays.asList("a", officerId, Boolean.toString(status)));
+    }
+
+    public ArrayList<String> approveWithdrawal(HdbManager manager, String officerId) {
+        return new ArrayList<>(Arrays.asList("b", officerId));
+    }
 }
 

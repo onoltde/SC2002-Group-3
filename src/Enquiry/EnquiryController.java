@@ -25,6 +25,7 @@ public class EnquiryController {
     public EnquiryRepo getRepo() {
         return enquiryRepo;
     }
+    public void saveChanges() { enquiryRepo.saveFile(); }
 
     public void showApplicantMenu(Applicant user) { enquiryUI.showApplicantMenu(user); }
     public void showManagerMenu(HdbManager user) { enquiryUI.showManagerMenu(user); }

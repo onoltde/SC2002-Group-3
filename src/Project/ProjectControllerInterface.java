@@ -9,6 +9,8 @@ import Users.*;
 import Application.*;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public interface ProjectControllerInterface{
 
@@ -27,7 +29,7 @@ public interface ProjectControllerInterface{
 
 
     //manager methods
-    public void displayProjectDashboard(HdbManager manager);
+    public ArrayList<Object> displayProjectDashboard(HdbManager manager);
 
     public void displayProjectFlatDetails(String projectName, Flat.Type flatType);
 

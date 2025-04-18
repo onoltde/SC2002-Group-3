@@ -10,6 +10,8 @@ import Users.*;
 import Application.*;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProjectController implements ProjectControllerInterface {
 
@@ -69,8 +71,8 @@ public class ProjectController implements ProjectControllerInterface {
     }
 
     //manager methods
-    public void displayProjectDashboard(HdbManager manager) {
-        projectUI.displayProjectDashboard(manager);
+    public ArrayList<Object> displayProjectDashboard(HdbManager manager) {
+        return projectUI.displayProjectDashboard(manager);
     }
 
 

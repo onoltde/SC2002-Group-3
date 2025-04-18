@@ -1,8 +1,13 @@
 package Application.Team;
+import Application.Residential.ResidentialApplication;
 import HdbOfficer.*;
 import HdbManager.*;
 import Project.ProjectController;
 import Utility.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class TeamApplicationUI {
 
     private TeamApplicationController teamAppController;
@@ -59,7 +64,65 @@ public class TeamApplicationUI {
     }
 
 
-    public void displayApplicationMenu(HdbManager manager){
+    // manager methods
+    public ArrayList<String> displayApplicationMenu(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.println("======= Team Application Menu =======");
+        System.out.println("Please choose an option:");
+        System.out.println("1. View applications");
+        System.out.println("2. Approve application");
+        System.out.println("3. Reject application");
+        System.out.println("4. Approve withdrawal");
+        System.out.println("5. Exit");
+        System.out.print("Enter your choice (1-5): ");
 
+        int choice = InputUtils.readInt();
+
+        switch (choice) {
+            case 1 -> {
+                teamAppController.displayApplicationsByProject(manager.getManagedProject());
+                return null;
+            }
+            case 2 -> {
+                return approveApplication(manager);
+            }
+            case 3 -> {
+                return rejectApplication(manager);
+            }
+            case 4 -> {
+                return approveWithdrawal(manager);
+            }
+            case 5 -> {
+                return new ArrayList<String>(Arrays.asList("c"));
+            }
+            default -> System.out.println("Invalid choice! Please enter 1-5.\n");
+        }
+        return null;
+    }
+
+    public ArrayList<String> approveApplication(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.print("Enter the officer ID: ");
+        String officerId = InputUtils.nextLine();
+        return teamAppController.processApplication(manager, officerId, true);
+    }
+
+    public ArrayList<String> rejectApplication(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.print("Enter the officer ID: ");
+        String officerId = InputUtils.nextLine();
+        return teamAppController.processApplication(manager, officerId, false);
+    }
+
+    public ArrayList<String> approveWithdrawal(HdbManager manager) {
+        InputUtils.printSmallDivider();
+        System.out.print("Enter the officer ID: ");
+        String officerId = InputUtils.nextLine();
+        return teamAppController.approveWithdrawal(manager, officerId);
+    }
+
+    void displayApplications(ArrayList<TeamApplication> applications) {
+        //////// !!!!!!!!!!!!!!!!!!!!!!!!!!
+        // printing applications
     }
 }
