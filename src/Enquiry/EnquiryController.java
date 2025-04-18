@@ -9,7 +9,7 @@ public class EnquiryController {
 
     public EnquiryController(ProjectControllerInterface projectController) {
         enquiryRepo = new EnquiryRepo();
-        enquiryUI = new EnquiryUI(this, enquiryRepo, projectController);
+        enquiryUI = new EnquiryUI(enquiryRepo, projectController);
     }
 
     public void addEnquiry(String projectId, String authorId, String title, String message) {

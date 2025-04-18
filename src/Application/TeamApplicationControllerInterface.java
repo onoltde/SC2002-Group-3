@@ -4,7 +4,6 @@ import HdbManager.*;
 
 public interface TeamApplicationControllerInterface{
 
-
     ApplicationRepo getRepo();
 
 }

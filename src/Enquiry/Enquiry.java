@@ -8,8 +8,13 @@ public class Enquiry {
 	private String authorId;
 	private String title;
 	private String message;
-	private EnquiryStatus status;
+	private Enquiry.Status status;
 	private String response;
+	
+	public enum Status{
+		PENDING,
+		ANSWERED
+	}
 
 	public Enquiry(String enquiryId, String projectName, String authorId, String title, String message) {
 		this.enquiryId = enquiryId;
@@ -18,7 +23,7 @@ public class Enquiry {
 		this.title = title;
 		this.message = message;
 		this.response = null;
-		this.status = EnquiryStatus.PENDING;
+		this.status = Enquiry.Status.PENDING;
 	}
 
 	// getter
@@ -28,7 +33,7 @@ public class Enquiry {
 	public String getTitle() { return title; }
 	public String getMessage() { return message; }
 	public String getResponse() { return response; }
-	public EnquiryStatus getStatus() { return status; }
+	public Enquiry.Status getStatus() { return status; }
 
 	// setter
 	public void setProjectName(String projectName) { this.projectName = projectName; }
@@ -37,7 +42,7 @@ public class Enquiry {
 	public void setMessage(String message) { this.message = message; }
 
 	public void respond(String response) {
-		status = EnquiryStatus.ANSWERED;
+		status = Enquiry.Status.ANSWERED;
 		this.response = response;
 	}
 }

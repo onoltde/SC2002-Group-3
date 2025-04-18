@@ -6,6 +6,4 @@ public interface ApplicationRepo<T extends Application>{
 
     HashMap<String,T> getApplications();
 
-    void deleteApplication(String userID);
-
 }

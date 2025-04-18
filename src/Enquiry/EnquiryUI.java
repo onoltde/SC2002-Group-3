@@ -8,12 +8,10 @@ import Utility.InputUtils;
 
 public class EnquiryUI {
     private final EnquiryRepo enquiryRepo;
-    private final EnquiryController enquiryController;
     private final ProjectControllerInterface projectController;
 
-    public EnquiryUI(EnquiryController enquiryController, EnquiryRepo enquiryRepo,
+    public EnquiryUI(EnquiryRepo enquiryRepo,
                      ProjectControllerInterface projectController) {
-        this.enquiryController = enquiryController;
         this.enquiryRepo = enquiryRepo;
         this.projectController = projectController;
     }
@@ -61,7 +59,7 @@ public class EnquiryUI {
             return;
         }
 
-        if(e.getStatus() != EnquiryStatus.PENDING) {
+        if(e.getStatus() != Enquiry.Status.PENDING) {
             System.out.println("Cannot edit answered or processed enquiries!");
             return;
         }
@@ -121,7 +119,7 @@ public class EnquiryUI {
         System.out.println("\n------- Your Enquiries -------");
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
-            if(e.getStatus() == EnquiryStatus.PENDING) {
+            if(e.getStatus() == Enquiry.Status.PENDING) {
                 System.out.printf("[%s] %s\n%s\n%s\n-----------------------------\n",
                         e.getStatus(),
                         e.getTitle(),
@@ -180,7 +178,7 @@ public class EnquiryUI {
         System.out.println("\n------- Project Enquiries -------");
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
-            if(e.getStatus() == EnquiryStatus.ANSWERED) continue;
+            if(e.getStatus() == Enquiry.Status.ANSWERED) continue;
             System.out.printf("By: %s\n[%s] %s\n%s\n%s\n-----------------------------\n",
                     e.getAuthorId(),
                     e.getStatus(),
@@ -192,7 +190,7 @@ public class EnquiryUI {
 
         for(String id : enquiryIds) {
             Enquiry e = enquiryRepo.getEnquiry(id);
-            if(e.getStatus() == EnquiryStatus.PENDING) continue;
+            if(e.getStatus() == Enquiry.Status.PENDING) continue;
             System.out.printf("By: %s\n[%s] %s\n%s\n\nResponse: %s\n%s\n-----------------------------\n",
                     e.getAuthorId(),
                     e.getStatus(),

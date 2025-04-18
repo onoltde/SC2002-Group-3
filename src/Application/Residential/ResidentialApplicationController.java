@@ -28,7 +28,7 @@ public class ResidentialApplicationController implements ResidentialApplicationC
         resAppUI.displayApplicationMenu(applicant);
     }
 
-    @Override   //to apply as resident
+    //to apply as resident
     public void displayApplicationMenu(HdbOfficer officer) {
         resAppUI.displayApplicationMenu(officer);
     }

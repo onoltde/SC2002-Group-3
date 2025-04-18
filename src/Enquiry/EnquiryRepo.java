@@ -63,16 +63,16 @@ public class EnquiryRepo {
                 String authorId = parts[2];
                 String title = parts[3];
                 String message = parts[4];
-                EnquiryStatus status;
+                Enquiry.Status status;
                 try {
-                    status = EnquiryStatus.valueOf(parts[5]);
+                    status = Enquiry.Status.valueOf(parts[5]);
                 } catch (IllegalArgumentException e) {
-                    status = EnquiryStatus.PENDING;
+                    status = Enquiry.Status.PENDING;
                 }
                 String response = parts[6].equals("null") ? null : parts[6];
 
                 Enquiry enq = new Enquiry(enquiryId, projectId, authorId, title, message);
-                if (status == EnquiryStatus.ANSWERED) {
+                if (status == Enquiry.Status.ANSWERED) {
                     enq.respond(response);
                 }
                 enquiries.put(enquiryId, enq);
