@@ -8,6 +8,7 @@ import Applicant.*;
 import Project.ProjectControllerInterface;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ResidentialApplicationController implements ResidentialApplicationControllerInterface {
 
@@ -31,9 +32,6 @@ public class ResidentialApplicationController implements ResidentialApplicationC
     public void displayApplicationMenu(HdbOfficer officer) {
         resAppUI.displayApplicationMenu(officer);
     }
-
-    @Override
-    public void displayApplicationMenu(HdbManager manager) { resAppUI.displayApplicationMenu(manager); }
 
     public void viewApplications(String projectName){
         ArrayList<ResidentialApplication> filteredApplications = resAppRepo.filterByProjectName(projectName);
@@ -77,24 +75,6 @@ public class ResidentialApplicationController implements ResidentialApplicationC
         resAppRepo.addApplication(residentialApplication);
 	}
 
-    // manager methods
-
-    public void displayApplicationsByProject(Project project) {
-        if(project == null) {
-            System.out.println("Manager does not have project!");
-            return;
-        }
-        ArrayList<ResidentialApplication> applications = resAppRepo.filterByProjectName(project.getName());
-        resAppUI.displayApplications(applications);
-    }
-
-    public void processApplication(HdbManager manager, String applicantId, boolean status) {
-    }
-
-    public void approveWithdrawal(HdbManager manager, String applicantId) {
-
-    }
-
     //applicant methods
     public void applyProject(Applicant applicant, Project project, Flat.Type flatType){
         ResidentialApplication newApplication = new ResidentialApplication(applicant.getId(), Application.Status.PENDING, project.getName(),flatType);
@@ -114,5 +94,24 @@ public class ResidentialApplicationController implements ResidentialApplicationC
         return projectController.bookFlat(application.getProjectName(), application.getFlatType());
     }
 
+    // manager methods
+    public void displayApplicationsByProject(Project project) {
+        if(project == null) {
+            System.out.println("Manager does not have project!");
+            return;
+        }
+        ArrayList<ResidentialApplication> applications = resAppRepo.filterByProjectName(project.getName());
+        resAppUI.displayApplications(applications);
+    }
+
+    public ArrayList<String> displayApplicationMenu(HdbManager manager) { return resAppUI.displayApplicationMenu(manager); }
+
+    public ArrayList<String> processApplication(HdbManager manager, String applicantId, boolean status) {
+        return new ArrayList<>(Arrays.asList("a", applicantId, Boolean.toString(status)));
+    }
+
+    public ArrayList<String> approveWithdrawal(HdbManager manager, String applicantId) {
+        return new ArrayList<>(Arrays.asList("b", applicantId));
+    }
 
 }//end of class

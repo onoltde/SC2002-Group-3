@@ -14,7 +14,6 @@ import Project.Project;
 import Project.ProjectControllerInterface;
 import Report.ReportController;
 import Users.*;
-import Application.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,8 +26,9 @@ public class HdbManagerController implements UserController{
     //controller dependencies
     private final ProjectControllerInterface projectController;
     private final HdbOfficerController officerController;
-    private final ResidentialApplicationControllerInterface resAppController;
-    private final TeamApplicationControllerInterface teamAppController;
+    private final ApplicantController applicantController;
+    private final ResidentialApplicationController resAppController;
+    private final TeamApplicationController teamAppController;
     private final EnquiryController enquiryController;
     private final ReportController reportController;
 
@@ -36,12 +36,13 @@ public class HdbManagerController implements UserController{
     public HdbManagerController(ProjectControllerInterface projectController,
                                 HdbOfficerController officerController,
                                 ApplicantController applicantController,
-                                ResidentialApplicationControllerInterface resAppController,
-                                TeamApplicationControllerInterface teamAppController,
+                                ResidentialApplicationController resAppController,
+                                TeamApplicationController teamAppController,
                                 EnquiryController enquiryController,
                                 ReportController reportController) {
         this.projectController = projectController;
         this.officerController = officerController;
+        this.applicantController = applicantController;
         this.teamAppController = teamAppController;
         this.resAppController = resAppController;
         this.enquiryController = enquiryController;
@@ -61,6 +62,58 @@ public class HdbManagerController implements UserController{
 
     }
 
+    public void displayEnquiryMenu(HdbManager manager) {
+        enquiryController.showManagerMenu(manager);
+        enquiryController.saveChanges();
+    }
+    public void displayReportMenu(HdbManager manager) {
+        reportController.showManagerMenu(manager);
+        reportController.saveChanges();
+    }
+
+    public void displayProjectMenu(HdbManager manager){
+        while(true) {
+            ArrayList<Object> res = projectController.displayProjectDashboard(manager);
+            if(res == null) continue;
+            if((String)res.get(0) == "a") {
+                createProject(  (String)res.get(1), (String)res.get(2), (HashMap<Flat.Type, Flat>)res.get(3),
+                                (LocalDate)res.get(4), (LocalDate)res.get(5), manager.getId(),
+                                (int)res.get(6), (boolean) res.get(7));
+            } else if((String)res.get(0) == "b") {
+                editProject(manager.getId(), (String)res.get(1), (int)res.get(2));
+            } else if((String)res.get(0) == "c") {
+                deleteProject(manager.getId(), (String)res.get(1));
+            }else {
+                break;
+            }
+        }
+        projectController.saveChanges();
+    }
+    public void displayResApplicationMenu(HdbManager manager) {
+        while(true) {
+            ArrayList<String> res = resAppController.displayApplicationMenu(manager);
+            if(res == null) continue;
+            if(res.get(0) == "c") break;
+            if(res.get(0) == "a") {
+                processApplicantBTOApplication(manager.getId(), res.get(1), res.get(2) == "true");
+            } else {
+                approveApplicantWithdrawal(manager.getId(), res.get(1));
+            }
+        }
+    }
+    public void displayTeamApplicationMenu(HdbManager manager) {
+        while(true) {
+            ArrayList<String> res = teamAppController.displayApplicationMenu(manager);
+            if(res == null) continue;
+            if(res.get(0) == "c") break;
+            if(res.get(0) == "a") {
+                processOfficerApplication(manager.getId(), res.get(1), res.get(2) == "true");
+            } else {
+                approveOfficerWithdrawal(manager.getId(), res.get(1));
+            }
+        }
+    }
+
     public void saveFile() {
         managerRepo.saveFile();
     }
@@ -68,18 +121,6 @@ public class HdbManagerController implements UserController{
     public HdbManagerRepo getRepo(){
         return managerRepo;
     }
-
-    public void displayProjectMenu(HdbManager manager){
-        projectController.displayProjectDashboard(manager);
-    }
-    public void displayEnquiryMenu(HdbManager manager) { enquiryController.showManagerMenu(manager);}
-    public void displayResApplicationMenu(HdbManager manager) { resAppController.displayApplicationMenu(manager); }
-    public void displayTeamApplicationMenu(HdbManager manager) { teamAppController.displayApplicationMenu(manager);}
-    public void displayReportMenu(HdbManager manager) { reportController.showManagerMenu(manager); }
-
-
-
-
 
     private boolean check(HdbManager manager) {
         if(manager == null) {
@@ -96,7 +137,10 @@ public class HdbManagerController implements UserController{
         if(check(manager)) return;
         Project project = new Project(name, neighbourhood, flatInfo, openDate, closeDate,
                     managerId, officerSlots, new ArrayList<String>(), visibility, new ArrayList<String>());
-        if(manager.canManage(project)) { projectController.getRepo().addProject(project); }
+        if(manager.canManage(project)) {
+            manager.setManagedProject(project);
+            projectController.getRepo().addProject(project);
+        }
         else { System.out.println("The manager can not manage the project at the time!"); }
     }
 
@@ -118,6 +162,7 @@ public class HdbManagerController implements UserController{
             System.out.println("The manager is not managing the project!");
             return;
         }
+        manager.setManagedProject(null);
         projectController.getRepo().deleteProject(name);
     }
 

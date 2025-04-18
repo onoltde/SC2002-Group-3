@@ -12,5 +12,6 @@ public class ReportController {
     }
 
     public ReportRepo getRepo() { return reportRepo; }
+    public void saveChanges() { reportRepo.saveFile(); }
     public void showManagerMenu(HdbManager manager) { reportUI.showManagerMenu(manager); }
 }
