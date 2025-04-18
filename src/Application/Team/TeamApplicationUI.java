@@ -121,8 +121,15 @@ public class TeamApplicationUI {
         return teamAppController.approveWithdrawal(manager, officerId);
     }
 
-    void displayApplications(ArrayList<TeamApplication> applications) {
-        //////// !!!!!!!!!!!!!!!!!!!!!!!!!!
-        // printing applications
+    public void displayApplications(ArrayList<TeamApplication> applications) {
+        for(TeamApplication e : applications) {
+            InputUtils.printSmallDivider();
+
+            // Display application details
+            System.out.println("--------------------------------");
+            System.out.println("Officer: " + e.getOfficerID());
+            System.out.println("Project: " + e.getProjectName());
+            System.out.println("Application status: " + e.getStatus());
+        }
     }
 }

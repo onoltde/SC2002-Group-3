@@ -430,8 +430,30 @@ public class ProjectUI {
         String name = InputUtils.nextLine();
         System.out.print("Enter neighborhood: ");
         String neighborhood = InputUtils.nextLine();
-//        HashMap<Flat.Type, Flat> flatType = read flat type !!!!!!!!!!!!!!!!!!!!!!!!!
-        HashMap<Flat.Type, Flat> flatType = null;
+        /////////// flatType
+        HashMap<Flat.Type, Flat> flatType = new HashMap<>();
+        for (Flat.Type type : Flat.Type.values()) {
+            System.out.println("Enter details for " + type + ":");
+
+            System.out.print("Total units: ");
+            int totalUnits = InputUtils.readInt();
+
+            System.out.print("Booked units: ");
+            int bookedUnits = InputUtils.readInt();
+
+            System.out.print("Selling price: ");
+            int sellingPrice = InputUtils.readInt();
+
+            Flat flat;
+            if (type == Flat.Type.TWOROOM) {
+                flat = new TwoRoomFlat(type, totalUnits, bookedUnits, sellingPrice);
+            } else {
+                flat = new ThreeRoomFlat(type, totalUnits, bookedUnits, sellingPrice);
+            }
+
+            flatType.put(type, flat);
+        }
+        ////////////////
         LocalDate openDate, closeDate;
         ////// open date
         while (true) {
