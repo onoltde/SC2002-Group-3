@@ -2,7 +2,6 @@ package Applicant;
 import Application.Residential.ResidentialApplicationController;
 import Enquiry.EnquiryController;
 import Users.*;
-import Application.*;
 import Project.*;
 
 public class ApplicantController implements UserController{
@@ -38,7 +37,7 @@ public class ApplicantController implements UserController{
     }
 
     public void viewCurrentProjects(Applicant applicant){
-        projectController.displayProjectDashboard(applicant);
+        projectController.displayProjectDashboard(applicant,resAppController);
     }
 
     public void displayApplicationMenu(Applicant applicant){

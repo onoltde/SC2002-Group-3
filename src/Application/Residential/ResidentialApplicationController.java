@@ -61,10 +61,12 @@ public class ResidentialApplicationController implements ResidentialApplicationC
 	public void addApplication(ResidentialApplication residentialApplication) {
         resAppRepo.addApplication(residentialApplication);
 	}
+
     //applicant methods
     public void applyProject(Applicant applicant, Project project, Flat.Type flatType){
         ResidentialApplication newApplication = new ResidentialApplication(applicant.getId(), Application.Status.PENDING, project.getName(),flatType);
         addApplication(newApplication);
+        applicant.newApplication(newApplication);
     }
 
 }//end of class

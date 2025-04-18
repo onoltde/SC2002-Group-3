@@ -1,5 +1,6 @@
 package Project;
 import Applicant.*;
+import Application.Residential.ResidentialApplicationController;
 import Application.Residential.ResidentialApplicationRepo;
 import Application.Team.TeamApplicationRepo;
 import HdbManager.*;
@@ -17,7 +18,7 @@ public interface ProjectControllerInterface{
 
 
     //applicant methods
-    public void displayProjectDashboard(Applicant applicant);
+    public void displayProjectDashboard(Applicant applicant, ResidentialApplicationController residentialApplicationController);
 
     //officer methods
     public String displayTeamProjectsToApply(HdbOfficer officer);

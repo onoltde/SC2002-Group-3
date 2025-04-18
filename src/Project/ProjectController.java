@@ -38,8 +38,8 @@ public class ProjectController implements ProjectControllerInterface {
     }
 
     //applicant methods
-    public void displayProjectDashboard(Applicant applicant) {
-        projectUI.displayProjectDashboard(applicant);
+    public void displayProjectDashboard(Applicant applicant, ResidentialApplicationController residentialApplicationController) {
+        projectUI.displayProjectDashboard(applicant, residentialApplicationController);
     }
 
     public void applyProject(Applicant applicant, Project currentProject, Flat.Type flatType){

@@ -14,6 +14,7 @@ public class ResidentialApplicationUI {
         this.controller = controller;
     }
 
+    //applicant methods
     public void displayApplicationMenu(Applicant applicant){
         ResidentialApplication application = applicant.getResidentialApplication();
         String projectName = application.getProjectName();
@@ -46,6 +47,7 @@ public class ResidentialApplicationUI {
         }
     }
 
+    //officer methods
     public void displayApplicationMenu(HdbOfficer officer) {
         if (!officer.hasResidentialApplication()) {
             System.out.println();
@@ -112,6 +114,7 @@ public class ResidentialApplicationUI {
 
         }
     }
+
 
     public boolean requestWithdrawal(ResidentialApplication application){
         if (application.getStatus() == Application.Status.WITHDRAWING){
