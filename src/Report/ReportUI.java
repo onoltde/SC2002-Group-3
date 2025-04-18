@@ -1,19 +1,113 @@
 package Report;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import HdbManager.HdbManager;
 import Project.*;
 import Users.*;
 
 public class ReportUI {
     private ReportController reportController;
+    private final Scanner scanner = new Scanner(System.in);
 
     public ReportUI(ReportController reportController) {
         this.reportController = reportController;
     }
 
+    public void showManagerMenu(HdbManager manager) {
+        while(true) {
+            System.out.println("\n======= Report Menu =======");
+            System.out.println("1. View Reports");
+            System.out.println("2. Generate Report");
+            System.out.println("3. Back");
+            System.out.print("Enter choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch(choice) {
+                case 1:
+                    viewReportMenu();
+                    break;
+                case 2:
+                    generateReport(manager);
+                    break;
+                case 3:
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    public void viewReportMenu() {
+        while(true) {
+            System.out.println("\n======= Report Filter Menu =======");
+            System.out.println("Filter by:");
+            System.out.println("1. Applicant");
+            System.out.println("2. Project");
+            System.out.println("3. Marital status");
+            System.out.println("4. Flat type");
+            System.out.println("5. View All Reports");
+            System.out.println("6. Back");
+            System.out.print("Enter choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch(choice) {
+                case 1:
+                    System.out.print("Enter Applicant ID: ");
+                    String applicantId = scanner.nextLine();
+                    displayApplicantReports(applicantId);
+                    break;
+                case 2:
+                    System.out.print("Enter Project Name: ");
+                    String projectName = scanner.nextLine();
+                    displayProjectReports(projectName);
+                    break;
+                case 3:
+                    System.out.println("Select Marital Status:");
+                    System.out.println("1. SINGLE");
+                    System.out.println("2. MARRIED");
+                    int statusChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    User.MaritalStatus status = statusChoice == 1 ? User.MaritalStatus.SINGLE : User.MaritalStatus.MARRIED;
+                    displayReportsByMaritalStatus(status);
+                    break;
+                case 4:
+                    System.out.println("Select Flat Type:");
+                    System.out.println("1. Two Room");
+                    System.out.println("2. Three Room");
+                    int typeChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    Flat.Type flatType = typeChoice == 1 ? Flat.Type.TWOROOM : Flat.Type.THREEROOM;
+                    displayReportsByFlatType(flatType);
+                    break;
+                case 5:
+                    displayAllReports();
+                    break;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    public void generateReport(HdbManager manager) {
+        /////
+    }
+
     public void displayApplicantReports(String applicantId) {
         ArrayList<Report> reports = reportController.getRepo().getReportsByApplicant(applicantId);
         displayReports(reports, "Reports for Applicant ID: " + applicantId);
+    }
+
+    public void displayProjectReports(String projectName) {
+        ArrayList<Report> reports = reportController.getRepo().getReportsByProject(projectName);
+        displayReports(reports, "Reports for Project: " + projectName);
     }
 
     public void displayAllReports() {
