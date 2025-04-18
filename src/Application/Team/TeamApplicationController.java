@@ -37,10 +37,19 @@ public class TeamApplicationController implements ApplicationController {
         projectController.displayAdminProjectDetails(appliedProjectName);
     }
 
- // DisplayProjects and add TeamApplication if applicable
+    //view team applications as officer to view/apply and returns TeamApplication object
+    public TeamApplication applicationMenu(HdbOfficer officer) {
+    	return teamAppUI.displayApplicationMenu(officer);
+    }
+    
+    // DisplayProjects and add TeamApplication if applicable
     public TeamApplication displayProjects(HdbOfficer officer){
     	String check = projectController.displayTeamProjectsToApply(officer);
     	if (check != null) {
+    		// check if the officer is already applying for other projects
+    		if (officer.hasTeamApplication()) {
+    			return null;
+    		}
     		// check whether officer is currently an officer for other projects
     		if (officer.hasAssignedProject()) {
     			String source = officer.getAssignedProjectName();

@@ -96,6 +96,15 @@ public class HdbOfficer extends Applicant{
         }
         return null;
     }
+    
+    public void appliedTeam(TeamApplication ta) {
+    	this.hasTeamApplication = true;
+    	this.teamApplication = ta;
+    	if (blacklist.isEmpty() || blacklist.contains(" ")) {
+    		blacklist.clear();
+    	}
+    	this.blacklist.add(ta.getProjectName());
+    }
 
 //
 //    /**

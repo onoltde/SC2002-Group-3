@@ -42,6 +42,11 @@ public class TeamApplicationUI {
                     }
                 }
                 case 2 -> {//apply for projects
+                	// check if the officer is already applying for other projects
+            		if (officer.hasTeamApplication()) {
+            			System.out.println("You already have an active application, please wait for approval before applying for another.");
+            			continue;
+            		}
                     TeamApplication ta = teamAppController.displayProjects(officer);
                     return ta;
                 }
