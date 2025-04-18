@@ -1,12 +1,12 @@
 package Application.Team;
-import Application.ApplicationController;
+import Application.Application.Status;
+import Application.TeamApplicationControllerInterface;
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
-import Project.ProjectController;
 import Project.ProjectControllerInterface;
-import Users.UserController;
 
-public class TeamApplicationController implements ApplicationController {
+
+public class TeamApplicationController implements TeamApplicationControllerInterface {
 
     //dependencies
     private final TeamApplicationUI teamAppUI;
@@ -36,36 +36,35 @@ public class TeamApplicationController implements ApplicationController {
         projectController.displayAdminProjectDetails(appliedProjectName);
     }
 
-    public void displayProjects(HdbOfficer officer) {
-        projectController.displayTeamProjectsToApply(officer);
+    //view team applications as officer to view/apply and returns TeamApplication object
+    public TeamApplication applicationMenu(HdbOfficer officer) {
+    	return teamAppUI.displayApplicationMenu(officer);
     }
-//     DisplayProjects and add TeamApplication if applicable
-//    public TeamApplication displayProjects(HdbOfficer officer){
-//    	String check = projectController.displayTeamProjectsToApply(officer);
-//    	if (check != null) {
-//    		 check whether officer is currently an officer for other projects
-//    		if (officer.hasAssignedProject()) {
-//    			String source = officer.getAssignedProjectName();
-//    			boolean clash = projectController.checkClash(check, source);
-//    			if (clash) {
-//    				return null;
-//    			}
-//    		}
-//    		TeamApplication ta = new TeamApplication(officer.getId(), check, Status.PENDING);
-//    		teamAppRepo.addApplication(ta);
-//    		 need to update officer's information
-//    		return ta;
-//    	}
-//    	else {
-//    		return null;
-//    	}
-//    }
+    
+    // DisplayProjects and add TeamApplication if applicable
+    public TeamApplication displayProjects(HdbOfficer officer){
+    	String check = projectController.displayTeamProjectsToApply(officer);
+    	if (check != null) {
+    		// check if the officer is already applying for other projects
+    		if (officer.hasTeamApplication()) {
+    			return null;
+    		}
+
+    		TeamApplication ta = new TeamApplication(officer.getId(), check, Status.PENDING);
+    		teamAppRepo.addApplication(ta);
+    		// need to update officer's information
+    		return ta;
+    	}
+    	else {
+    		return null;
+    	}
+    }
 
     public TeamApplicationRepo getRepo(){
         return teamAppRepo;
     }
 
-	public void addApplication(TeamApplication teamApp) {
+  public void addApplication(TeamApplication teamApp) {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,51 +1,30 @@
 package Project;
 
-public class Flat {
+public interface Flat {
 
         public enum Type {
             TWOROOM,
-            THREEROOM,
-            NONE;
-
+            THREEROOM;
         }
 
-        private final Type flatType;
-        private int totalUnits;
-        private int sellingPrice;
-        private int unitsBooked;
+        Type getFlatType();
 
-        public Flat(Type flatType, int totalUnits, int numOfBookedUnits, int sellingPrice){
-            this.flatType = flatType;
-            this.totalUnits = totalUnits;
-            this.sellingPrice = sellingPrice;
-            this.unitsBooked = numOfBookedUnits;
-        }
+        int getTotalUnits();
 
-        public Type getFlatType() {
-            return flatType;
-        }
+        int getSellingPrice();
 
-        public int getTotalUnits() {
-            return totalUnits;
-        }
+        int getUnitsBooked();
 
-        public int getSellingPrice() {
-            return sellingPrice;
-        }
+        int getAvailableUnits();
 
-        public int getUnitsBooked() {
-            return unitsBooked;
-        }
-
-        public int getAvailableUnits() { return totalUnits-unitsBooked; }
-
-        public static String typeToString(Flat.Type flatType){
-            int roomCount = (flatType == Type.TWOROOM) ? 2 : 3;
+        default String typeToString(){
+            int roomCount = (getFlatType() == Type.TWOROOM) ? 2 : 3;
             return (roomCount + "-Room");
         }
 
+        default String typeToString(Flat.Type flatType) {
+            int roomCount = (flatType == Type.TWOROOM) ? 2 : 3;
+            return (roomCount+ "-Room");
+        }
 
-    }
-
-
-
+}//end of class

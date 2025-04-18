@@ -27,18 +27,13 @@ public class ProjectUI {
 
     }
 
-    public void displayProjectFlatDetails(Project project, Flat.Type flatType){
-        Flat flat = project.getFlatInfo().get(flatType);
+    public void displayFlatDetails(Flat flat){
         InputUtils.printSmallDivider();
-        if (flat == null){
-            System.out.println("Project does not have " + Flat.typeToString(flatType) + "-Room units");
-        }else{
-            int totalUnits = flat.getTotalUnits();
-            int availableUnits = flat.getAvailableUnits();
-            int price = flat.getSellingPrice();
-            System.out.println(Flat.typeToString(flatType) + "-Room units left: " + availableUnits + "/" + totalUnits);
-            System.out.println(Flat.typeToString(flatType) + "-Room selling price: $" + price);
-        }
+        int totalUnits = flat.getTotalUnits();
+        int availableUnits = flat.getAvailableUnits();
+        int price = flat.getSellingPrice();
+        System.out.println(flat.typeToString() + "-Room units left: " + availableUnits + "/" + totalUnits);
+        System.out.println(flat.typeToString() + "-Room selling price: $" + price);
         InputUtils.printSmallDivider();
     }
 
@@ -94,10 +89,10 @@ public class ProjectUI {
 
                 switch (choice) {
                     case 1 -> {//show available two room
-                        displayFlat(applicant,Flat.Type.TWOROOM);
+                        displayTwoRoom(applicant);
                     }
                     case 2 ->{//show available three room
-                        displayFlat(applicant,Flat.Type.THREEROOM);
+                        displayThreeRoom(applicant);
                     }
                     case 3 -> {//exit
                         controller.saveChanges();
@@ -109,17 +104,16 @@ public class ProjectUI {
             }
     }
 
-    private void displayFlat(Applicant applicant, Flat.Type flatType){
-
-        if (!applicant.canApply(flatType)){
+    private void displayTwoRoom(Applicant applicant){
+        if (!applicant.canApply(Flat.Type.TWOROOM)){
             InputUtils.printSmallDivider();
-            System.out.println("You are not eligible to apply for " + Flat.typeToString(flatType) + "-Room flats.");
+            System.out.println("You are not eligible to apply for 2-Room flats.");
             return;
         }
 
-        ArrayList<Project> filteredList = controller.getRepo().filterByAvailUnitType(flatType);
+        ArrayList<Project> filteredList = controller.getRepo().filterByAvailUnitType(Flat.Type.TWOROOM);
         if (filteredList.size() == 0){
-            System.out.println("No projects to display.");
+            System.out.println("No 2-Room projects to display.");
             return;
         }
         int currentIndex = 0;
@@ -129,39 +123,100 @@ public class ProjectUI {
 
             // Display project counter (x/n)
             InputUtils.printSmallDivider();
-            System.out.printf(Flat.typeToString(flatType) + " Project (%d/%d):\n", currentIndex + 1, filteredList.size());
+            System.out.printf("2-Room Project (%d/%d):\n", currentIndex + 1, filteredList.size());
 
             // Display project details
             displayEssentialProjectDetails(currentProject);
-            displayProjectFlatDetails(currentProject, flatType);
+            displayFlatDetails(currentProject.getFlatInfo().get(Flat.Type.TWOROOM));
 
             // Show menu options
             System.out.println("-------------------------------");
             System.out.println("\n Please choose an option:");
             System.out.println("-------------------------------");
             System.out.println("1. Apply for this project");
-            System.out.println("2. Enquire about this project");
-            System.out.println("3. Next project");
-            System.out.println("4. Exit to menu");
-            System.out.println("Enter your choice (1-4): ");
+            System.out.println("2. Next project");
+            System.out.println("3. Exit to menu");
+            System.out.println("Enter your choice (1-3): ");
 
 
             int choice = InputUtils.readInt();
 
             switch (choice) {
                 case 1: // Apply for current project
-                    System.out.println("call application menu method applyProject(applicant,currentProject)");
+                    if (applicant.hasResidentialApplication()){
+                        System.out.println("You have an active application. You cannot apply to more than 1 project.");
+                        return;
+                    }else{
+                        controller.applyProject(applicant, currentProject, Flat.Type.TWOROOM);
+                        System.out.println("Successfully applied for this project.");
+                    }
 
-                case 2: // Enquire about current project
-
-                    System.out.println("call enquire project method");
-                    break;
-
-                case 3: // Next project
+                case 2: // Next project
                     currentIndex++;
                     break;
 
-                case 4: //exit to menu
+                case 3: //exit to menu
+                    return;
+
+                default:
+                    System.out.println("Invalid option, please try again.");
+            }
+        }
+
+        System.out.println("No more projects to display.");
+    }
+
+    private void displayThreeRoom(Applicant applicant){
+        if (!applicant.canApply(Flat.Type.THREEROOM)){
+            InputUtils.printSmallDivider();
+            System.out.println("You are not eligible to apply for 3-Room flats.");
+            return;
+        }
+
+        ArrayList<Project> filteredList = controller.getRepo().filterByAvailUnitType(Flat.Type.THREEROOM);
+        if (filteredList.size() == 0){
+            System.out.println("No 3-Room projects to display.");
+            return;
+        }
+        int currentIndex = 0;
+
+        while (currentIndex < filteredList.size()) {
+            Project currentProject = filteredList.get(currentIndex);
+
+            // Display project counter (x/n)
+            InputUtils.printSmallDivider();
+            System.out.printf("3-Room Project (%d/%d):\n", currentIndex + 1, filteredList.size());
+
+            // Display project details
+            displayEssentialProjectDetails(currentProject);
+            displayFlatDetails(currentProject.getFlatInfo().get(Flat.Type.THREEROOM));
+
+            // Show menu options
+            System.out.println("-------------------------------");
+            System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
+            System.out.println("1. Apply for this project");
+            System.out.println("2. Next project");
+            System.out.println("3. Exit to menu");
+            System.out.println("Enter your choice (1-3): ");
+
+
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1: // Apply for current project
+                    if (applicant.hasResidentialApplication()){
+                        System.out.println("You have an active application. You cannot apply to more than 1 project.");
+                        return;
+                    }else {
+                        controller.applyProject(applicant, currentProject, Flat.Type.THREEROOM);
+                        System.out.println("Successfully applied for this project.");
+                    }
+                case 2: // Next project
+                    currentIndex++;
+                    break;
+
+                case 3: //exit to menu
                     return;
 
                 default:
@@ -174,14 +229,14 @@ public class ProjectUI {
 
 
     //officer methods
-    public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
-        if (!officer.canApply(flatType)){
+    public void displayTwoRoomResProjectsToApply(HdbOfficer officer){
+        if (!officer.canApply(Flat.Type.TWOROOM)){
             InputUtils.printSmallDivider();
-            System.out.println("You are not eligible to apply for " + Flat.typeToString(flatType) + "-Room flats.");
+            System.out.println("You are not eligible to apply for 2-Room flats.");
             return;
         }
 
-        ArrayList<Project> filteredList = controller.getRepo().filterForResApplication(officer.getBlacklist(),flatType);
+        ArrayList<Project> filteredList = controller.getRepo().filterForResApplication(officer.getBlacklist(), Flat.Type.TWOROOM);
         int currentIndex = 0;
 
         while (currentIndex < filteredList.size()) {
@@ -189,22 +244,20 @@ public class ProjectUI {
 
             // Display project counter (x/n)
             InputUtils.printSmallDivider();
-            System.out.printf(Flat.typeToString(flatType) + " Project (%d/%d):\n", currentIndex + 1, filteredList.size());
+            System.out.printf("2-Room Project (%d/%d):\n", currentIndex + 1, filteredList.size());
 
             // Display project details
             displayEssentialProjectDetails(currentProject);
-            displayProjectFlatDetails(currentProject, flatType);
+            displayFlatDetails(currentProject.getFlatInfo().get(Flat.Type.TWOROOM));
 
             // Show menu options
             System.out.println("-------------------------------");
             System.out.println("\n Please choose an option:");
             System.out.println("-------------------------------");
             System.out.println("1. Apply for this project");
-            System.out.println("2. Enquire about this project");
-            System.out.println("3. Next project");
-            System.out.println("4. Exit to menu");
-            System.out.println("Enter your choice (1-4): ");
-
+            System.out.println("2. Next project");
+            System.out.println("3. Exit to menu");
+            System.out.println("Enter your choice (1-3): ");
 
             int choice = InputUtils.readInt();
 
@@ -212,16 +265,62 @@ public class ProjectUI {
                 case 1: // Apply for current project
                     System.out.println("call application menu method applyProject(Officer,currentProject)");
 
-                case 2: // Enquire about current project
-
-                    System.out.println("call enquire project method");
-                    break;
-
-                case 3: // Next project
+                case 2: // Next project
                     currentIndex++;
                     break;
 
-                case 4: //exit to menu
+                case 3: //exit to menu
+                    return;
+
+                default:
+                    System.out.println("Invalid option, please try again.");
+            }
+        }
+
+        System.out.println("No more projects to display.");
+    }
+
+    public void displayThreeRoomResProjectsToApply(HdbOfficer officer){
+        if (!officer.canApply(Flat.Type.THREEROOM)){
+            InputUtils.printSmallDivider();
+            System.out.println("You are not eligible to apply for 3-Room flats.");
+            return;
+        }
+
+        ArrayList<Project> filteredList = controller.getRepo().filterForResApplication(officer.getBlacklist(), Flat.Type.THREEROOM);
+        int currentIndex = 0;
+
+        while (currentIndex < filteredList.size()) {
+            Project currentProject = filteredList.get(currentIndex);
+
+            // Display project counter (x/n)
+            InputUtils.printSmallDivider();
+            System.out.printf("3-Room Project (%d/%d):\n", currentIndex + 1, filteredList.size());
+
+            // Display project details
+            displayEssentialProjectDetails(currentProject);
+            displayFlatDetails(currentProject.getFlatInfo().get(Flat.Type.THREEROOM));
+
+            // Show menu options
+            System.out.println("-------------------------------");
+            System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
+            System.out.println("1. Apply for this project");
+            System.out.println("2. Next project");
+            System.out.println("3. Exit to menu");
+            System.out.println("Enter your choice (1-3): ");
+
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1: // Apply for current project
+                    System.out.println("call application menu method applyProject(Officer,currentProject)");
+
+                case 2: // Next project
+                    currentIndex++;
+                    break;
+
+                case 3: //exit to menu
                     return;
 
                 default:

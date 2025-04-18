@@ -36,9 +36,6 @@ public class Enquiry {
 	public void setTitle(String title) { this.title = title; }
 	public void setMessage(String message) { this.message = message; }
 
-	// viewer
-	// !!
-
 	public void respond(String response) {
 		status = EnquiryStatus.ANSWERED;
 		this.response = response;
