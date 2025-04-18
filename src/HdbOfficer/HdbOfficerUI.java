@@ -1,20 +1,23 @@
 package HdbOfficer;
+import Project.Flat;
+import Project.Flat.Type;
+import Project.Project;
 import Project.ProjectControllerInterface;
 import Utility.*;
 import Users.*;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
-public final class HdbOfficerUI implements UserUI<HdbOfficer,HdbOfficerRepo>{
+public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
 
     private final HdbOfficerController officerController;
 
-    public HdbOfficerUI(HdbOfficerController hdbOfficerController){
+    public HdbOfficerUI(HdbOfficerController hdbOfficerController) {
         officerController = hdbOfficerController;
     }
 
-    public HdbOfficer displayLogin(HdbOfficerRepo officerRepo){
-
+    public HdbOfficer displayLogin(HdbOfficerRepo officerRepo) {
         while (true) {
             InputUtils.printBigDivider();
             System.out.println("\nOfficer Portal:");
@@ -30,17 +33,16 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer,HdbOfficerRepo>{
                 case 1 -> {
                     HdbOfficer hdbOfficer = login(officerRepo);
                     if (hdbOfficer != null) {
-                        return hdbOfficer; // Return immediately on successful login
+                        return hdbOfficer;
                     }
                 }
                 case 2 -> forgetPassword(officerRepo);
                 case 3 -> {
                     exitToMenu();
-                    return null; // return null to exit
+                    return null;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }
-
         }
     }
 
@@ -49,19 +51,16 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer,HdbOfficerRepo>{
             InputUtils.printBigDivider();
             System.out.print("Enter NRIC: ");
             String nric = InputUtils.nextLine().trim().toUpperCase();
-            //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!\n");
             }
 
-            //2.checks if nric is in database
-            String officerId = officerRepo.generateID(nric);  // generate hdbOfficer ID (OF-last4)
+            String officerId = officerRepo.generateID(nric);
             HdbOfficer hdbOfficer = officerRepo.getUser(officerId);
             if (hdbOfficer == null) {
                 throw new IllegalArgumentException("NRIC not found!\n");
             }
 
-            // 3.check if password is correct
             System.out.print("Enter Password: ");
             String password = InputUtils.nextLine().trim();
             if (!hdbOfficer.validatePassword(password)) {
@@ -71,53 +70,35 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer,HdbOfficerRepo>{
             System.out.println("\nLogin successful: Welcome, Officer " + hdbOfficer.getName() + "!\n");
             return hdbOfficer;
 
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // NRIC format/hdbOfficer not found
-            return null;
-        } catch (SecurityException e) {
-            System.out.println(e.getMessage()); // Wrong password
-            return null;
         } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
-
     }
 
     public void forgetPassword(HdbOfficerRepo officerRepo) {
         try {
             System.out.print("Enter NRIC: ");
             String nric = InputUtils.nextLine().trim().toUpperCase();
-            //1.check if nric is valid format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!");
             }
 
-            //2.checks if nric is in database
-            String officerId = officerRepo.generateID(nric); // generate hdbOfficer ID (OF-last4)
+            String officerId = officerRepo.generateID(nric);
             HdbOfficer hdbOfficer = officerRepo.getUser(officerId);
             if (hdbOfficer == null) {
                 throw new IllegalArgumentException("NRIC not found!");
             }
 
-            //3.reset password
             hdbOfficer.resetPassword();
+            System.out.println("Password reset successfully.\n");
 
-            System.out.println("Password is now reset to \"password\". Please proceed to login.\n");
-            return;
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // NRIC format/hdbOfficer not found
-            return;
         } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
-            return;
+            System.out.println(e.getMessage());
         }
-
     }
 
-    public void displayDashboard(HdbOfficer hdbOfficer){
-
+    public void displayDashboard(HdbOfficer hdbOfficer) {
         while (true) {
             InputUtils.printBigDivider();
             System.out.printf("OFFICER DASHBOARD" +
@@ -127,42 +108,52 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer,HdbOfficerRepo>{
                     hdbOfficer.getMaritalStatus(),
                     hdbOfficer.getAge());
             InputUtils.printSmallDivider();
-            System.out.println("Please choose an option:");
             System.out.println("1. Residential Application Menu");
             System.out.println("2. Team Application Menu");
             System.out.println("3. Assigned Project Menu");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1-4): ");
 
-
             int choice = InputUtils.readInt();
 
             switch (choice) {
-                case 1 -> {//view residential menu
-                    officerController.displayResidentialMenu(hdbOfficer);
-                }
-                case 2 ->{//view TeamApplication menu
-                    officerController.displayTeamApplicationMenu(hdbOfficer);
-                }
-                case 3-> {//view assigned project
-                    officerController.displayAssignedProjectMenu(hdbOfficer);
-                }
-                case 4-> {//exit
+                case 1 -> displayResidentialMenu(hdbOfficer);
+                case 2 -> officerController.displayTeamApplicationMenu(hdbOfficer);
+                case 3 -> displayAssignedProjectMenu(hdbOfficer);
+                case 4 -> {
                     officerController.saveFile();
                     return;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-4.\n");
             }
+        }
+    }
 
+    public void displayAssignedProjectMenu(HdbOfficer officer) {
+        InputUtils.printBigDivider();
+        System.out.println("ASSIGNED PROJECT MENU");
+        officerController.viewAssignedProjectDetails(officer);
+    }
+
+    public void printStatus(String message) {
+        System.out.println("\n[STATUS]: " + message + "\n");
+    }
+
+    public void printProjectDetails(Project project) {
+        System.out.println("\nPROJECT DETAILS:");
+        System.out.println("Name: " + project.getName());
+        System.out.println("Flat Availability:");
+
+        Map<Flat.Type, Integer> flatAvailability = (Map<Type, Integer>) project.getFlatTypesAvailability();
+
+        for (Map.Entry<Flat.Type, Integer> entry : flatAvailability.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " units remaining");
         }
 
+        System.out.println();
     }
 
-
-    public void displayAssignedProjectMenu(HdbOfficer officer){
-
+    public void displayResidentialMenu(HdbOfficer officer) {
+        officerController.displayResidentialMenu(officer);
     }
-
-
-
-}//end of class
+}
