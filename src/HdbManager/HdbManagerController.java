@@ -145,7 +145,7 @@ public class HdbManagerController implements UserController{
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return;
         Project project = projectController.getRepo().getProject(name);
-        if(name.compareTo(manager.getManagedProject().getName()) != 0) {
+        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProject().getName()) != 0) {
             System.out.println("The manager is not managing the project!");
             return;
         }
@@ -155,7 +155,7 @@ public class HdbManagerController implements UserController{
     public void deleteProject(String managerId, String name) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return;
-        if(name.compareTo(manager.getManagedProject().getName()) != 0) {
+        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProject().getName()) != 0) {
             System.out.println("The manager is not managing the project!");
             return;
         }
@@ -166,7 +166,7 @@ public class HdbManagerController implements UserController{
     public void toggleProjectVisibility(String managerId, String name) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return;
-        if(name.compareTo(manager.getManagedProject().getName()) != 0) {
+        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProject().getName()) != 0) {
             System.out.println("The manager is not managing the project!");
             return;
         }
