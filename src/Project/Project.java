@@ -163,4 +163,9 @@ public class Project {
     }
 
 
+	public Object getFlatTypesAvailability() {
+		return null;
+	}
+
+
 }//end of class
