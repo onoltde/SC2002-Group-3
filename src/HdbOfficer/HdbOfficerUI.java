@@ -142,13 +142,13 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
     public void printProjectDetails(Project project) {
         System.out.println("\nPROJECT DETAILS:");
         System.out.println("Name: " + project.getName());
-        System.out.println("Flat Availability:");
+        //System.out.println("Flat Availability:");
 
-        Map<Flat.Type, Integer> flatAvailability = (Map<Type, Integer>) project.getFlatTypesAvailability();
+        //Map<Flat.Type, Integer> flatAvailability = (Map<Type, Integer>) project.getFlatTypesAvailability();
 
-        for (Map.Entry<Flat.Type, Integer> entry : flatAvailability.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue() + " units remaining");
-        }
+        //for (Map.Entry<Flat.Type, Integer> entry : flatAvailability.entrySet()) {
+            //System.out.println(entry.getKey() + ": " + entry.getValue() + " units remaining");
+        //}
 
         System.out.println();
     }
