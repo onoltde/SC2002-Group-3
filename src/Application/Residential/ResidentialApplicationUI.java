@@ -48,7 +48,7 @@ public class ResidentialApplicationUI {
     }
 
     //officer methods
-    public void displayApplicationMenu(HdbOfficer officer) {
+    public ResidentialApplication displayApplicationMenu(HdbOfficer officer) {
         if (!officer.hasResidentialApplication()) {
             System.out.println();
             System.out.println("You do not have a current application as a resident.");
@@ -65,13 +65,13 @@ public class ResidentialApplicationUI {
 
                 switch (choice) {
                     case 1 -> {//view 2 room projects and possibly apply
-                        controller.displayProjectsToApply(officer,Flat.Type.TWOROOM);
+                        return controller.displayProjectsToApply(officer,Flat.Type.TWOROOM);
                     }
                     case 2 -> {//view 3 room projects and possibly apply
-                        controller.displayProjectsToApply(officer, Flat.Type.THREEROOM);
+                        return controller.displayProjectsToApply(officer, Flat.Type.THREEROOM);
                     }
                     case 3 -> {//exit
-                        return;
+                        return null;
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
 
@@ -105,7 +105,7 @@ public class ResidentialApplicationUI {
                         controller.requestWithdrawal(application);
                     }
                     case 3 -> {//exit
-                        return;
+                        return null;
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
 

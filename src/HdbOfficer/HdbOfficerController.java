@@ -43,8 +43,12 @@ public class HdbOfficerController implements UserController{
         resAppController.displayApplicationMenu(hdbOfficer);
     }
 
+    // Display and add residentialApplication to the officer when applicable
     public void displayResidentialMenu(HdbOfficer hdbOfficer) {
-        resAppController.displayApplicationMenu(hdbOfficer);
+        ResidentialApplication ra = resAppController.applicationMenu(hdbOfficer);
+        if (ra != null) {
+        	//
+        }
     }
 
     // Display and add teamApplication to the officer when applicable

@@ -36,6 +36,11 @@ public class ResidentialApplicationController implements ResidentialApplicationC
     public void displayApplicationMenu(HdbManager manager) {
 
     }
+    
+    public ResidentialApplication applicationMenu(HdbOfficer officer) {
+        return resAppUI.displayApplicationMenu(officer);
+    }
+
 
     public void requestWithdrawal(ResidentialApplication application){
         if (resAppUI.requestWithdrawal(application)){
@@ -46,8 +51,15 @@ public class ResidentialApplicationController implements ResidentialApplicationC
         }
     }
 
-    public void displayProjectsToApply(HdbOfficer officer, Flat.Type flatType) {
-        projectController.displayResProjectsToApply(officer,flatType);
+    public ResidentialApplication displayProjectsToApply(HdbOfficer officer, Flat.Type flatType) {
+        String projName = projectController.displayResProjectsToApply(officer,flatType);
+        if (projName != null) {
+        	// check if is officer of same project
+        	ResidentialApplication ra = new ResidentialApplication(officer.getId(), Application.Status.PENDING, projName, flatType);
+        	resAppRepo.addApplication(ra);
+        	return ra;
+        }
+        return null;
     }
 
     public ResidentialApplicationRepo getRepo(){

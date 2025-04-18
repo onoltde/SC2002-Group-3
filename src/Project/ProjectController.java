@@ -52,12 +52,14 @@ public class ProjectController implements ProjectControllerInterface {
         return projectUI.displayTeamProjectsToApply(officer);
     }
 
-    public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
+    public String displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
+    	String projName = "";
         if (flatType == Flat.Type.TWOROOM){
-            projectUI.displayTwoRoomResProjectsToApply(officer);
+            projName = projectUI.displayTwoRoomResProjectsToApply(officer);
         }else if (flatType == Flat.Type.THREEROOM){
             projectUI.displayThreeRoomResProjectsToApply(officer);
         }
+        return projName;
     }
 
     //manager methods

@@ -233,11 +233,11 @@ public class ProjectUI {
 
 
     //officer methods
-    public void displayTwoRoomResProjectsToApply(HdbOfficer officer){
+    public String displayTwoRoomResProjectsToApply(HdbOfficer officer){
         if (!officer.canApply(Flat.Type.TWOROOM)){
             InputUtils.printSmallDivider();
             System.out.println("You are not eligible to apply for 2-Room flats.");
-            return;
+            return null;
         }
 
         ArrayList<Project> filteredList = controller.getRepo().filterForResApplication(officer.getBlacklist(), Flat.Type.TWOROOM);
@@ -267,14 +267,14 @@ public class ProjectUI {
 
             switch (choice) {
                 case 1: // Apply for current project
-                    System.out.println("call application menu method applyProject(Officer,currentProject)");
+                    return currentProject.getName();
 
                 case 2: // Next project
                     currentIndex++;
                     break;
 
                 case 3: //exit to menu
-                    return;
+                    return null;
 
                 default:
                     System.out.println("Invalid option, please try again.");
@@ -282,6 +282,7 @@ public class ProjectUI {
         }
 
         System.out.println("No more projects to display.");
+        return null;
     }
 
     public void displayThreeRoomResProjectsToApply(HdbOfficer officer){

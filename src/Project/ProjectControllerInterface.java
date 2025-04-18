@@ -23,7 +23,7 @@ public interface ProjectControllerInterface{
     //officer methods
     public String displayTeamProjectsToApply(HdbOfficer officer);
 
-    public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType);
+    public String displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType);
 
 
     //manager methods
