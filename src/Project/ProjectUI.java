@@ -149,6 +149,7 @@ public class ProjectUI {
                     }else{
                         controller.applyProject(applicant, currentProject, Flat.Type.TWOROOM);
                         System.out.println("Successfully applied for this project.");
+                        return;
                     }
 
                 case 2: // Next project
@@ -211,6 +212,7 @@ public class ProjectUI {
                     }else {
                         controller.applyProject(applicant, currentProject, Flat.Type.THREEROOM);
                         System.out.println("Successfully applied for this project.");
+                        return;
                     }
                 case 2: // Next project
                     currentIndex++;
