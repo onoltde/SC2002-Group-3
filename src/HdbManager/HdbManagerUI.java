@@ -1,5 +1,6 @@
 package HdbManager;
 import Enquiry.EnquiryController;
+import HdbOfficer.HdbOfficer;
 import Report.ReportController;
 import Users.*;
 import Utility.*;
@@ -116,48 +117,75 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
 
     }
 
-    public void displayDashboard(HdbManager hdbManager){
+    public void changePassword(HdbManager hdbManager) {
+        final int MIN_PASSWORD_LENGTH = 8;
+
+        System.out.println("Changing password... (Enter 'x' to cancel)");
+
         while (true) {
-            InputUtils.printBigDivider();
-            System.out.printf("MANAGER DASHBOARD" +
-                            "\n---------------------\n" +
-                            "Name: %s | Marital status: %s | Age: %d\n",
-                    hdbManager.getName(),
-                    hdbManager.getMaritalStatus(),
-                    hdbManager.getAge());
-            System.out.println("----------------------------------");
-            System.out.println("Please choose an option:");
-            System.out.println("1. Project menu");
-            System.out.println("2. Application menu");
-            System.out.println("3. Enquiry menu");
-            System.out.println("4. Report Menu");
-            System.out.println("5. Exit");
-            System.out.print("Enter your choice (1-5): ");
+            System.out.print("Enter new password (min " + MIN_PASSWORD_LENGTH + " chars): ");
+            String newPassword = InputUtils.nextLine().trim(); // Trim to remove extra spaces
 
-            int choice = InputUtils.readInt();
-
-            switch (choice) {
-                case 1 -> {//project menu CRUD
-                    managerController.displayProjectMenu(hdbManager);
-                }
-                case 2 -> {//application menu
-                    displayApplication(hdbManager);
-                }
-                case 3 -> {//enquiry menu
-                    managerController.displayEnquiryMenu(hdbManager);
-                }
-                case 4 -> {// report
-                    managerController.displayReportMenu(hdbManager);
-                }
-                case 5 -> {//exit
-                    managerController.saveFile();
-                    return;
-                }
-                default -> System.out.println("Invalid choice! Please enter 1-4.\n");
+            if (newPassword.equalsIgnoreCase("x")) {
+                System.out.println("Password change cancelled.");
+                return;
             }
 
+            if (newPassword.length() >= MIN_PASSWORD_LENGTH) {
+                hdbManager.changePassword(newPassword);
+                System.out.println("Password changed successfully! Signing out...");
+                break;
+            } else {
+                System.out.println("Error: Password must be at least " + MIN_PASSWORD_LENGTH + " characters long.");
+            }
         }
     }
+
+    public void displayDashboard(HdbManager hdbManager){
+            while (true) {
+                InputUtils.printBigDivider();
+                System.out.printf("MANAGER DASHBOARD" +
+                                "\n---------------------\n" +
+                                "Name: %s | Marital status: %s | Age: %d\n",
+                        hdbManager.getName(),
+                        hdbManager.getMaritalStatus(),
+                        hdbManager.getAge());
+                System.out.println("----------------------------------");
+                System.out.println("Please choose an option:");
+                System.out.println("1. Project menu");
+                System.out.println("2. Application menu");
+                System.out.println("3. Enquiry menu");
+                System.out.println("4. Report Menu");
+                System.out.println("5. Change password");
+                System.out.println("6. Exit");
+                System.out.print("Enter your choice (1-6): ");
+
+                int choice = InputUtils.readInt();
+
+                switch (choice) {
+                    case 1 -> {//project menu CRUD
+                        managerController.displayProjectMenu(hdbManager);
+                    }
+                    case 2 -> {//application menu
+                        displayApplication(hdbManager);
+                    }
+                    case 3 -> {//enquiry menu
+                        managerController.displayEnquiryMenu(hdbManager);
+                    }
+                    case 4 -> {// report
+                        managerController.displayReportMenu(hdbManager);
+                    }
+                    case 5 -> changePassword(hdbManager);
+                    case 6 -> {//exit
+                        managerController.saveFile();
+                        return;
+                    }
+                    default -> System.out.println("Invalid choice! Please enter 1-4.\n");
+                }
+
+            }
+    }
+
     public void displayApplication(HdbManager hdbManager) {
         while (true) {
             InputUtils.printSmallDivider();
