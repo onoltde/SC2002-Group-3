@@ -175,7 +175,11 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                     case 4 -> {// report
                         managerController.displayReportMenu(hdbManager);
                     }
-                    case 5 -> changePassword(hdbManager);
+                    case 5 ->{
+                        changePassword(hdbManager);
+                        return;
+                    }
+
                     case 6 -> {//exit
                         managerController.saveFile();
                         return;

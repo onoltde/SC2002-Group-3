@@ -146,7 +146,10 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
                 case 1 -> officerController.displayResidentialMenu(hdbOfficer);
                 case 2 -> officerController.displayTeamApplicationMenu(hdbOfficer);
                 case 3 -> officerController.displayAssignedProjectMenu(hdbOfficer);
-                case 4 -> changePassword(hdbOfficer);
+                case 4 -> {
+                    changePassword(hdbOfficer);
+                    return;
+                }
                 case 5 -> {
                     officerController.saveFile();
                     return;
