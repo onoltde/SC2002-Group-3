@@ -5,6 +5,7 @@ import Application.Team.TeamApplicationController;
 import Enquiry.EnquiryController;
 import Project.ProjectController;
 import Project.ProjectControllerInterface;
+import Report.ReportController;
 import Utility.*;
 import Applicant.*;
 import HdbOfficer.*;
@@ -13,6 +14,7 @@ import HdbManager.*;
 public class MainMenu {
     private ProjectControllerInterface projectController;
     private EnquiryController enquiryController;
+    private ReportController reportController;
 
     private ResidentialApplicationController resAppController;
     private TeamApplicationController teamAppController;
@@ -25,6 +27,7 @@ public class MainMenu {
     public MainMenu(){
         projectController = new ProjectController();
         enquiryController = new EnquiryController(projectController);
+        reportController = new ReportController();
 
         resAppController = new ResidentialApplicationController(projectController);
         teamAppController = new TeamApplicationController(projectController);
