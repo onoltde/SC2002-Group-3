@@ -38,8 +38,8 @@ public class ProjectController implements ProjectControllerInterface {
         projectUI.displayProjectDashboard(applicant);
     }
 
-    public void displayTeamProjectsToApply(HdbOfficer officer){
-        projectUI.displayTeamProjectsToApply(officer);
+    public String displayTeamProjectsToApply(HdbOfficer officer){
+        return projectUI.displayTeamProjectsToApply(officer);
     }
 
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){

@@ -1,4 +1,5 @@
 package Application.Team;
+import Application.Application.Status;
 import Application.ApplicationController;
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
@@ -36,9 +37,7 @@ public class TeamApplicationController implements ApplicationController {
         projectController.displayAdminProjectDetails(appliedProjectName);
     }
 
-    public void displayProjects(HdbOfficer officer){
-        projectController.displayTeamProjectsToApply(officer);
-    // DisplayProjects and add TeamApplication if applicable
+ // DisplayProjects and add TeamApplication if applicable
     public TeamApplication displayProjects(HdbOfficer officer){
     	String check = projectController.displayTeamProjectsToApply(officer);
     	if (check != null) {
@@ -58,7 +57,6 @@ public class TeamApplicationController implements ApplicationController {
     	else {
     		return null;
     	}
-
     }
 
     public TeamApplicationRepo getRepo(){
