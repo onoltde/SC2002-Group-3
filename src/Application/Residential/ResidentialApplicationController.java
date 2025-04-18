@@ -7,8 +7,7 @@ import Project.*;
 import Applicant.*;
 import Project.ProjectControllerInterface;
 
-import java.sql.SQLOutput;
-
+import java.util.ArrayList;
 
 public class ResidentialApplicationController implements ResidentialApplicationControllerInterface {
 
@@ -37,11 +36,16 @@ public class ResidentialApplicationController implements ResidentialApplicationC
     public void displayApplicationMenu(HdbManager manager) {
 
     }
-    
+
+    public void viewApplications(String projectName){
+        ArrayList<ResidentialApplication> filteredApplications = resAppRepo.filterByProjectName(projectName);
+        resAppUI.viewApplications(filteredApplications);
+    }
+
+    //to apply as resident
     public ResidentialApplication applicationMenu(HdbOfficer officer) {
         return resAppUI.displayApplicationMenu(officer);
     }
-
 
     public void requestWithdrawal(ResidentialApplication application){
         if (resAppUI.requestWithdrawal(application)){
@@ -90,6 +94,9 @@ public class ResidentialApplicationController implements ResidentialApplicationC
         }
     }
 
+    public boolean bookUnit(ResidentialApplication application){
+        return projectController.bookFlat(application.getProjectName(), application.getFlatType());
+    }
 
 
 }//end of class

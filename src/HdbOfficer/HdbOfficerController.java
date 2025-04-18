@@ -62,7 +62,22 @@ public class HdbOfficerController implements UserController{
     }
 
     public void displayAssignedProjectMenu(HdbOfficer officer){
-        officerUI.displayAssignedProjectMenu(officer);
+        if(officer.hasAssignedProject() == false) {
+            System.out.println("You are not currently assigned to a project.");
+            return;
+        }else{
+            projectController.displayAdminProjectDetails(officer.getAssignedProjectName());
+            officerUI.displayAssignedProjectMenu(officer);
+        }
+
+    }
+
+    public void viewProjectApplications(HdbOfficer officer){
+        resAppController.viewApplications(officer.getAssignedProjectName());
+    }
+
+    public void viewProjectEnquiries(HdbOfficer officer){
+        //NEED ADD THIS
     }
 
     public HdbOfficerRepo getRepo(){

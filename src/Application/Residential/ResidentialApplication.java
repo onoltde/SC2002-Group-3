@@ -42,4 +42,28 @@ public class ResidentialApplication implements Application {
         this.status = status;
     }
 
+    public boolean approve(){
+        if(this.status == Status.PENDING){
+            this.status = Status.SUCCESSFUL;
+            System.out.println("Application is now Successful!");
+            return true;
+        }else if(this.status == Status.WITHDRAWING){
+            this.status = Status.UNSUCCESSFUL;
+            System.out.println("Application is now Withdrawn!");
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean reject(){
+        if(this.status == Status.PENDING){
+            this.status = Status.UNSUCCESSFUL;
+            System.out.println("Application is now Unsucessful!");
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
