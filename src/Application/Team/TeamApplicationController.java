@@ -1,13 +1,12 @@
 package Application.Team;
 import Application.Application.Status;
-import Application.ApplicationController;
+import Application.TeamApplicationControllerInterface;
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
-import Project.ProjectController;
 import Project.ProjectControllerInterface;
-import Users.UserController;
 
-public class TeamApplicationController implements ApplicationController {
+
+public class TeamApplicationController implements TeamApplicationControllerInterface {
 
     //dependencies
     private final TeamApplicationUI teamAppUI;
@@ -50,14 +49,7 @@ public class TeamApplicationController implements ApplicationController {
     		if (officer.hasTeamApplication()) {
     			return null;
     		}
-    		// check whether officer is currently an officer for other projects
-    		if (officer.hasAssignedProject()) {
-    			String source = officer.getAssignedProjectName();
-    			boolean clash = projectController.checkClash(check, source);
-    			if (clash) {
-    				return null;
-    			}
-    		}
+
     		TeamApplication ta = new TeamApplication(officer.getId(), check, Status.PENDING);
     		teamAppRepo.addApplication(ta);
     		// need to update officer's information
@@ -72,9 +64,5 @@ public class TeamApplicationController implements ApplicationController {
         return teamAppRepo;
     }
 
-	public void addApplication(TeamApplication teamApp) {
-		// TODO Auto-generated method stub
-		
-	}
 }
 

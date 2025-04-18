@@ -23,8 +23,7 @@ public interface ProjectControllerInterface{
     public String displayTeamProjectsToApply(HdbOfficer officer);
 
     public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType);
-    
-    public boolean checkClash(String target, String source);
+
 
     //manager methods
     public void displayProjectDashboard(HdbManager manager);

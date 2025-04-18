@@ -130,9 +130,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
     }
 
     public void displayAssignedProjectMenu(HdbOfficer officer) {
-        InputUtils.printBigDivider();
-        System.out.println("ASSIGNED PROJECT MENU");
-        officerController.viewAssignedProjectDetails(officer);
+
     }
 
     public void printStatus(String message) {
