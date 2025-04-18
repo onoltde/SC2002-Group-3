@@ -61,4 +61,9 @@ public class ResidentialApplicationController implements ApplicationController{
         projectController.displayProjectFlatDetails(projectName,flatType);
     }
 
+	public void addApplication(ResidentialApplication residentialApplication) {
+		
+		
+	}
+
 }//end of class
