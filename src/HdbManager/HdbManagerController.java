@@ -87,8 +87,7 @@ public class HdbManagerController implements UserController{
                 break;
             }
         }
-//        projectController.saveChanges();
-        ////////////// have to input hashmap
+        projectController.saveChanges();
     }
     public void displayResApplicationMenu(HdbManager manager) {
         while(true) {

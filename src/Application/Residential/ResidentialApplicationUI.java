@@ -284,9 +284,15 @@ public class ResidentialApplicationUI {
         return controller.approveWithdrawal(manager, applicantId);
     }
 
-    void displayApplications(ArrayList<ResidentialApplication> applications) {
-        //////// !!!!!!!!!!!!!!!!!!!!!!!!!!
-        // printing applications
-    }
+    public void displayApplications(ArrayList<ResidentialApplication> applications) {
+        for(ResidentialApplication e : applications) {
+            InputUtils.printSmallDivider();
 
+            // Display application details
+            System.out.println("--------------------------------");
+            System.out.println("Applicant: " + e.getApplicantId());
+            System.out.println("Project: " + e.getProjectName());
+            System.out.println("Application status: " + e.getStatus());
+        }
+    }
 }
