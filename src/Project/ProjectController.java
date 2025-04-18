@@ -38,8 +38,8 @@ public class ProjectController implements ProjectControllerInterface {
     }
 
     //applicant methods
-    public void displayProjectDashboard(Applicant applicant) {
-        projectUI.displayProjectDashboard(applicant);
+    public void displayProjectDashboard(Applicant applicant, ResidentialApplicationController residentialApplicationController) {
+        projectUI.displayProjectDashboard(applicant, residentialApplicationController);
     }
 
     public void applyProject(Applicant applicant, Project currentProject, Flat.Type flatType){
@@ -52,12 +52,20 @@ public class ProjectController implements ProjectControllerInterface {
         return projectUI.displayTeamProjectsToApply(officer);
     }
 
-    public void displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
+    public String displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
+    	String projName = "";
         if (flatType == Flat.Type.TWOROOM){
-            projectUI.displayTwoRoomResProjectsToApply(officer);
+            projName = projectUI.displayTwoRoomResProjectsToApply(officer);
         }else if (flatType == Flat.Type.THREEROOM){
-            projectUI.displayThreeRoomResProjectsToApply(officer);
+            projName = projectUI.displayThreeRoomResProjectsToApply(officer);
         }
+        return projName;
+    }
+
+    public boolean bookFlat(String projectName, Flat.Type flatType){        //used to approve someones booking
+        Project project = projectRepo.getProject(projectName);
+        Flat flat= project.getFlatInfo().get(flatType);
+        return flat.bookUnit();
     }
 
     //manager methods

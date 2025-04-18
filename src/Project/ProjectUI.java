@@ -1,6 +1,8 @@
 package Project;
 import java.time.LocalDate;
 import java.util.*;
+
+import Application.Residential.ResidentialApplicationController;
 import Utility.*;
 import HdbManager.*;
 import HdbOfficer.*;
@@ -73,7 +75,7 @@ public class ProjectUI {
     }
 
     //applicant methods
-    public void displayProjectDashboard(Applicant applicant){
+    public void displayProjectDashboard(Applicant applicant, ResidentialApplicationController residentialApplicationController){
 
             while (true) {
                 InputUtils.printSmallDivider();
@@ -89,10 +91,10 @@ public class ProjectUI {
 
                 switch (choice) {
                     case 1 -> {//show available two room
-                        displayTwoRoom(applicant);
+                        displayTwoRoom(applicant,residentialApplicationController);
                     }
                     case 2 ->{//show available three room
-                        displayThreeRoom(applicant);
+                        displayThreeRoom(applicant,residentialApplicationController);
                     }
                     case 3 -> {//exit
                         controller.saveChanges();
@@ -104,7 +106,7 @@ public class ProjectUI {
             }
     }
 
-    private void displayTwoRoom(Applicant applicant){
+    private void displayTwoRoom(Applicant applicant, ResidentialApplicationController residentialApplicationController){
         if (!applicant.canApply(Flat.Type.TWOROOM)){
             InputUtils.printSmallDivider();
             System.out.println("You are not eligible to apply for 2-Room flats.");
@@ -147,8 +149,9 @@ public class ProjectUI {
                         System.out.println("You have an active application. You cannot apply to more than 1 project.");
                         return;
                     }else{
-                        controller.applyProject(applicant, currentProject, Flat.Type.TWOROOM);
+                        residentialApplicationController.applyProject(applicant,currentProject, Flat.Type.TWOROOM);
                         System.out.println("Successfully applied for this project.");
+                        return;
                     }
 
                 case 2: // Next project
@@ -166,7 +169,7 @@ public class ProjectUI {
         System.out.println("No more projects to display.");
     }
 
-    private void displayThreeRoom(Applicant applicant){
+    private void displayThreeRoom(Applicant applicant, ResidentialApplicationController residentialApplicationController){
         if (!applicant.canApply(Flat.Type.THREEROOM)){
             InputUtils.printSmallDivider();
             System.out.println("You are not eligible to apply for 3-Room flats.");
@@ -209,8 +212,9 @@ public class ProjectUI {
                         System.out.println("You have an active application. You cannot apply to more than 1 project.");
                         return;
                     }else {
-                        controller.applyProject(applicant, currentProject, Flat.Type.THREEROOM);
+                        residentialApplicationController.applyProject(applicant,currentProject, Flat.Type.THREEROOM);
                         System.out.println("Successfully applied for this project.");
+                        return;
                     }
                 case 2: // Next project
                     currentIndex++;
@@ -229,11 +233,11 @@ public class ProjectUI {
 
 
     //officer methods
-    public void displayTwoRoomResProjectsToApply(HdbOfficer officer){
+    public String displayTwoRoomResProjectsToApply(HdbOfficer officer){
         if (!officer.canApply(Flat.Type.TWOROOM)){
             InputUtils.printSmallDivider();
             System.out.println("You are not eligible to apply for 2-Room flats.");
-            return;
+            return null;
         }
 
         ArrayList<Project> filteredList = controller.getRepo().filterForResApplication(officer.getBlacklist(), Flat.Type.TWOROOM);
@@ -263,14 +267,14 @@ public class ProjectUI {
 
             switch (choice) {
                 case 1: // Apply for current project
-                    System.out.println("call application menu method applyProject(Officer,currentProject)");
+                    return currentProject.getName();
 
                 case 2: // Next project
                     currentIndex++;
                     break;
 
                 case 3: //exit to menu
-                    return;
+                    return null;
 
                 default:
                     System.out.println("Invalid option, please try again.");
@@ -278,13 +282,14 @@ public class ProjectUI {
         }
 
         System.out.println("No more projects to display.");
+        return null;
     }
 
-    public void displayThreeRoomResProjectsToApply(HdbOfficer officer){
+    public String displayThreeRoomResProjectsToApply(HdbOfficer officer){
         if (!officer.canApply(Flat.Type.THREEROOM)){
             InputUtils.printSmallDivider();
             System.out.println("You are not eligible to apply for 3-Room flats.");
-            return;
+            return null;
         }
 
         ArrayList<Project> filteredList = controller.getRepo().filterForResApplication(officer.getBlacklist(), Flat.Type.THREEROOM);
@@ -314,14 +319,14 @@ public class ProjectUI {
 
             switch (choice) {
                 case 1: // Apply for current project
-                    System.out.println("call application menu method applyProject(Officer,currentProject)");
+                	return currentProject.getName();
 
                 case 2: // Next project
                     currentIndex++;
                     break;
 
                 case 3: //exit to menu
-                    return;
+                    return null;
 
                 default:
                     System.out.println("Invalid option, please try again.");
@@ -329,6 +334,7 @@ public class ProjectUI {
         }
 
         System.out.println("No more projects to display.");
+        return null;
     }
 
     public String displayTeamProjectsToApply(HdbOfficer officer){

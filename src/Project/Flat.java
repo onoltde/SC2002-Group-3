@@ -17,9 +17,11 @@ public interface Flat {
 
         int getAvailableUnits();
 
+        boolean bookUnit();
+
         default String typeToString(){
-            int roomCount = (getFlatType() == Type.TWOROOM) ? 2 : 3;
-            return (roomCount + "-Room");
+            String roomCount = (getFlatType() == Type.TWOROOM) ? "2" : "3";
+            return (roomCount);
         }
 
         default String typeToString(Flat.Type flatType) {

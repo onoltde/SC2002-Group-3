@@ -105,6 +105,10 @@ public class HdbOfficer extends Applicant{
     	}
     	this.blacklist.add(ta.getProjectName());
     }
+    
+    public void addToBlackList(String projName) {
+    	this.blacklist.add(projName);
+    }
 
 //
 //    /**

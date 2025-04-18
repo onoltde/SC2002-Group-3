@@ -63,7 +63,10 @@ public class Applicant extends User {
         return false; //default
     }
 
-
+    public void newApplication(ResidentialApplication newApplication){
+        this.residentialApplication = newApplication;
+        this.hasResidentialApplication = true;
+    }
 
 
 }//end of class

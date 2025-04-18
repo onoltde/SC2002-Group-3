@@ -21,16 +21,13 @@ public class TeamApplicationController implements TeamApplicationControllerInter
         this.projectController = projectController;
     }
 
-    @Override   //view team applications as officer to view/apply
-    public void displayApplicationMenu(HdbOfficer officer) {
-        teamAppUI.displayApplicationMenu(officer);
-    }
-
-    @Override   //view team application as manager to accept/reject team applications
+    //maanger methods
+    //@Override   //view team application as manager to accept/reject team applications
     public void displayApplicationMenu(HdbManager manager) {
 
     }
 
+    //officer methods
     public void displayAssignedProject(HdbOfficer officer) {
         String appliedProjectName = officer.getTeamApplication().getProjectName();
         projectController.displayAdminProjectDetails(appliedProjectName);

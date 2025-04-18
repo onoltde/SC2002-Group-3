@@ -2,7 +2,6 @@ package Application.Residential;
 import Applicant.*;
 import Application.Application;
 import HdbOfficer.HdbOfficer;
-import Project.*;
 import Utility.*;
 import Project.Flat;
 
@@ -14,6 +13,7 @@ public class ResidentialApplicationUI {
         this.controller = controller;
     }
 
+    //applicant methods
     public void displayApplicationMenu(Applicant applicant){
         ResidentialApplication application = applicant.getResidentialApplication();
         String projectName = application.getProjectName();
@@ -26,8 +26,9 @@ public class ResidentialApplicationUI {
             System.out.println("Please choose an option:");
             System.out.println("1. View applied project details");
             System.out.println("2. Withdraw application");
-            System.out.println("3. Exit");
-            System.out.print("Enter your choice (1-3): ");
+            System.out.println("3. Make a Booking");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice (1-4): ");
 
             int choice = InputUtils.readInt();
 
@@ -38,7 +39,10 @@ public class ResidentialApplicationUI {
                 case 2 -> {//request withdrawal
                     controller.requestWithdrawal(application);
                 }
-                case 3 -> {//exit
+                case 3 -> {
+                    controller.makeBooking(application);
+                }
+                case 4 -> {//exit
                     return;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-3.\n");
@@ -46,7 +50,8 @@ public class ResidentialApplicationUI {
         }
     }
 
-    public void displayApplicationMenu(HdbOfficer officer) {
+    //officer methods
+    public ResidentialApplication displayApplicationMenu(HdbOfficer officer) {
         if (!officer.hasResidentialApplication()) {
             System.out.println();
             System.out.println("You do not have a current application as a resident.");
@@ -63,13 +68,13 @@ public class ResidentialApplicationUI {
 
                 switch (choice) {
                     case 1 -> {//view 2 room projects and possibly apply
-                        controller.displayProjectsToApply(officer,Flat.Type.TWOROOM);
+                        return controller.displayProjectsToApply(officer,Flat.Type.TWOROOM);
                     }
                     case 2 -> {//view 3 room projects and possibly apply
-                        controller.displayProjectsToApply(officer, Flat.Type.THREEROOM);
+                        return controller.displayProjectsToApply(officer, Flat.Type.THREEROOM);
                     }
                     case 3 -> {//exit
-                        return;
+                        return null;
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
 
@@ -103,7 +108,7 @@ public class ResidentialApplicationUI {
                         controller.requestWithdrawal(application);
                     }
                     case 3 -> {//exit
-                        return;
+                        return null;
                     }
                     default -> System.out.println("Invalid choice! Please enter 1-3.\n");
 
@@ -112,6 +117,7 @@ public class ResidentialApplicationUI {
 
         }
     }
+
 
     public boolean requestWithdrawal(ResidentialApplication application){
         if (application.getStatus() == Application.Status.WITHDRAWING){

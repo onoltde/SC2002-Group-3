@@ -16,7 +16,6 @@ public class HdbOfficerController implements UserController{
     private final TeamApplicationController teamAppController;
     private final ResidentialApplicationController resAppController;
 
-
     public HdbOfficerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController, TeamApplicationController teamAppController) {
         this.projectController = projectController;
         this.resAppController = resAppController;
@@ -43,8 +42,14 @@ public class HdbOfficerController implements UserController{
         resAppController.displayApplicationMenu(hdbOfficer);
     }
 
+    // Display and add residentialApplication to the officer when applicable
     public void displayResidentialMenu(HdbOfficer hdbOfficer) {
-        resAppController.displayApplicationMenu(hdbOfficer);
+        ResidentialApplication ra = resAppController.applicationMenu(hdbOfficer);
+        if (ra != null) {
+        	hdbOfficer.newApplication(ra);
+        	hdbOfficer.addToBlackList(ra.getProjectName());
+        	System.out.printf("Successfully applied for %s \n", ra.getProjectName());
+        }
     }
 
     // Display and add teamApplication to the officer when applicable

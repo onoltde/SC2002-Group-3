@@ -117,7 +117,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
             int choice = InputUtils.readInt();
 
             switch (choice) {
-                case 1 -> displayResidentialMenu(hdbOfficer);
+                case 1 -> officerController.displayResidentialMenu(hdbOfficer);
                 case 2 -> officerController.displayTeamApplicationMenu(hdbOfficer);
                 case 3 -> displayAssignedProjectMenu(hdbOfficer);
                 case 4 -> {
@@ -151,7 +151,7 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         System.out.println();
     }
 
-    public void displayResidentialMenu(HdbOfficer officer) {
-        officerController.displayResidentialMenu(officer);
-    }
+    //public void displayResidentialMenu(HdbOfficer officer) {
+    //    officerController.displayResidentialMenu(officer);
+    //}
 }
