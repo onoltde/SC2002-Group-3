@@ -15,6 +15,7 @@ public class HdbManager extends User {
 
     public String getId(){ return this.managerId; }
     public Project getManagedProject() { return managedProject; }
+    public String getManagedProjectName() { return (managedProject == null ? null : managedProject.getName()); }
 
     @Override
     public String toString() { return "Manager" + super.toString() + ", ID: " + managerId + "}"; }

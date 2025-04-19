@@ -134,7 +134,7 @@ public class ReportUI {
 
         for (Report e : reports) {
             System.out.println(e);
-            System.out.println("--------------------------------");
+            InputUtils.printSmallDivider();
         }
     }
 }
