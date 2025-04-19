@@ -1,4 +1,5 @@
 package Project;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -397,9 +398,10 @@ public class ProjectUI {
         System.out.println("1. Create project");
         System.out.println("2. Edit project");
         System.out.println("3. Delete project");
-        System.out.println("4. View project");
-        System.out.println("5. Back");
-        System.out.print("Enter your choice (1-5): ");
+        System.out.println("4. View my project");
+        System.out.println("5. View all projects");
+        System.out.println("6. Back");
+        System.out.print("Enter your choice (1-6): ");
         int choice = InputUtils.readInt();
         switch (choice) {
             case 1 -> {
@@ -417,6 +419,9 @@ public class ProjectUI {
                 }
                 return null;
             } case 5 -> {
+                displayProjects();
+                return null;
+            } case 6 -> {
                 return new ArrayList<>(Arrays.asList("d"));
             } default -> {
                 System.out.println("Invalid option, please try again.");
@@ -503,13 +508,103 @@ public class ProjectUI {
         String name = InputUtils.nextLine();
         System.out.print("Enter officer slots: ");
         int officerSlots = InputUtils.readInt();
-        return new ArrayList<>(Arrays.asList("b", name, officerSlots));
+        boolean visibility;
+        while(true) {
+            System.out.print("Enter visibility (Y/N): ");
+            String dummy = InputUtils.nextLine();
+            if(dummy.compareTo("Y") == 0) {
+                visibility = true;
+                break;
+            } else if(dummy.compareTo("N") == 0) {
+                visibility = false;
+                break;
+            } else {
+                System.out.println("Please enter valid input!");
+            }
+        }
+        return new ArrayList<>(Arrays.asList("b", name, officerSlots, visibility));
     }
     public ArrayList<Object> deleteProject(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.print("Enter name: ");
         String name = InputUtils.nextLine();
         return new ArrayList<>(Arrays.asList("c", name));
+    }
+
+    public void displayProjects() {
+        while (true) {
+            // Show menu options
+            System.out.println("-------------------------------");
+            System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
+            System.out.println("1. View 2-Room projects");
+            System.out.println("2. View 3-Room projects");
+            System.out.println("3. Back");
+            System.out.print("Enter your choice (1-3): ");
+
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1:
+                    displayProjects(Flat.Type.TWOROOM);
+                    break;
+                case 2:
+                    displayProjects(Flat.Type.THREEROOM);
+                    break;
+
+                case 3: //exit to menu
+                    return;
+
+                default:
+                    System.out.println("Invalid option, please try again.");
+            }
+        }
+    }
+
+    public void displayProjects(Flat.Type flatType) {
+
+        ArrayList<Project> filteredList = controller.getRepo().filterByVisibility();
+        int currentIndex = 0;
+
+        while (currentIndex < filteredList.size()) {
+            Project currentProject = filteredList.get(currentIndex);
+
+            // Display project counter (x/n)
+            InputUtils.printSmallDivider();
+            System.out.printf(flatType.toString() + " Project (%d/%d):\n", currentIndex + 1, filteredList.size());
+
+            // Display project details
+            displayEssentialProjectDetails(currentProject);
+            displayFlatDetails(currentProject.getFlatInfo().get(flatType));
+
+            // Show menu options
+            System.out.println("-------------------------------");
+            System.out.println("\n Please choose an option:");
+            System.out.println("-------------------------------");
+            System.out.println("1. Next project");
+            System.out.println("2. Previous project");
+            System.out.println("3. Exit to menu");
+            System.out.print("Enter your choice (1-3): ");
+
+            int choice = InputUtils.readInt();
+
+            switch (choice) {
+                case 1:
+                    currentIndex++;
+                    break;
+                case 2:
+                    currentIndex = (currentIndex == 0 ? 0 : currentIndex - 1);
+                    break;
+
+                case 3: //exit to menu
+                    return;
+
+                default:
+                    System.out.println("Invalid option, please try again.");
+            }
+        }
+
+        System.out.println("No more projects to display.");
     }
 
 }//end of class

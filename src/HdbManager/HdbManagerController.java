@@ -14,6 +14,7 @@ import Project.Project;
 import Project.ProjectControllerInterface;
 import Report.ReportController;
 import Users.*;
+import Utility.InputUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -77,10 +78,10 @@ public class HdbManagerController implements UserController{
                                 (LocalDate)res.get(4), (LocalDate)res.get(5), manager.getId(),
                                 (int)res.get(6), (boolean) res.get(7));
             } else if((String)res.get(0) == "b") {
-                editProject(manager.getId(), (String)res.get(1), (int)res.get(2));
+                editProject(manager.getId(), (String)res.get(1), (int)res.get(2), (boolean)res.get(3));
             } else if((String)res.get(0) == "c") {
                 deleteProject(manager.getId(), (String)res.get(1));
-            }else {
+            } else {
                 break;
             }
         }
@@ -132,45 +133,70 @@ public class HdbManagerController implements UserController{
                               LocalDate closeDate, String managerId, int officerSlots, boolean visibility) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return;
+        for(Flat e : flatInfo.values()) {
+            if(e.getTotalUnits() < e.getUnitsBooked()) {
+                System.out.println("The number of units booked can not exceed the total unit (" +
+                                    e.getFlatType().toString() + ")!");
+                return;
+            }
+        }
+        if(officerSlots < 0) {
+            System.out.println("The number of officer slots can not be negative!");
+            return;
+        }
+        if(officerSlots > 10) {
+            System.out.println("The number of officer slots can not exceed 10!");
+            return;
+        }
+        if(openDate.isAfter(closeDate)) {
+            System.out.println("The open date must be before close date!");
+            return;
+        }
         Project project = new Project(name, neighbourhood, flatInfo, openDate, closeDate,
                     managerId, officerSlots, new ArrayList<String>(), visibility, new ArrayList<String>());
         if(manager.canManage(project)) {
             manager.setManagedProject(project);
             projectController.getRepo().addProject(project);
+
+            System.out.println();
+            InputUtils.printSmallDivider();
+            System.out.println("Successfully created the project!");
+            System.out.println();
         }
         else { System.out.println("The manager can not manage the project at the time!"); }
     }
 
-    public void editProject(String managerId, String name, int officerSlots) {
+    public void editProject(String managerId, String name, int officerSlots, boolean visibility) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return;
         Project project = projectController.getRepo().getProject(name);
-        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProject().getName()) != 0) {
+        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProjectName()) != 0) {
             System.out.println("The manager is not managing the project!");
             return;
         }
         project.setOfficerSlots(officerSlots);
+        if(project.isVisible() != visibility) project.toggleVisibility();
+
+        System.out.println();
+        InputUtils.printSmallDivider();
+        System.out.println("Successfully edited the project!");
+        System.out.println();
     }
 
     public void deleteProject(String managerId, String name) {
         HdbManager manager = managerRepo.getUser(managerId);
         if(check(manager)) return;
-        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProject().getName()) != 0) {
+        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProjectName()) != 0) {
             System.out.println("The manager is not managing the project!");
             return;
         }
         manager.setManagedProject(null);
         projectController.getRepo().deleteProject(name);
-    }
 
-    public void toggleProjectVisibility(String managerId, String name) {
-        HdbManager manager = managerRepo.getUser(managerId);
-        if(check(manager)) return;
-        if(manager.getManagedProject() == null || name.compareTo(manager.getManagedProject().getName()) != 0) {
-            System.out.println("The manager is not managing the project!");
-            return;
-        }
-        projectController.getRepo().getProject(name).toggleVisibility();
+        System.out.println();
+        InputUtils.printSmallDivider();
+        System.out.println("Successfully deleted the project!");
+        System.out.println();
     }
 
     public void viewCreatedProjects(String managerId) {

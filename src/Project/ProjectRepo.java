@@ -162,6 +162,12 @@ public class ProjectRepo {
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+    public ArrayList<Project> filterByVisibility() {
+        return projectListings.values().stream()
+                .filter(project -> project.isVisible()
+                )
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 
     //helper methods for loadfile and savefile
     private HashMap<Flat.Type,Flat> flatInfoGen(Flat.Type type1, int totalNumOfType1, int numOfType1Booked,int priceOfType1, Flat.Type type2, int totalNumOfType2, int numOfType2Booked, int priceOfType2) {
