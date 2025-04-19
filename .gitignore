@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 /bin/
 =======
+#csv files
+data/
+
 # Compiled class files
 *.class
 
