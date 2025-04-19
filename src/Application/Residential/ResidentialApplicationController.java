@@ -91,7 +91,9 @@ public class ResidentialApplicationController implements ResidentialApplicationC
     }
 
     public boolean bookUnit(ResidentialApplication application){
-        return projectController.bookFlat(application.getProjectName(), application.getFlatType());
+        boolean res = projectController.bookFlat(application.getProjectName(), application.getFlatType());
+        if(res) application.updateStatus(Application.Status.BOOKED);
+        return res;
     }
 
     // manager methods
