@@ -7,12 +7,9 @@ import java.util.regex.Pattern;
 public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
 
     private final ApplicantController applicantController;
-    private final EnquiryController enquiryController;
 
-    public ApplicantUI(ApplicantController applicantController,
-                       EnquiryController enquiryController) {
+    public ApplicantUI(ApplicantController applicantController) {
         this.applicantController = applicantController;
-        this.enquiryController = enquiryController;
     }
 
     public Applicant displayLogin(ApplicantRepo applicantRepo){
@@ -173,7 +170,7 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
                     applicantController.viewCurrentProjects(applicant);
                 }
                 case 3 -> {//go to enquiry menu
-                    enquiryController.showApplicantMenu(applicant);
+                    applicantController.displayEnquiryMenu(applicant);
                 }
                 case 4 -> {//change password
                     changePassword(applicant);

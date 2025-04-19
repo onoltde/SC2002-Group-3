@@ -27,6 +27,7 @@ public class HdbManagerController implements UserController{
     //controller dependencies
     private final ProjectControllerInterface projectController;
     private final HdbOfficerController officerController;
+    private final ApplicantController applicantController;
     private final ResidentialApplicationController resAppController;
     private final TeamApplicationController teamAppController;
     private final EnquiryController enquiryController;
@@ -35,12 +36,14 @@ public class HdbManagerController implements UserController{
     //constructor
     public HdbManagerController(ProjectControllerInterface projectController,
                                 HdbOfficerController officerController,
+                                ApplicantController applicantController,
                                 ResidentialApplicationController resAppController,
                                 TeamApplicationController teamAppController,
                                 EnquiryController enquiryController,
                                 ReportController reportController) {
         this.projectController = projectController;
         this.officerController = officerController;
+        this.applicantController = applicantController;
         this.teamAppController = teamAppController;
         this.resAppController = resAppController;
         this.enquiryController = enquiryController;
@@ -65,7 +68,12 @@ public class HdbManagerController implements UserController{
         enquiryController.saveChanges();
     }
     public void displayReportMenu(HdbManager manager) {
-        reportController.showManagerMenu(manager);
+        while(true) {
+            String res = reportController.showManagerMenu(manager);
+            if(res == null) continue;
+            if(res == "a") break;
+            generateReport(res);
+        }
         reportController.saveChanges();
     }
 
@@ -126,6 +134,27 @@ public class HdbManagerController implements UserController{
             return true;
         }
         return false;
+    }
+    // report
+    public void generateReport(String applicantId) {
+        ResidentialApplication application = resAppController.getRepo().getApplications().get(applicantId);
+        if(application == null) {
+            System.out.println("No such application!");
+            return;
+        }
+        if(application.getStatus() != Application.Status.BOOKED) {
+            System.out.println("Applicant must have booked a flat!");
+            return;
+        }
+        Applicant applicant = applicantController.getApplicantRepo().getUser(applicantId);
+        if(applicant == null) {
+            System.out.println("No such applicant!");
+            return;
+        }
+        System.out.println("Generated Successfully!");
+        System.out.println("Report ID: " + reportController.getRepo().addReport(application.getProjectName(),
+                applicantId, application.getFlatType(),
+                applicant.getAge(), applicant.getMaritalStatus()));
     }
 
     // project managing
@@ -198,20 +227,6 @@ public class HdbManagerController implements UserController{
         System.out.println("Successfully deleted the project!");
         System.out.println();
     }
-
-    public void viewCreatedProjects(String managerId) {
-        HdbManager manager = managerRepo.getUser(managerId);
-        if(check(manager)) return;
-        projectController.displayProjectDashboard(manager);
-    }
-
-//    public void viewPendingOfficers() {
-//        HdbOfficerController.getPendingOfficers().forEach(System.out::println);
-//    }
-//
-//    public void viewApprovedOfficers() {
-//        HdbOfficerController.getApprovedOfficers().forEach(System.out::println);
-//    }
 
     public boolean processOfficerApplication(String managerId, String officerId, boolean status) {
         HdbManager manager = managerRepo.getUser(managerId);
@@ -355,14 +370,14 @@ public class HdbManagerController implements UserController{
         return true;
     }
 
-    public void replyEnquiry(String managerId, String enquiryId, String response) {
-        HdbManager manager = managerRepo.getUser(managerId);
-        if(check(manager)) return;
-        Enquiry enquiry = enquiryController.getEnquiry(enquiryId);
-        if(enquiry == null) {
-            System.out.println("No such enquiry!");
-            return;
-        }
-        enquiry.respond(response);
-    }
+//    public void replyEnquiry(String managerId, String enquiryId, String response) {
+//        HdbManager manager = managerRepo.getUser(managerId);
+//        if(check(manager)) return;
+//        Enquiry enquiry = enquiryController.getEnquiry(enquiryId);
+//        if(enquiry == null) {
+//            System.out.println("No such enquiry!");
+//            return;
+//        }
+//        enquiry.respond(response);
+//    }
 }

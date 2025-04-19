@@ -15,30 +15,29 @@ public class ReportUI {
         this.reportController = reportController;
     }
 
-    public void showManagerMenu(HdbManager manager) {
-        while(true) {
-            System.out.println("\n======= Report Menu =======");
-            System.out.println("1. View Reports");
-            System.out.println("2. Generate Report");
-            System.out.println("3. Back");
-            System.out.print("Enter choice: ");
+    public String showManagerMenu(HdbManager manager) {
+        System.out.println("\n======= Report Menu =======");
+        System.out.println("1. View Reports");
+        System.out.println("2. Generate Report");
+        System.out.println("3. Back");
+        System.out.print("Enter choice: ");
 
-            int choice = InputUtils.readInt();
+        int choice = InputUtils.readInt();
 
 
-            switch(choice) {
-                case 1:
-                    viewReportMenu();
-                    break;
-                case 2:
-                    generateReport(manager);
-                    break;
-                case 3:
-                    return;
-                default:
-                    System.out.println("Invalid choice!");
+        switch(choice) {
+            case 1 -> {
+                viewReportMenu();
+                return null;
+            } case 2 -> {
+                return generateReport(manager);
+            } case 3 -> {
+                return "a";
+            } default -> {
+                System.out.println("Invalid choice!");
             }
         }
+        return null;
     }
 
     public void viewReportMenu() {
@@ -95,8 +94,9 @@ public class ReportUI {
         }
     }
 
-    public void generateReport(HdbManager manager) {
-        /////
+    public String generateReport(HdbManager manager) {
+        System.out.print("Enter the applicant ID: ");
+        return InputUtils.nextLine();
     }
 
     public void displayApplicantReports(String applicantId) {

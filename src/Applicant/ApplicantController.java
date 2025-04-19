@@ -24,7 +24,7 @@ public class ApplicantController implements UserController{
         this.enquiryController = enquiryController;
 
         applicantRepo = new ApplicantRepo(resAppController.getRepo());
-        applicantUI = new ApplicantUI(this, enquiryController);
+        applicantUI = new ApplicantUI(this);
     }
 
     public void runPortal() {
@@ -41,6 +41,7 @@ public class ApplicantController implements UserController{
     public void displayApplicationMenu(Applicant applicant){
         resAppController.displayApplicationMenu(applicant);
     }
+    public void displayEnquiryMenu(Applicant applicant) { enquiryController.showApplicantMenu(applicant); }
 
     public void saveFile(){
         applicantRepo.saveFile();     //saves ApplicantList.csv file
