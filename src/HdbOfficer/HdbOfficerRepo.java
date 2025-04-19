@@ -84,7 +84,7 @@ public class HdbOfficerRepo implements UserRepo <HdbOfficer> {
         }
     }
 
-    public void saveFile(){ //BROKEN NEEDS DEBUGGING ON WRITING BLACKLIST BACK INTO CSV
+    public void saveFile(){
         File file = new File(filePath);
         try {
             // First truncate the file (clear all contents)

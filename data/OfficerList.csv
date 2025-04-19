@@ -1,5 +1,5 @@
 Name,NRIC,Age,Marital Status,Password,OfficerID,Has Residential Application?,Residential Application Status,Residential Project Name,Flat Type,Blacklist,Has Assigned Project,Assigned Project Name,Has Team Application,Team Application,Team Application Status
-Emily,S1234203F,28,SINGLE,password,OF-203F,false,,,,"Acacia Breeze, West BrickVille",true,Acacia Breeze,true,West BrickVille,PENDING
-Preston,S1234204F,35,SINGLE,password,OF-204F,true,WITHDRAWING,Stirling Horizon,TWOROOM,"West BrickVille, Stirling Horizon",false,,true,West BrickVille,PENDING
-Daniel,S1234201F,36,SINGLE,password,OF-201F,true,BOOKED,Stirling Horizon,TWOROOM,"Acacia Breeze, Stirling Horizon",true,Acacia Breeze,false,,
-David,S1234202F,29,MARRIED,password,OF-202F,true,PENDING,West BrickVille,THREEROOM,"West BrickVille, test",false,,true,test,PENDING
+Emily,S1234203F,28,SINGLE,password,OF-203F,FALSE,,,,Acacia Breeze,TRUE,Acacia Breeze,FALSE,,
+Preston,S1234204F,35,SINGLE,password,OF-204F,FALSE,,,,,FALSE,,FALSE,,
+Daniel,S1234201F,36,SINGLE,password,OF-201F,FALSE,,,,Acacia Breeze,TRUE,Acacia Breeze,FALSE,,
+David,S1234202F,29,MARRIED,password,OF-202F,FALSE,,,,,FALSE,,FALSE,,
