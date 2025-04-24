@@ -25,7 +25,7 @@ public class EnquiryUI {
             System.out.println("3. Edit Enquiry");
             System.out.println("4. Delete Enquiry");
             System.out.println("5. Back");
-            System.out.print("Enter choice: ");
+            System.out.print("Enter your choice (1-5): ");
 
             int choice = InputUtils.readInt();
 
@@ -45,7 +45,7 @@ public class EnquiryUI {
                 case 5:
                     return;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid choice! Please enter 1-5.\n");
             }
         }
     }
@@ -184,7 +184,7 @@ public class EnquiryUI {
             System.out.println("\n======= Enquiry Menu =======");
             System.out.println("1. Respond to Enquiry");
             System.out.println("2. Back");
-            System.out.print("Enter choice: ");
+            System.out.print("Enter your choice (1-2): ");
 
             int choice = InputUtils.readInt();
 
@@ -196,7 +196,7 @@ public class EnquiryUI {
                 case 2:
                     return;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid choice! Please enter 1-2.\n");
             }
         }
     }
@@ -224,7 +224,7 @@ public class EnquiryUI {
             System.out.println("1. View Project Enquiries");
             System.out.println("2. Respond to Enquiry");
             System.out.println("3. Back");
-            System.out.print("Enter choice: ");
+            System.out.print("Enter your choice (1-3): ");
 
             int choice = InputUtils.readInt();
 
@@ -239,7 +239,7 @@ public class EnquiryUI {
                 case 3:
                     return;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid choice! Please enter 1-5.\n");
             }
         }
     }
