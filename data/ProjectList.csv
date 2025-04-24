@@ -1,6 +1,5 @@
 Project Name,Neighborhood,Type 1,Total number of units for Type 1,Number of units Booked for Type 1,Selling price for Type 1,Type 2,Total number of units for Type 2,Number of units Booked for Type 2,Selling price for Type 2,Application opening date,Application closing date,ManagerID,Officer Team Slots,Officer Team,Visibility,Pending Officers,END
-West BrickVille,Chua Chu Kang,TWOROOM,3,0,340000,THREEROOM,4,0,430000,10/1/2025,20/6/2025,MA-303F,1,,TRUE,,END
-Acacia Breeze,Yishun,TWOROOM,2,0,350000,THREEROOM,3,0,450000,10/2/2025,20/7/2025,MA-301F,3,"OF-201F, OF-203F",TRUE,,END
-Stirling Horizon,Queenstown,TWOROOM,4,0,380000,THREEROOM,5,0,500000,10/3/2025,20/8/2025,MA-302F,2,,TRUE,,END
-test,test,TWOROOM,10,0,123,THREEROOM,10,0,1234,1/1/2025,2/2/2025,MA-301F,10,,TRUE,,END
-Happy,Jurong East,TWOROOM,10,0,1000,THREEROOM,10,0,2000,6/6/2025,12/12/2025,MA-304F,10,,TRUE,,END
+Acacia Breeze,Chua Chu Kang,TWOROOM,3,0,340000,THREEROOM,4,0,430000,10/1/2025,20/6/2025,MA-301F,1,OF-201F,TRUE,,END
+Birch Heights,Yishun,TWOROOM,2,0,350000,THREEROOM,3,0,450000,10/2/2025,20/7/2025,MA-302F,2,,TRUE,,END
+Crimson Park,Queenstown,TWOROOM,4,0,380000,THREEROOM,5,0,440000,10/3/2025,20/8/2025,MA-303F,2,OF-203F,TRUE,,END
+Dawson Ville,Bishan,TWOROOM,4,0,330000,THREEROOM,5,0,410000,10/3/2025,20/8/2025,MA-304F,1,,FALSE,,END

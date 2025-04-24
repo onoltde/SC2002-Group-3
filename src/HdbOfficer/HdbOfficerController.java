@@ -122,10 +122,18 @@ public class HdbOfficerController implements UserController{
             System.out.println("No such applicant!");
             return;
         }
+        
         System.out.println("Generated Successfully!");
-        System.out.println("Report ID: " + reportController.getRepo().addReport(application.getProjectName(),
+        System.out.printf("Applicant's name: %s\n", applicant.getName());
+        System.out.printf("Applicant's NRIC: %s\n", applicant.getNric());
+        System.out.printf("Applicant's age: %s\n", applicant.getAge());
+        System.out.printf("Applicant's marital status: %s\n", applicant.getMaritalStatus());
+        System.out.printf("Flat type booked: %s\n\n", application.getFlatType());
+        projectController.displayAdminProjectDetails(application.getProjectName());
+        
+        reportController.getRepo().addReport(application.getProjectName(),
                 applicantId, application.getFlatType(),
-                applicant.getAge(), applicant.getMaritalStatus()));
+                applicant.getAge(), applicant.getMaritalStatus());
     }
 
     public HdbOfficerRepo getRepo(){

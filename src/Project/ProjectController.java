@@ -80,7 +80,7 @@ public class ProjectController implements ProjectControllerInterface {
         ResidentialApplicationController resAppController = new ResidentialApplicationController(this);
         resAppController.applyProject(applicant, currentProject, flatType);
     }
-
+  
     // Officer methods
 
     /**
@@ -88,6 +88,11 @@ public class ProjectController implements ProjectControllerInterface {
      * @param officer The officer viewing available projects.
      * @return A string containing the available projects for the officer.
      */
+    public void displayProjectDetails(String projectName) {
+    	Project p = projectRepo.getProject(projectName);
+    	projectUI.displayEssentialProjectDetails(p);
+    }
+    
     public String displayTeamProjectsToApply(HdbOfficer officer){
         return projectUI.displayTeamProjectsToApply(officer);
     }
