@@ -3,7 +3,7 @@
 This is a **BTO Management System (HMS)** designed for managing BTO applications using Object-Oriented Design principles. This project was developed as part of the **SC2002 Object-Oriented Design & Programming** course for AY24/25 Semester 2, FCS2, Group 3.
 
 ### Report
-- Please refer to Report.pdf for a detailed report on this project
+- Please refer to SC2002-FCS2-Grp3-Report.pdf in our github repository for a detailed report on this project
 
 ### UML diagrams
 - UML class diagram and Sequence diagram can be found in the UML diagram folder 
