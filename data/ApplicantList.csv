@@ -1,6 +1,6 @@
 Name,NRIC,Age,MaritalStatus,Password,ApplicantID,Has Application?,Application Status,Project Name,Flat Type
-James,S1234104F,30,MARRIED,password,AP-104F,true,BOOKING,Acacia Breeze,TWOROOM
-Rachel,S1234105F,25,SINGLE,password,AP-105F,false
-Sarah,S1234102F,40,MARRIED,password,AP-102F,false
-Grace,S1234103F,37,MARRIED,password,AP-103F,false
-John,S1234101F,35,SINGLE,password123,AP-101F,false
+Andy,S1234101F,35,SINGLE,password,AP-101F,FALSE,,,
+Bill,S1234102F,40,MARRIED,password,AP-102F,TRUE,PENDING,Acacia Breeze,TWOROOM
+Cole,S1234103F,37,MARRIED,password,AP-103F,TRUE,PENDING,Acacia Breeze,THREEROOM
+Dylan,S1234104F,30,MARRIED,password,AP-104F,FALSE,,,
+Ernesto,S1234105F,25,SINGLE,password,AP-105F,FALSE,,,

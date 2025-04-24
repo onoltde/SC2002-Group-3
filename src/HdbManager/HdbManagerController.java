@@ -306,11 +306,11 @@ public class HdbManagerController implements UserController{
             return false;
         }
         if(application.getStatus() == Application.Status.SUCCESSFUL) {
-            System.out.println("The officer is already approved!");
+            System.out.println("The applicant is already approved!");
             return false;
         }
         if(application.getStatus() == Application.Status.UNSUCCESSFUL) {
-            System.out.println("The officer is already rejected!");
+            System.out.println("The applicant is already rejected!");
             return false;
         }
         ///////////////////////////////////////////////////////////
