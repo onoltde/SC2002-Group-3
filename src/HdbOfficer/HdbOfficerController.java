@@ -1,4 +1,6 @@
 package HdbOfficer;
+import Applicant.Applicant;
+import Application.Application;
 import Application.ResidentialApplicationControllerInterface;
 import Application.Team.*;
 import Enquiry.EnquiryController;
@@ -8,6 +10,8 @@ import Application.TeamApplicationControllerInterface;
 import Project.Flat;
 import Project.Project;
 import Project.ProjectControllerInterface;
+import Report.ReportController;
+import Applicant.ApplicantController;
 import Users.*;
 
 public class HdbOfficerController implements UserController{
@@ -20,12 +24,18 @@ public class HdbOfficerController implements UserController{
     private final TeamApplicationController teamAppController;
     private final ResidentialApplicationController resAppController;
     private final EnquiryController enquiryController;
+    private final ReportController reportController;
+    private final ApplicantController applicantController;
 
-    public HdbOfficerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController, TeamApplicationController teamAppController, EnquiryController enquiryController) {
+    public HdbOfficerController(ProjectControllerInterface projectController, ResidentialApplicationController resAppController,
+                                TeamApplicationController teamAppController, EnquiryController enquiryController,
+                                ReportController reportController, ApplicantController applicantController) {
         this.projectController = projectController;
         this.resAppController = resAppController;
         this.teamAppController = teamAppController;
         this.enquiryController = enquiryController;
+        this.reportController = reportController;
+        this.applicantController = applicantController;
         officerRepo = new HdbOfficerRepo(resAppController.getRepo(),teamAppController.getRepo());
         officerUI = new HdbOfficerUI(this);
     }
@@ -81,6 +91,41 @@ public class HdbOfficerController implements UserController{
     public void viewProjectEnquiries(HdbOfficer officer){
     	enquiryController.showOfficerMenu(officer);
         enquiryController.saveChanges();
+    }
+
+    public void viewReport(HdbOfficer officer) {
+        while(true) {
+            String res = reportController.showOfficerMenu(officer);
+            if(res == null) continue;
+            if(res == "a") break;
+            generateReport(res, officer);
+
+        }
+        reportController.getRepo().saveFile();
+    }
+    public void generateReport(String applicantId, HdbOfficer officer) {
+        ResidentialApplication application = resAppController.getRepo().getApplications().get(applicantId);
+        if(application == null) {
+            System.out.println("No such application!");
+            return;
+        }
+        if(application.getStatus() != Application.Status.BOOKED) {
+            System.out.println("Applicant must have booked a flat!");
+            return;
+        }
+        if(!application.getProjectName().equals(officer.getAssignedProjectName())) {
+            System.out.println("The officer is not in the project!");
+            return;
+        }
+        Applicant applicant = applicantController.getApplicantRepo().getUser(applicantId);
+        if(applicant == null) {
+            System.out.println("No such applicant!");
+            return;
+        }
+        System.out.println("Generated Successfully!");
+        System.out.println("Report ID: " + reportController.getRepo().addReport(application.getProjectName(),
+                applicantId, application.getFlatType(),
+                applicant.getAge(), applicant.getMaritalStatus()));
     }
 
     public HdbOfficerRepo getRepo(){

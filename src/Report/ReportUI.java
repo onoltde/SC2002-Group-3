@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import HdbManager.HdbManager;
+import HdbOfficer.HdbOfficer;
 import Project.*;
 import Users.*;
 import Utility.InputUtils;
@@ -30,7 +31,7 @@ public class ReportUI {
                 viewReportMenu();
                 return null;
             } case 2 -> {
-                return generateReport(manager);
+                return generateReport();
             } case 3 -> {
                 return "a";
             } default -> {
@@ -94,7 +95,32 @@ public class ReportUI {
         }
     }
 
-    public String generateReport(HdbManager manager) {
+    public String showOfficerMenu(HdbOfficer officer) {
+        System.out.println("\n======= Report Menu =======");
+        System.out.println("1. View Reports");
+        System.out.println("2. Generate Report");
+        System.out.println("3. Back");
+        System.out.print("Enter choice: ");
+
+        int choice = InputUtils.readInt();
+
+
+        switch(choice) {
+            case 1 -> {
+                displayProjectReports(officer.getAssignedProjectName());
+                return null;
+            } case 2 -> {
+                return generateReport();
+            } case 3 -> {
+                return "a";
+            } default -> {
+                System.out.println("Invalid choice!");
+            }
+        }
+        return null;
+    }
+
+    public String generateReport() {
         System.out.print("Enter the applicant ID: ");
         return InputUtils.nextLine();
     }
