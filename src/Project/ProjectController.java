@@ -50,6 +50,11 @@ public class ProjectController implements ProjectControllerInterface {
     }
 
     //offcier methods
+    public void displayProjectDetails(String projectName) {
+    	Project p = projectRepo.getProject(projectName);
+    	projectUI.displayEssentialProjectDetails(p);
+    }
+    
     public String displayTeamProjectsToApply(HdbOfficer officer){
         return projectUI.displayTeamProjectsToApply(officer);
     }
