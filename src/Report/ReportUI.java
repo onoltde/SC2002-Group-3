@@ -1,7 +1,6 @@
 package Report;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import HdbManager.HdbManager;
 import HdbOfficer.HdbOfficer;
@@ -25,24 +24,49 @@ public class ReportUI {
 
         int choice = InputUtils.readInt();
 
-
-        switch(choice) {
+        switch (choice) {
             case 1 -> {
                 viewReportMenu();
                 return null;
-            } case 2 -> {
-                return generateReport();
-            } case 3 -> {
-                return "a";
-            } default -> {
-                System.out.println("Invalid choice! Please enter 1-3.\n");
             }
+            case 2 -> {
+                return generateReport();
+            }
+            case 3 -> {
+                return "a";
+            }
+            default -> System.out.println("Invalid choice! Please enter 1-3.\n");
+        }
+        return null;
+    }
+
+    public String showOfficerMenu(HdbOfficer officer) {
+        System.out.println("\n======= Report Menu =======");
+        System.out.println("1. View Reports");
+        System.out.println("2. Generate Report");
+        System.out.println("3. Back");
+        System.out.print("Enter your choice (1-3): ");
+
+        int choice = InputUtils.readInt();
+
+        switch (choice) {
+            case 1 -> {
+                displayProjectReports(officer.getAssignedProjectName());
+                return null;
+            }
+            case 2 -> {
+                return generateReport();
+            }
+            case 3 -> {
+                return "a";
+            }
+            default -> System.out.println("Invalid choice! Please enter 1-3.\n");
         }
         return null;
     }
 
     public void viewReportMenu() {
-        while(true) {
+        while (true) {
             System.out.println("\n======= Report Filter Menu =======");
             System.out.println("Filter by:");
             System.out.println("1. Applicant");
@@ -55,69 +79,38 @@ public class ReportUI {
 
             int choice = InputUtils.readInt();
 
-            switch(choice) {
-                case 1:
+            switch (choice) {
+                case 1 -> {
                     System.out.print("Enter Applicant ID: ");
-                    String applicantId = InputUtils.nextLine();
-                    displayApplicantReports(applicantId);
-                    break;
-                case 2:
+                    displayApplicantReports(InputUtils.nextLine());
+                }
+                case 2 -> {
                     System.out.print("Enter Project Name: ");
-                    String projectName = InputUtils.nextLine();
-                    displayProjectReports(projectName);
-                    break;
-                case 3:
+                    displayProjectReports(InputUtils.nextLine());
+                }
+                case 3 -> {
                     System.out.println("Select Marital Status:");
                     System.out.println("1. SINGLE");
                     System.out.println("2. MARRIED");
                     int statusChoice = InputUtils.readInt();
-
-                    User.MaritalStatus status = statusChoice == 1 ? User.MaritalStatus.SINGLE : User.MaritalStatus.MARRIED;
+                    User.MaritalStatus status = (statusChoice == 1) ? User.MaritalStatus.SINGLE : User.MaritalStatus.MARRIED;
                     displayReportsByMaritalStatus(status);
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     System.out.println("Select Flat Type:");
                     System.out.println("1. Two Room");
                     System.out.println("2. Three Room");
                     int typeChoice = InputUtils.readInt();
-
-                    Flat.Type flatType = typeChoice == 1 ? Flat.Type.TWOROOM : Flat.Type.THREEROOM;
+                    Flat.Type flatType = (typeChoice == 1) ? Flat.Type.TWOROOM : Flat.Type.THREEROOM;
                     displayReportsByFlatType(flatType);
-                    break;
-                case 5:
-                    displayAllReports();
-                    break;
-                case 6:
+                }
+                case 5 -> displayAllReports();
+                case 6 -> {
                     return;
-                default:
-                    System.out.println("Invalid choice! Please enter 1-6.\n");
+                }
+                default -> System.out.println("Invalid choice! Please enter 1-6.\n");
             }
         }
-    }
-
-    public String showOfficerMenu(HdbOfficer officer) {
-        System.out.println("\n======= Report Menu =======");
-        System.out.println("1. View Reports");
-        System.out.println("2. Generate Report");
-        System.out.println("3. Back");
-        System.out.print("Enter you choice (1-3): ");
-
-        int choice = InputUtils.readInt();
-
-
-        switch(choice) {
-            case 1 -> {
-                displayProjectReports(officer.getAssignedProjectName());
-                return null;
-            } case 2 -> {
-                return generateReport();
-            } case 3 -> {
-                return "a";
-            } default -> {
-                System.out.println("Invalid choice! Please enter 1-3.\n");
-            }
-        }
-        return null;
     }
 
     public String generateReport() {
@@ -158,8 +151,8 @@ public class ReportUI {
             return;
         }
 
-        for (Report e : reports) {
-            System.out.println(e);
+        for (Report report : reports) {
+            System.out.println(report);
             InputUtils.printSmallDivider();
         }
     }

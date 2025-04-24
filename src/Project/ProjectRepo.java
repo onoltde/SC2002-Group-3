@@ -1,4 +1,5 @@
 package Project;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -8,16 +9,26 @@ import Application.Team.TeamApplication;
 import Utility.*;
 import HdbOfficer.*;
 
+/**
+ * Repository class for managing a collection of HDB housing projects.
+ * Handles reading from and writing to a CSV file that stores project information.
+ */
 public class ProjectRepo {
 
     private static final String filePath = "data\\ProjectList.csv";
     private HashMap<String, Project> projectListings;
 
+    /**
+     * Constructor that initializes the project repository and loads existing project data from file.
+     */
     public ProjectRepo() {
         this.projectListings = new HashMap<String, Project>();
         loadFile();
     }
 
+    /**
+     * Loads the project data from the CSV file and populates the internal project listing.
+     */
     private void loadFile() {
         File file = new File(filePath);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -52,10 +63,10 @@ public class ProjectRepo {
                     ArrayList<String> assignedOfficers = stringToList(values[14]);
                     boolean visibility = Boolean.parseBoolean(values[15].trim().toLowerCase());
                     ArrayList<String> pendingOfficers = stringToList(values[16]);
-                    HashMap<Flat.Type,Flat> flatInfo = flatInfoGen(type1, totalNumOfType1, numOfType1Booked, priceOfType1, type2, totalNumOfType2,numOfType2Booked, priceOfType2);
+                    HashMap<Flat.Type, Flat> flatInfo = flatInfoGen(type1, totalNumOfType1, numOfType1Booked, priceOfType1, type2, totalNumOfType2, numOfType2Booked, priceOfType2);
 
-                    Project newProject = new Project(name,  neighbourhood,  flatInfo, openDate,  closeDate, managerId, officerSlots, assignedOfficers, visibility, pendingOfficers);
-                    this.projectListings.put(name,newProject);
+                    Project newProject = new Project(name, neighbourhood, flatInfo, openDate, closeDate, managerId, officerSlots, assignedOfficers, visibility, pendingOfficers);
+                    this.projectListings.put(name, newProject);
                 }
 
             }
@@ -64,6 +75,9 @@ public class ProjectRepo {
         }
     }
 
+    /**
+     * Saves all project data to the CSV file, overwriting existing contents.
+     */
     public void saveProjects() {
         File file = new File(filePath);
         try {
@@ -113,40 +127,84 @@ public class ProjectRepo {
         }
     }
 
-    public Project getProject(String name){
+    /**
+     * Retrieves a project by name.
+     *
+     * @param name the name of the project
+     * @return the corresponding Project object, or null if not found
+     */
+    public Project getProject(String name) {
         return projectListings.get(name);
     }
 
+    /**
+     * Adds a new project to the repository.
+     *
+     * @param newProject the Project object to add
+     */
     public void addProject(Project newProject) {
         this.projectListings.put(newProject.getName(), newProject);
     }
 
-    public void deleteProject(String name) { this.projectListings.remove(name); }
+    /**
+     * Removes a project from the repository by its name.
+     *
+     * @param name the name of the project to remove
+     */
+    public void deleteProject(String name) {
+        this.projectListings.remove(name);
+    }
 
-    public HashMap<String,Project> getProjectListings(){
+    /**
+     * Returns the current list of all projects.
+     *
+     * @return a HashMap containing all project listings
+     */
+    public HashMap<String, Project> getProjectListings() {
         return projectListings;
     }
 
-    //filter methods
+    /**
+     * Filters projects that are visible, within the application date range,
+     * and have available units of the specified flat type.
+     *
+     * @param flatType the flat type to filter by
+     * @return a list of matching projects
+     */
     public ArrayList<Project> filterByAvailUnitType(Flat.Type flatType) {
         return projectListings.values().stream()
                 .filter(project -> project.isVisible()
                         && project.isWithinDateRange()
                         && project.hasAvailUnits(flatType)
-                        )
+                )
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Filters projects for residential applications by excluding blacklisted projects
+     * and including only those with available units of the specified flat type.
+     *
+     * @param blacklist list of project names to exclude
+     * @param flatType  the flat type to filter by
+     * @return a list of filtered projects suitable for application
+     */
     public ArrayList<Project> filterForResApplication(ArrayList<String> blacklist, Flat.Type flatType) {
         return filterByAvailUnitType(flatType).stream()
                 .filter(project -> !blacklist.contains(project.getName()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Filters projects for team applications by a specific officer.
+     * Excludes blacklisted projects and those that overlap with the officer's current assignment.
+     *
+     * @param officer the HdbOfficer applying for team projects
+     * @return a list of projects suitable for the officer's application
+     */
     public ArrayList<Project> filterForTeamApplication(HdbOfficer officer) {
         ArrayList<String> blacklist = officer.getBlacklist();
         Project currentAssignedProject;
-        if (officer.hasAssignedProject()){
+        if (officer.hasAssignedProject()) {
             currentAssignedProject = projectListings.get(officer.getAssignedProjectName());
         } else {
             currentAssignedProject = null;
@@ -162,23 +220,48 @@ public class ProjectRepo {
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
+    /**
+     * Filters and returns only the projects that are marked as visible.
+     *
+     * @return a list of visible projects
+     */
     public ArrayList<Project> filterByVisibility() {
         return projectListings.values().stream()
-                .filter(project -> project.isVisible()
-                )
+                .filter(project -> project.isVisible())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    //helper methods for loadfile and savefile
-    private HashMap<Flat.Type,Flat> flatInfoGen(Flat.Type type1, int totalNumOfType1, int numOfType1Booked,int priceOfType1, Flat.Type type2, int totalNumOfType2, int numOfType2Booked, int priceOfType2) {
-        HashMap<Flat.Type,Flat> flatInfo = new HashMap<>();
-        Flat flat1 = new TwoRoomFlat(type1,totalNumOfType1,numOfType1Booked,priceOfType1);
-        Flat flat2 = new ThreeRoomFlat(type2,totalNumOfType2,numOfType2Booked,priceOfType2);
-        flatInfo.put(type1,flat1);
-        flatInfo.put(type2,flat2);
+    /**
+     * Helper method to generate flat information for a project.
+     *
+     * @param type1            type of first flat
+     * @param totalNumOfType1  total units of first flat type
+     * @param numOfType1Booked number of booked units of first flat type
+     * @param priceOfType1     price of first flat type
+     * @param type2            type of second flat
+     * @param totalNumOfType2  total units of second flat type
+     * @param numOfType2Booked number of booked units of second flat type
+     * @param priceOfType2     price of second flat type
+     * @return a HashMap of flat types to their Flat objects
+     */
+    private HashMap<Flat.Type, Flat> flatInfoGen(
+            Flat.Type type1, int totalNumOfType1, int numOfType1Booked, int priceOfType1,
+            Flat.Type type2, int totalNumOfType2, int numOfType2Booked, int priceOfType2) {
+        HashMap<Flat.Type, Flat> flatInfo = new HashMap<>();
+        Flat flat1 = new TwoRoomFlat(type1, totalNumOfType1, numOfType1Booked, priceOfType1);
+        Flat flat2 = new ThreeRoomFlat(type2, totalNumOfType2, numOfType2Booked, priceOfType2);
+        flatInfo.put(type1, flat1);
+        flatInfo.put(type2, flat2);
         return flatInfo;
     }
 
+    /**
+     * Converts a list of strings to a single CSV-compatible string with quotes.
+     *
+     * @param list the list of strings to convert
+     * @return a CSV-formatted string with elements joined by comma and surrounded by quotes
+     */
     public static String listToString(ArrayList<String> list) {
         // Join elements with ", " delimiter
         String joined = String.join(", ", list);
@@ -186,6 +269,13 @@ public class ProjectRepo {
         return "\"" + joined + "\"";
     }
 
+    /**
+     * Converts a CSV-formatted string into a list of strings.
+     * Trims whitespace and removes empty elements.
+     *
+     * @param input the input string to convert
+     * @return a list of individual string elements
+     */
     public static ArrayList<String> stringToList(String input) {
         ArrayList<String> result = new ArrayList<>();
 
@@ -214,6 +304,4 @@ public class ProjectRepo {
 
         return result;
     }
-
-
-}//end of class
+}
