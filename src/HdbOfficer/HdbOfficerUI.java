@@ -1,4 +1,5 @@
 package HdbOfficer;
+
 import HdbManager.HdbManager;
 import Project.Flat;
 import Project.Flat.Type;
@@ -10,14 +11,29 @@ import Users.*;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * User interface for managing HDB Officer functionalities.
+ * Provides methods for logging in, changing passwords, and navigating the officer dashboard.
+ */
 public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
 
     private final HdbOfficerController officerController;
 
+    /**
+     * Constructs the HdbOfficerUI with the given HdbOfficerController.
+     *
+     * @param hdbOfficerController The controller responsible for managing officer-related actions.
+     */
     public HdbOfficerUI(HdbOfficerController hdbOfficerController) {
         officerController = hdbOfficerController;
     }
 
+    /**
+     * Displays the login menu, allowing an officer to log in, reset their password, or exit to the main menu.
+     *
+     * @param officerRepo The repository of HDB officers.
+     * @return The logged-in officer, or null if the user chooses to exit.
+     */
     public HdbOfficer displayLogin(HdbOfficerRepo officerRepo) {
         while (true) {
             InputUtils.printBigDivider();
@@ -47,6 +63,12 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         }
     }
 
+    /**
+     * Handles officer login by verifying NRIC and password.
+     *
+     * @param officerRepo The repository of HDB officers.
+     * @return The logged-in officer if successful, or null if login fails.
+     */
     public HdbOfficer login(HdbOfficerRepo officerRepo) {
         try {
             InputUtils.printBigDivider();
@@ -77,6 +99,11 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         }
     }
 
+    /**
+     * Allows an officer to reset their password if they forget it.
+     *
+     * @param officerRepo The repository of HDB officers.
+     */
     public void forgetPassword(HdbOfficerRepo officerRepo) {
         try {
             System.out.print("Enter NRIC: ");
@@ -99,6 +126,11 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         }
     }
 
+    /**
+     * Allows an officer to change their password, ensuring it meets the minimum length requirement.
+     *
+     * @param officer The officer whose password is being changed.
+     */
     public void changePassword(HdbOfficer officer) {
         final int MIN_PASSWORD_LENGTH = 8;
 
@@ -123,6 +155,11 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         }
     }
 
+    /**
+     * Displays the officer's dashboard with various menu options for managing applications, projects, and password.
+     *
+     * @param hdbOfficer The officer whose dashboard is being displayed.
+     */
     public void displayDashboard(HdbOfficer hdbOfficer) {
         while (true) {
             InputUtils.printBigDivider();
@@ -159,6 +196,11 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
         }
     }
 
+    /**
+     * Displays the menu for managing assigned projects.
+     *
+     * @param hdbOfficer The officer whose assigned projects are being managed.
+     */
     public void displayAssignedProjectMenu(HdbOfficer hdbOfficer) {
         while (true) {
             InputUtils.printSmallDivider();
@@ -182,5 +224,4 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
             }
         }
     }
-
 }
