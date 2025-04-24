@@ -21,7 +21,7 @@ public class ReportUI {
         System.out.println("1. View Reports");
         System.out.println("2. Generate Report");
         System.out.println("3. Back");
-        System.out.print("Enter choice: ");
+        System.out.print("Enter your choice (1-3): ");
 
         int choice = InputUtils.readInt();
 
@@ -35,7 +35,7 @@ public class ReportUI {
             } case 3 -> {
                 return "a";
             } default -> {
-                System.out.println("Invalid choice!");
+                System.out.println("Invalid choice! Please enter 1-3.\n");
             }
         }
         return null;
@@ -51,7 +51,7 @@ public class ReportUI {
             System.out.println("4. Flat type");
             System.out.println("5. View All Reports");
             System.out.println("6. Back");
-            System.out.print("Enter choice: ");
+            System.out.print("Enter your choice (1-6): ");
 
             int choice = InputUtils.readInt();
 
@@ -90,7 +90,7 @@ public class ReportUI {
                 case 6:
                     return;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid choice! Please enter 1-6.\n");
             }
         }
     }
@@ -100,7 +100,7 @@ public class ReportUI {
         System.out.println("1. View Reports");
         System.out.println("2. Generate Report");
         System.out.println("3. Back");
-        System.out.print("Enter choice: ");
+        System.out.print("Enter you choice (1-3): ");
 
         int choice = InputUtils.readInt();
 
@@ -114,7 +114,7 @@ public class ReportUI {
             } case 3 -> {
                 return "a";
             } default -> {
-                System.out.println("Invalid choice!");
+                System.out.println("Invalid choice! Please enter 1-3.\n");
             }
         }
         return null;
