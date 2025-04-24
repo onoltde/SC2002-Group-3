@@ -281,7 +281,7 @@ public class HdbManagerController implements UserController{
             application.updateStatus(Application.Status.SUCCESSFUL);
             project.setOfficerSlots(project.getOfficerSlots() - 1);
         } else {
-            System.out.println("Successfully approved!");
+            System.out.println("Successfully rejected!");
             officer.assignProject(application.getProjectName());
             application.updateStatus(Application.Status.UNSUCCESSFUL);
         }
