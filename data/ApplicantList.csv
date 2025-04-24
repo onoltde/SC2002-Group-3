@@ -1,6 +1,6 @@
 Name,NRIC,Age,MaritalStatus,Password,ApplicantID,Has Application?,Application Status,Project Name,Flat Type
-James,S1234104F,30,MARRIED,password,AP-104F,FALSE,,,
-Rachel,S1234105F,25,SINGLE,password,AP-105F,FALSE,,,
-Sarah,S1234102F,40,MARRIED,password,AP-102F,FALSE,,,
-Grace,S1234103F,37,MARRIED,password,AP-103F,FALSE,,,
-John,S1234101F,35,SINGLE,password123,AP-101F,FALSE,,,
+James,S1234104F,30,MARRIED,password,AP-104F,true,BOOKED,West BrickVille,TWOROOM
+Rachel,S1234105F,25,SINGLE,password,AP-105F,false
+Sarah,S1234102F,40,MARRIED,password,AP-102F,true,BOOKED,West BrickVille,THREEROOM
+Grace,S1234103F,37,MARRIED,password,AP-103F,false
+John,S1234101F,35,SINGLE,password123,AP-101F,true,BOOKED,West BrickVille,TWOROOM

@@ -1,21 +1,41 @@
 package Applicant;
+
 import Users.*;
 import Application.Residential.*;
 import Project.*;
 import java.io.*;
 import java.util.*;
 
-public class ApplicantRepo implements UserRepo<Applicant>{
+/**
+ * Repository class responsible for managing storage, retrieval, and persistence
+ * of Applicant objects. Handles file I/O operations for reading and writing applicant data.
+ */
+public class ApplicantRepo implements UserRepo<Applicant> {
+
+    /** Path to the CSV file storing applicant data. */
     private static final String applicantFilePath = "data\\ApplicantList.csv";
+
+    /** In-memory storage of applicants, keyed by their unique applicant ID. */
     private static HashMap<String, Applicant> applicants;
+
+    /** Repository for residential applications, used to link applications with applicants. */
     private ResidentialApplicationRepo applicationRepo;
 
+    /**
+     * Constructs an ApplicantRepo and loads applicant data from file.
+     *
+     * @param applicationRepo The residential application repository
+     */
     public ApplicantRepo(ResidentialApplicationRepo applicationRepo) {
-        applicants = new HashMap<String,Applicant>();
+        applicants = new HashMap<String, Applicant>();
         this.applicationRepo = applicationRepo;
         loadFile();
     }
 
+    /**
+     * Loads applicant data from a CSV file. Each line in the file represents
+     * an applicant, optionally with a linked residential application.
+     */
     public void loadFile() {
         File applicantList = new File(applicantFilePath);
         try (BufferedReader br = new BufferedReader(new FileReader(applicantList))) {
@@ -26,8 +46,7 @@ public class ApplicantRepo implements UserRepo<Applicant>{
             while (line != null) {
                 String[] values = line.split(",");
 
-                if (values.length >= 7) //applicant has essential information
-                {
+                if (values.length >= 7) { // applicant has essential information
                     String name = values[0].trim();
                     String nric = values[1].trim();
                     int age = Integer.parseInt(values[2].trim());
@@ -35,14 +54,14 @@ public class ApplicantRepo implements UserRepo<Applicant>{
                     String password = values[4].trim();
                     String applicantID = generateID(nric);
 
-                    //application portion of csv file
+                    // Application portion of CSV file
                     boolean hasApplication = Boolean.parseBoolean(values[6].trim().toLowerCase());
                     ResidentialApplication residentialApplication = null;
-                    if(hasApplication){     //applicant has residentialApplication
+                    if (hasApplication) {
                         ResidentialApplication.Status status = ResidentialApplication.Status.valueOf(values[7].trim().toUpperCase());
                         String projectName = values[8].trim();
                         Flat.Type flatType = Flat.Type.valueOf(values[9].trim().toUpperCase());
-                        residentialApplication = new ResidentialApplication(applicantID,status,projectName,flatType);
+                        residentialApplication = new ResidentialApplication(applicantID, status, projectName, flatType);
                         applicationRepo.addApplication(residentialApplication);
                     }
 
@@ -56,7 +75,10 @@ public class ApplicantRepo implements UserRepo<Applicant>{
         }
     }
 
-    public void saveFile(){
+    /**
+     * Saves all applicant data to the CSV file. Overwrites the existing file content.
+     */
+    public void saveFile() {
         File file = new File(applicantFilePath);
         try {
             // First truncate the file (clear all contents)
@@ -80,7 +102,7 @@ public class ApplicantRepo implements UserRepo<Applicant>{
                             .append(applicant.getId()).append(",")
                             .append(Boolean.toString(applicant.hasResidentialApplication()));
 
-                    if (applicant.hasResidentialApplication()) {    //has residential application
+                    if (applicant.hasResidentialApplication()) {
                         sb.append(",")
                                 .append(applicant.getResidentialApplication().getStatus())
                                 .append(",")
@@ -91,7 +113,6 @@ public class ApplicantRepo implements UserRepo<Applicant>{
 
                     bw.write(sb.toString());
                     bw.newLine();
-
                 }
             }
         } catch (IOException e) {
@@ -99,18 +120,33 @@ public class ApplicantRepo implements UserRepo<Applicant>{
         }
     }
 
-    public void addUser(Applicant newApplicant){
+    /**
+     * Adds a new applicant to the repository.
+     *
+     * @param newApplicant The applicant to be added
+     */
+    public void addUser(Applicant newApplicant) {
         applicants.put(newApplicant.getId(), newApplicant);
     }
 
-    public Applicant getUser(String applicantId){
+    /**
+     * Retrieves an applicant by their ID.
+     *
+     * @param applicantId The unique ID of the applicant
+     * @return The corresponding Applicant object, or null if not found
+     */
+    public Applicant getUser(String applicantId) {
         return applicants.get(applicantId);
     }
 
-    //helper functions
-    public String generateID(String nric){
+    /**
+     * Helper function to generate an applicant ID from a given NRIC.
+     *
+     * @param nric The NRIC number
+     * @return A unique applicant ID in the format "AP-xxxxx"
+     */
+    public String generateID(String nric) {
         return "AP-" + nric.substring(5);
     }
-
 
 }

@@ -1,17 +1,36 @@
 package Applicant;
+
 import Enquiry.EnquiryController;
 import Utility.*;
 import Users.*;
 import java.util.regex.Pattern;
 
+/**
+ * Handles the user interface for the Applicant role in the BTO system.
+ * Provides login, password management, dashboard, and application viewing features.
+ * Implements the UserUI interface with Applicant and ApplicantRepo types.
+ */
 public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
 
+    /** Controller responsible for handling applicant operations and logic. */
     private final ApplicantController applicantController;
 
+    /**
+     * Constructs an ApplicantUI with the specified controller.
+     *
+     * @param applicantController the controller used for applicant logic
+     */
     public ApplicantUI(ApplicantController applicantController) {
         this.applicantController = applicantController;
     }
 
+    /**
+     * Displays the login menu for applicants and processes user input for login,
+     * password reset, or exit to main menu.
+     *
+     * @param applicantRepo the repository containing applicant data
+     * @return the authenticated applicant if login is successful; null otherwise
+     */
     public Applicant displayLogin(ApplicantRepo applicantRepo){
 
         while (true) {
@@ -44,6 +63,12 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
         }
     }
 
+    /**
+     * Performs applicant login by validating NRIC and password credentials.
+     *
+     * @param applicantRepo the repository to verify applicant identity
+     * @return the logged-in applicant, or null if login fails
+     */
     public Applicant login(ApplicantRepo applicantRepo){
         try {
             InputUtils.printBigDivider();
@@ -85,6 +110,11 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
 
     }
 
+    /**
+     * Allows applicants to reset their password to a default value after verifying their NRIC.
+     *
+     * @param applicantRepo the repository to identify the applicant
+     */
     public void forgetPassword(ApplicantRepo applicantRepo) {
         try {
             InputUtils.printBigDivider();
@@ -118,6 +148,11 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
 
     }
 
+    /**
+     * Allows the logged-in applicant to change their password. Enforces minimum length.
+     *
+     * @param applicant the currently authenticated applicant
+     */
     public void changePassword(Applicant applicant) {
         final int MIN_PASSWORD_LENGTH = 8;
 
@@ -142,6 +177,12 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
         }
     }
 
+    /**
+     * Displays the dashboard menu for applicants after login. Provides access to
+     * application, BTO project viewing, enquiries, password change, and exit options.
+     *
+     * @param applicant the currently authenticated applicant
+     */
     public void displayDashboard(Applicant applicant){
         while (true) {
             InputUtils.printBigDivider();
@@ -186,6 +227,12 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
         }
     }
 
+    /**
+     * Displays the application menu if the applicant has an active application.
+     * Otherwise, prompts the user to apply via the BTO project menu.
+     *
+     * @param applicant the currently authenticated applicant
+     */
     public void displayApplicationMenu(Applicant applicant){
         InputUtils.printBigDivider();
         if (applicant.getResidentialApplication() == null){
@@ -195,7 +242,5 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             applicantController.displayApplicationMenu(applicant);
         }
     }
-
-
 
 }//end of class

@@ -10,7 +10,14 @@ import Utility.*;
 import Applicant.*;
 import HdbOfficer.*;
 import HdbManager.*;
-
+/**
+ * Main menu handler for the BTO Management System.
+ * 
+ * This class initializes all application controllers and provides the welcome interface 
+ * to access the Applicant, Officer, or Manager portals.
+ * It acts as the central point of navigation for all system roles.
+ * 
+ */
 public class MainMenu {
     private ProjectControllerInterface projectController;
     private EnquiryController enquiryController;
@@ -22,7 +29,10 @@ public class MainMenu {
     private static ApplicantController applicantController;
     private static HdbOfficerController officerController;
     private static HdbManagerController managerController;
-
+   /**
+     * Constructs the main menu and initializes the controllers required
+     * by the various user portals.
+     */
 
     public MainMenu(){
         projectController = new ProjectController();
@@ -39,7 +49,12 @@ public class MainMenu {
                                                         resAppController,teamAppController,
                                                         enquiryController, reportController);
     }
-
+  /**
+     * Displays the welcome screen and handles user navigation.
+     * This is the main interaction loop for the CLI-based menu.
+     * 
+     * Allows access to Applicant, Officer, and Manager portals.
+     */
 
     public static void displayWelcome() {
 

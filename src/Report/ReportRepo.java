@@ -4,24 +4,41 @@ import Project.Flat;
 import Users.User;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Repository class for managing Report entities.
+ * 
+ * Responsible for loading, storing, filtering, and persisting Report data.
+ * Acts as the "Entity" in the Boundary–Entity–Controller (BEC) architecture.
+ */
 public class ReportRepo {
     private static final String filePath = "data\\ReportList.csv";
     private static int counter = 0;
     private HashMap<String, Report> reports;
 
+    /**
+     * Initializes the ReportRepo and loads data from the CSV file.
+     */
     public ReportRepo() {
         reports = new HashMap<>();
         loadFile();
     }
 
+    /**
+     * Generates a new unique report ID.
+     * Format: RE followed by 6-digit zero-padded number.
+     * @return generated report ID
+     */
     public String generateId() {
         return "RE" + String.format("%06d", ++counter);
     }
 
+    /**
+     * Loads report data from the CSV file.
+     * Populates the internal HashMap with existing report records.
+     */
     public void loadFile() {
         File file = new File(filePath);
         if (!file.exists()) return;
@@ -55,7 +72,10 @@ public class ReportRepo {
         }
     }
 
-
+    /**
+     * Saves all report data to the CSV file.
+     * Overwrites existing file contents.
+     */
     public void saveFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             // Write header
@@ -80,6 +100,16 @@ public class ReportRepo {
         }
     }
 
+    /**
+     * Adds a new Report to the repository and returns its generated ID.
+     * 
+     * @param projectName the name of the project
+     * @param applicantId the applicant's ID
+     * @param flatType the type of flat
+     * @param applicantAge the age of the applicant
+     * @param martialStatus the marital status of the applicant
+     * @return generated report ID
+     */
     public String addReport(String projectName, String applicantId, Flat.Type flatType,
                             int applicantAge, User.MaritalStatus martialStatus) {
         String reportId = generateId();
@@ -87,14 +117,28 @@ public class ReportRepo {
         return reportId;
     }
 
+    /**
+     * Retrieves a report by its ID.
+     * @param reportId the ID of the report
+     * @return Report object or null if not found
+     */
     public Report getReport(String reportId) {
         return reports.get(reportId);
     }
 
+    /**
+     * Deletes a report by its ID.
+     * @param reportId the ID of the report to delete
+     */
     public void deleteReport(String reportId) {
         reports.remove(reportId);
     }
-    // filter
+
+    /**
+     * Retrieves all reports for a given project.
+     * @param projectName the name of the project
+     * @return list of matching reports
+     */
     public ArrayList<Report> getReportsByProject(String projectName) {
         ArrayList<Report> ret = new ArrayList<>();
         for(Report e : reports.values()) {
@@ -102,6 +146,12 @@ public class ReportRepo {
         }
         return ret;
     }
+
+    /**
+     * Retrieves all reports for a given applicant.
+     * @param applicantId the applicant's ID
+     * @return list of matching reports
+     */
     public ArrayList<Report> getReportsByApplicant(String applicantId) {
         ArrayList<Report> ret = new ArrayList<>();
         for(Report e : reports.values()) {
@@ -109,6 +159,12 @@ public class ReportRepo {
         }
         return ret;
     }
+
+    /**
+     * Retrieves all reports that match the given marital status.
+     * @param maritalStatus the marital status to filter by
+     * @return list of matching reports
+     */
     public ArrayList<Report> getReportsByMaritalStatus(User.MaritalStatus maritalStatus) {
         ArrayList<Report> ret = new ArrayList<>();
         for(Report e : reports.values()) {
@@ -116,6 +172,12 @@ public class ReportRepo {
         }
         return ret;
     }
+
+    /**
+     * Retrieves all reports that match the given flat type.
+     * @param flatType the flat type to filter by
+     * @return list of matching reports
+     */
     public ArrayList<Report> getReportsByFlatType(Flat.Type flatType) {
         ArrayList<Report> ret = new ArrayList<>();
         for(Report e : reports.values()) {
@@ -124,6 +186,10 @@ public class ReportRepo {
         return ret;
     }
 
+    /**
+     * Gets the entire report collection.
+     * @return map of all reports by their ID
+     */
     public HashMap<String, Report> getReports() {
         return reports;
     }
