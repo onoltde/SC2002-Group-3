@@ -8,14 +8,32 @@ import Utility.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * User Interface class for handling team applications.
+ * This class provides the interface for officers and managers to interact with
+ * the team application system, including viewing, applying, and managing applications.
+ */
 public class TeamApplicationUI {
 
     private TeamApplicationController teamAppController;
 
+    /**
+     * Constructs a new TeamApplicationUI with the specified controller.
+     *
+     * @param teamAppController The controller to handle application logic
+     */
     public TeamApplicationUI(TeamApplicationController teamAppController){
         this.teamAppController = teamAppController;
     }
 
+    /**
+     * Displays the application menu for an HDB officer.
+     * Shows current application details and provides options to view project details,
+     * apply for a team, or exit.
+     *
+     * @param officer The HDB officer viewing the menu
+     * @return The created application if a new one is made, null otherwise
+     */
     public TeamApplication displayApplicationMenu(HdbOfficer officer){
         if (!officer.hasTeamApplication()){
             System.out.println("You do not have an an active Team application.");
@@ -47,11 +65,11 @@ public class TeamApplicationUI {
                     }
                 }
                 case 2 -> {//apply for projects
-                	// check if the officer is already applying for other projects
-            		if (officer.hasTeamApplication()) {
-            			System.out.println("You already have an active application, please wait for approval before applying for another.");
-            			continue;
-            		}
+                    // check if the officer is already applying for other projects
+                    if (officer.hasTeamApplication()) {
+                        System.out.println("You already have an active application, please wait for approval before applying for another.");
+                        continue;
+                    }
                     TeamApplication ta = teamAppController.displayProjects(officer);
                     return ta;
                 }
@@ -63,8 +81,13 @@ public class TeamApplicationUI {
         }
     }
 
-
-    // manager methods
+    /**
+     * Displays the application menu for an HDB manager.
+     * Provides options to view, approve, reject applications, and approve withdrawals.
+     *
+     * @param manager The HDB manager viewing the menu
+     * @return List of application IDs that were processed, or null if no action was taken
+     */
     public ArrayList<String> displayApplicationMenu(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.println("======= Team Application Menu =======");
@@ -100,6 +123,12 @@ public class TeamApplicationUI {
         return null;
     }
 
+    /**
+     * Handles the approval process for applications by a manager.
+     *
+     * @param manager The manager approving the applications
+     * @return List of approved application IDs
+     */
     public ArrayList<String> approveApplication(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.print("Enter the officer ID: ");
@@ -107,6 +136,12 @@ public class TeamApplicationUI {
         return teamAppController.processApplication(manager, officerId, true);
     }
 
+    /**
+     * Handles the rejection process for applications by a manager.
+     *
+     * @param manager The manager rejecting the applications
+     * @return List of rejected application IDs
+     */
     public ArrayList<String> rejectApplication(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.print("Enter the officer ID: ");
@@ -114,6 +149,12 @@ public class TeamApplicationUI {
         return teamAppController.processApplication(manager, officerId, false);
     }
 
+    /**
+     * Handles the withdrawal approval process for applications by a manager.
+     *
+     * @param manager The manager approving the withdrawals
+     * @return List of withdrawal-approved application IDs
+     */
     public ArrayList<String> approveWithdrawal(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.print("Enter the officer ID: ");
@@ -121,6 +162,11 @@ public class TeamApplicationUI {
         return teamAppController.approveWithdrawal(manager, officerId);
     }
 
+    /**
+     * Displays a list of applications with their details.
+     *
+     * @param applications The list of applications to display
+     */
     public void displayApplications(ArrayList<TeamApplication> applications) {
         for(TeamApplication e : applications) {
             InputUtils.printSmallDivider();
