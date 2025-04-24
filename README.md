@@ -1,6 +1,6 @@
 # BTO Management System (SC2002 Project)
 
-This is a **BTO Management System (HMS)** designed for managing BTO applications using Object-Oriented Design principles. This project was developed as part of the **SC2002 Object-Oriented Design & Programming** course for AY24/25 Semester 2, FCS2, Group 3.
+This is a **BTO Management System (BTO-MS)** designed for managing BTO applications using Object-Oriented Design principles. This project was developed as part of the **SC2002 Object-Oriented Design & Programming** course for AY24/25 Semester 2, FCS2, Group 3.
 
 ### Report
 - Please refer to SC2002-FCS2-Grp3-Report.pdf in our github repository for a detailed report on this project
