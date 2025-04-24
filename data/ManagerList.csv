@@ -1,5 +1,6 @@
 Name,NRIC,Age,Marital Status,Password,ManagerId,AssignedProjectName
-Amy,S1234301F,36,SINGLE,password,MA-301F,Acacia Breeze
-Ben,S1234302F,26,MARRIED,password,MA-302F,Birch Heights
-Carl,S1234303F,45,MARRIED,password,MA-303F,Crimson Park
 Ernesto,S1234304F,45,SINGLE,password,MA-304F,Dawson Ville
+Carl,S1234303F,45,MARRIED,password,MA-303F,Crimson Park
+Ben,S1234302F,26,MARRIED,password,MA-302F,Birch Heights
+Amy,S1234301F,36,SINGLE,password,MA-301F,Acacia Breeze
+Denny,S1234305F,44,MARRIED,password,MA-305F,None
