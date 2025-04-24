@@ -128,7 +128,6 @@ public class HdbOfficerController implements UserController{
         System.out.printf("Applicant's NRIC: %s\n", applicant.getNric());
         System.out.printf("Applicant's age: %s\n", applicant.getAge());
         System.out.printf("Applicant's marital status: %s\n", applicant.getMaritalStatus());
-        System.out.printf("Applicant's name: %s\n", applicant.getName());
         System.out.printf("Flat type booked: %s\n\n", application.getFlatType());
         projectController.displayAdminProjectDetails(application.getProjectName());
         
