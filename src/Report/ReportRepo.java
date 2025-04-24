@@ -19,7 +19,7 @@ public class ReportRepo {
     }
 
     public String generateId() {
-        return "RE" + String.format("%06d", ++counter);
+        return "RE" + String.format("%06d", counter++);
     }
 
     public void loadFile() {
@@ -48,7 +48,7 @@ public class ReportRepo {
                 reports.put(id, report);
 
                 int numericPart = Integer.parseInt(id.substring(2));
-                if (numericPart >= counter) counter = numericPart;
+                if (numericPart + 1 >= counter) counter = numericPart + 1;
             }
         } catch (IOException e) {
             e.printStackTrace();

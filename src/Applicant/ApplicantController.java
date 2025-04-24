@@ -1,6 +1,7 @@
 package Applicant;
 import Application.Residential.ResidentialApplicationController;
 import Enquiry.EnquiryController;
+import Report.ReportController;
 import Users.*;
 import Project.*;
 
@@ -13,15 +14,18 @@ public class ApplicantController implements UserController{
     private final ProjectControllerInterface projectController;
     private final ResidentialApplicationController resAppController;
     private final EnquiryController enquiryController;
+    private final ReportController reportController;
 
     //constructor
     public ApplicantController(ResidentialApplicationController resAppController,
                                ProjectControllerInterface projectController,
-                               EnquiryController enquiryController) {
+                               EnquiryController enquiryController,
+                               ReportController reportController) {
 
         this.resAppController = resAppController;
         this.projectController = projectController;
         this.enquiryController = enquiryController;
+        this.reportController = reportController;
 
         applicantRepo = new ApplicantRepo(resAppController.getRepo());
         applicantUI = new ApplicantUI(this);
@@ -42,6 +46,7 @@ public class ApplicantController implements UserController{
         resAppController.displayApplicationMenu(applicant);
     }
     public void displayEnquiryMenu(Applicant applicant) { enquiryController.showApplicantMenu(applicant); }
+    public void displayReports(Applicant applicant) { reportController.displayApplicantReports(applicant); }
 
     public void saveFile(){
         applicantRepo.saveFile();     //saves ApplicantList.csv file

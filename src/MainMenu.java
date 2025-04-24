@@ -32,7 +32,7 @@ public class MainMenu {
         resAppController = new ResidentialApplicationController(projectController);
         teamAppController = new TeamApplicationController(projectController);
 
-        applicantController = new ApplicantController(resAppController,projectController, enquiryController);
+        applicantController = new ApplicantController(resAppController,projectController, enquiryController, reportController);
 
         officerController = new HdbOfficerController(projectController,resAppController,teamAppController, enquiryController);
         managerController = new HdbManagerController(   projectController, officerController, applicantController,
