@@ -285,6 +285,10 @@ public class ResidentialApplicationUI {
     }
 
     public void displayApplications(ArrayList<ResidentialApplication> applications) {
+        if(applications.isEmpty()) {
+            System.out.println("There is no application at the time!");
+            return;
+        }
         for(ResidentialApplication e : applications) {
             InputUtils.printSmallDivider();
 

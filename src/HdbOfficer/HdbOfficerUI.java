@@ -165,15 +165,17 @@ public final class HdbOfficerUI implements UserUI<HdbOfficer, HdbOfficerRepo> {
             System.out.println("====Assigned Project Menu===");
             System.out.println("1. View applications to this project");
             System.out.println("2. View enquiries to this project");
-            System.out.println("3. Exit");
-            System.out.print("Enter your choice (1-3): ");
+            System.out.println("3. Report menu");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice (1-4): ");
 
             int choice = InputUtils.readInt();
 
             switch (choice) {
                 case 1 -> officerController.viewProjectApplications(hdbOfficer);
                 case 2 -> officerController.viewProjectEnquiries(hdbOfficer);
-                case 3 -> {
+                case 3 -> officerController.viewReport(hdbOfficer);
+                case 4 -> {
                     return;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-3.\n");

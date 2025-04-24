@@ -34,7 +34,8 @@ public class MainMenu {
 
         applicantController = new ApplicantController(resAppController,projectController, enquiryController, reportController);
 
-        officerController = new HdbOfficerController(projectController,resAppController,teamAppController, enquiryController);
+        officerController = new HdbOfficerController(   projectController,resAppController,teamAppController,
+                                                        enquiryController, reportController, applicantController);
         managerController = new HdbManagerController(   projectController, officerController, applicantController,
                                                         resAppController,teamAppController,
                                                         enquiryController, reportController);

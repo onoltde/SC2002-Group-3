@@ -238,7 +238,7 @@ public class HdbManagerController implements UserController{
             System.out.println("No such officer!");
             return false;
         }
-        if(!officer.hasAssignedProject()) {
+        if(!officer.hasTeamApplication()) {
             System.out.println("The officer has no application at the moment!");
             return false;
         }
@@ -275,10 +275,17 @@ public class HdbManagerController implements UserController{
             System.out.println("There is no slots left!");
             return false;
         }
-        System.out.println("Successfully approved!");
-        officer.assignProject(application.getProjectName());
-        application.updateStatus(Application.Status.SUCCESSFUL);
-        project.setOfficerSlots(project.getOfficerSlots() - 1);
+        if(status) {
+            System.out.println("Successfully approved!");
+            officer.assignProject(application.getProjectName());
+            application.updateStatus(Application.Status.SUCCESSFUL);
+            project.setOfficerSlots(project.getOfficerSlots() - 1);
+        } else {
+            System.out.println("Successfully approved!");
+            officer.assignProject(application.getProjectName());
+            application.updateStatus(Application.Status.UNSUCCESSFUL);
+        }
+        officerController.getRepo().saveFile();
         return true;
     }
 
@@ -314,9 +321,14 @@ public class HdbManagerController implements UserController{
         }
 
         ///////////////////////////////////////////////////////////
-
-        System.out.println("Successfully approved!");
-        application.updateStatus(Application.Status.SUCCESSFUL);
+        if(status) {
+            System.out.println("Successfully approved!");
+            application.updateStatus(Application.Status.SUCCESSFUL);
+        } else {
+            System.out.println("Successfully rejected!");
+            application.updateStatus(Application.Status.UNSUCCESSFUL);
+        }
+        applicantController.getApplicantRepo().saveFile();
         return true;
     }
 
@@ -341,7 +353,9 @@ public class HdbManagerController implements UserController{
             System.out.println("The application must request for withdrawal!");
             return false;
         }
+        System.out.println("Successfully approved!");
         application.updateStatus(Application.Status.WITHDRAWN);
+        applicantController.getApplicantRepo().saveFile();
         return true;
     }
 
@@ -366,7 +380,9 @@ public class HdbManagerController implements UserController{
             System.out.println("The application must request for withdrawal!");
             return false;
         }
+        System.out.println("Successfully approved!");
         application.updateStatus(Application.Status.WITHDRAWN);
+        officerController.getRepo().saveFile();
         return true;
     }
 
