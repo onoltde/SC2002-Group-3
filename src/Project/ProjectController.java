@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Manages the interactions and operations related to projects, including displaying dashboards,
+ * applying for flats, managing officers, and updating project details.
+ */
 public class ProjectController implements ProjectControllerInterface {
 
     private static ProjectUI projectUI;
@@ -20,6 +24,10 @@ public class ProjectController implements ProjectControllerInterface {
     private HashMap<String, HdbManager> managerMap;
     private HashMap<String, HdbOfficer> officerMap;
 
+    /**
+     * Constructor for initializing the ProjectController.
+     * It sets up the project repository, UI, and officer/manager mappings.
+     */
     public ProjectController() {
         projectRepo = new ProjectRepo();
         projectUI = new ProjectUI(this);
@@ -27,67 +35,123 @@ public class ProjectController implements ProjectControllerInterface {
         officerMap = new HdbOfficerRepo(new ResidentialApplicationRepo(), new TeamApplicationRepo()).getOfficers();
     }
 
+    /**
+     * Saves any changes made to the project repository.
+     */
     public void saveChanges(){
         projectRepo.saveProjects();
     }
 
+    /**
+     * Gets the project repository.
+     * @return The project repository instance.
+     */
     public ProjectRepo getRepo(){
         return projectRepo;
     }
 
+    /**
+     * Retrieves a project by its name.
+     * @param projectName The name of the project.
+     * @return The project with the specified name.
+     */
     public Project getProject(String projectName) {
         return projectRepo.getProject(projectName);
     }
 
-    //applicant methods
+    // Applicant methods
+
+    /**
+     * Displays the project dashboard for an applicant.
+     * @param applicant The applicant viewing the dashboard.
+     * @param residentialApplicationController The controller managing residential applications.
+     */
     public void displayProjectDashboard(Applicant applicant, ResidentialApplicationController residentialApplicationController) {
         projectUI.displayProjectDashboard(applicant, residentialApplicationController);
     }
 
+    /**
+     * Allows an applicant to apply for a project.
+     * @param applicant The applicant applying for the project.
+     * @param currentProject The project the applicant wants to apply to.
+     * @param flatType The type of flat the applicant is applying for.
+     */
     public void applyProject(Applicant applicant, Project currentProject, Flat.Type flatType){
         ResidentialApplicationController resAppController = new ResidentialApplicationController(this);
-        resAppController.applyProject(applicant,currentProject,flatType);
+        resAppController.applyProject(applicant, currentProject, flatType);
     }
 
-    //offcier methods
+    // Officer methods
+
+    /**
+     * Displays the list of team projects available for an officer to apply to.
+     * @param officer The officer viewing available projects.
+     * @return A string containing the available projects for the officer.
+     */
     public String displayTeamProjectsToApply(HdbOfficer officer){
         return projectUI.displayTeamProjectsToApply(officer);
     }
 
+    /**
+     * Displays the list of residential projects available for an officer to apply to, based on flat type.
+     * @param officer The officer viewing available projects.
+     * @param flatType The type of flat (2-room or 3-room) the officer is interested in.
+     * @return The project name for the residential project.
+     */
     public String displayResProjectsToApply(HdbOfficer officer, Flat.Type flatType){
-    	String projName = "";
+        String projName = "";
         if (flatType == Flat.Type.TWOROOM){
             projName = projectUI.displayTwoRoomResProjectsToApply(officer);
-        }else if (flatType == Flat.Type.THREEROOM){
+        } else if (flatType == Flat.Type.THREEROOM){
             projName = projectUI.displayThreeRoomResProjectsToApply(officer);
         }
         return projName;
     }
 
-    public boolean bookFlat(String projectName, Flat.Type flatType){        //used to approve someones booking
+    /**
+     * Books a flat in a project.
+     * @param projectName The name of the project where the flat is located.
+     * @param flatType The type of flat being booked.
+     * @return true if the booking is successful, false otherwise.
+     */
+    public boolean bookFlat(String projectName, Flat.Type flatType){
         Project project = projectRepo.getProject(projectName);
-        Flat flat= project.getFlatInfo().get(flatType);
+        Flat flat = project.getFlatInfo().get(flatType);
         return flat.bookUnit();
     }
 
-    //manager methods
+    // Manager methods
+
+    /**
+     * Displays the project dashboard for a manager.
+     * @param manager The manager viewing the dashboard.
+     * @return A list of objects to display on the manager's dashboard.
+     */
     public ArrayList<Object> displayProjectDashboard(HdbManager manager) {
         return projectUI.displayProjectDashboard(manager);
     }
 
+    // Project UI methods
 
-    //projectUI methods
+    /**
+     * Displays the details of a specific flat type in a project.
+     * @param projectName The name of the project.
+     * @param flatType The type of flat (2-room or 3-room) to display details for.
+     */
     public void displayProjectFlatDetails(String projectName, Flat.Type flatType){
         Project project = projectRepo.getProject(projectName);
         projectUI.displayEssentialProjectDetails(project);
         if (flatType == Flat.Type.TWOROOM){
             projectUI.displayFlatDetails(project.getFlatInfo().get(Flat.Type.TWOROOM));
-        }else if (flatType == Flat.Type.THREEROOM){
-            projectUI.displayFlatDetails((project.getFlatInfo().get(Flat.Type.THREEROOM)));
+        } else if (flatType == Flat.Type.THREEROOM){
+            projectUI.displayFlatDetails(project.getFlatInfo().get(Flat.Type.THREEROOM));
         }
-
     }
 
+    /**
+     * Displays detailed project information for an admin.
+     * @param projectName The name of the project.
+     */
     public void displayAdminProjectDetails(String projectName){
         Project project = projectRepo.getProject(projectName);
         projectUI.displayEssentialProjectDetails(project);
@@ -95,157 +159,4 @@ public class ProjectController implements ProjectControllerInterface {
         projectUI.displayFlatDetails(project.getFlatInfo().get(Flat.Type.THREEROOM));
         projectUI.displayProjectAdminDetails(project, managerMap, officerMap);
     }
-    
 }
-
-//	// Need to check if he is managing any other "active" projects
-//	public void createProjectListing(String id, String n, String nh, HashMap ft, Date o, Date c, String manID, int slots) {
-//		Project newProject = new Project(id, n, nh, ft, o, c, manID, slots);
-//		projectListings.add(newProject);
-//	}
-//
-//	public Project getProjectListing(String id) {
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getId() == id)
-//				return projectListings.get(i);
-//		}
-//		return null;
-//	}
-//
-//	public void deleteProjectListing(String id) {
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getId() == id)
-//				projectListings.remove(i);
-//		}
-//	}
-//
-//	public void toggleProjectVisibility(String id, boolean vis) {
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getId() == id)
-//				projectListings.get(i).setVisivility(vis);
-//		}
-//	}
-//
-//	public void viewAllProjectListings(HDBManager man, boolean own) {
-//		String id = man.getId();
-//		// only see projects created by the manager
-//		if (own) {
-//			for (int i = 0; i < projectListings.size(); i++) {
-//				if (projectListings.get(i).getManager() == id) {
-//					System.out.println(projectListings.get(i).getID());
-//					System.out.println(projectListings.get(i).getName());
-//					System.out.println(projectListings.get(i).getNeighbourhood());
-//					System.out.println(projectListings.get(i).getApplicationOpenDate());
-//					System.out.println(projectListings.get(i).getApplicationCloseDate());
-//					if (projectListings.get(i).getVisibility())
-//						System.out.println("On");
-//					else
-//						System.out.println("Off");
-//				}
-//			}
-//		}
-//		else {
-//			for (int i = 0; i < projectListings.size(); i++) {
-//				System.out.println(projectListings.get(i).getID());
-//				System.out.println(projectListings.get(i).getName());
-//				System.out.println(projectListings.get(i).getNeighbourhood());
-//				System.out.println(projectListings.get(i).getApplicationOpenDate());
-//				System.out.println(projectListings.get(i).getApplicationCloseDate());
-//				if (projectListings.get(i).getVisibility())
-//					System.out.println("On");
-//				else
-//					System.out.println("Off");
-//			}
-//		}
-//	}
-//
-//	// only see projects with visibility turned on and based on their marital status
-//	public void viewAllProjectListings(Applicant app) {
-//		String id = app.getId();
-//		boolean married = app.getMaritalStatus();
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getVisibility()) {
-//				System.out.println(projectListings.get(i).getID());
-//				System.out.println(projectListings.get(i).getName());
-//				System.out.println(projectListings.get(i).getNeighbourhood());
-//				System.out.println(projectListings.get(i).getApplicationOpenDate());
-//				System.out.println(projectListings.get(i).getApplicationCloseDate());
-//				System.out.println("On");
-//			}
-//		}
-//	}
-//
-//	// Applicant/HdbOfficer can view assigned project regardless of visibility
-//	public void viewOwnProjectListing(Applicant app) {
-//		String id = app.getProject();
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getId() == id) {
-//				System.out.println(projectListings.get(i).getID());
-//				System.out.println(projectListings.get(i).getName());
-//				System.out.println(projectListings.get(i).getNeighbourhood());
-//				System.out.println(projectListings.get(i).getApplicationOpenDate());
-//				System.out.println(projectListings.get(i).getApplicationCloseDate());
-//				if (projectListings.get(i).getVisibility())
-//					System.out.println("On");
-//				else
-//					System.out.println("Off");
-//				break;
-//			}
-//		}
-//	}
-//
-//	// Parse in HdbOfficer to ensure only HdbOfficer can apply
-//	public void hdbOfficerRegistration(HdbOfficer officer, String projectId) {
-//		String id = officer.getId();
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getId() == projectId) {
-//				projectListings.get(i).addPendingOfficer(id);
-//				break;
-//			}
-//
-//		}
-//	}
-//
-//	public void viewPendingHdbOfficerRegistration(String manId, String id) {
-//		ArrayList<String> currPending = new ArrayList<String>();
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getId() == projectId) {
-//				if (projectListings.get(i).getManager() == mandId)
-//					currPending = projectListings.get(i).getPendingOfficers();
-//				else
-//					System.out.println("You do not have the permission to view the HDB Officers' applications");
-//				break;
-//			}
-//
-//		}
-//
-//		if (currPending.size() > 0) {
-//			System.out.println("Current pending HDB Officers:");
-//			for (int i = 0; i< currPending.size(); i++) {
-//				System.out.println(currPending.get(i));
-//			}
-//		}
-//	}
-//
-//	public void approveHdbOfficerRegistration(String manID, String id, boolean approve) {
-//		ArrayList<String> currPending = new ArrayList<String>();
-//		for (int i = 0; i < projectListings.size(); i++) {
-//			if (projectListings.get(i).getId() == projectId) {
-//				if (projectListings.get(i).getManager() == mandId) {
-//					projectListings.get(i).removePendingOfficer(id);
-//					if (approve) {
-//						projectListings.get(i).addOfficer(id);
-//						int update = projectListings.get(i).getOfficerSlots() - 1;
-//						projectListings.get(i).setOfficerSlots(update);
-//					}
-//
-//				}
-//				else
-//					System.out.println("You do not have the permission to view the HDB Officers' applications");
-//				break;
-//			}
-//
-//		}
-//	}
-
-

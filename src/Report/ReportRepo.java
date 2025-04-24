@@ -4,24 +4,38 @@ import Project.Flat;
 import Users.User;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Handles the storage, retrieval, and filtering of reports.
+ * Reads from and writes to a CSV file.
+ */
 public class ReportRepo {
     private static final String filePath = "data\\ReportList.csv";
     private static int counter = 0;
     private HashMap<String, Report> reports;
 
+    /**
+     * Constructs a ReportRepo and loads data from file.
+     */
     public ReportRepo() {
         reports = new HashMap<>();
         loadFile();
     }
 
+    /**
+     * Generates a new unique report ID.
+     *
+     * @return the generated report ID
+     */
     public String generateId() {
         return "RE" + String.format("%06d", counter++);
     }
 
+    /**
+     * Loads report data from the CSV file into memory.
+     */
     public void loadFile() {
         File file = new File(filePath);
         if (!file.exists()) return;
@@ -32,7 +46,6 @@ public class ReportRepo {
             // Skip header
             if ((line = br.readLine()) == null) return;
 
-            // Read data rows
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length < 6) continue;
@@ -55,14 +68,14 @@ public class ReportRepo {
         }
     }
 
-
+    /**
+     * Saves all reports to the CSV file.
+     */
     public void saveFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            // Write header
             bw.write("ReportId,ProjectName,ApplicantId,FlatType,ApplicantAge,MaritalStatus");
             bw.newLine();
 
-            // Write data rows
             for (Report report : reports.values()) {
                 String line = String.join(",",
                         report.getId(),
@@ -70,7 +83,7 @@ public class ReportRepo {
                         report.getApplicantId(),
                         report.getFlatType().name(),
                         String.valueOf(report.getApplicantAge()),
-                        report.getMartialStatus().name()
+                        report.getMaritalStatus().name()
                 );
                 bw.write(line);
                 bw.newLine();
@@ -80,50 +93,109 @@ public class ReportRepo {
         }
     }
 
+    /**
+     * Adds a new report to the repository.
+     *
+     * @param projectName   the project name
+     * @param applicantId   the applicant ID
+     * @param flatType      the flat type
+     * @param applicantAge  the applicant's age
+     * @param maritalStatus the applicant's marital status
+     * @return the generated report ID
+     */
     public String addReport(String projectName, String applicantId, Flat.Type flatType,
-                            int applicantAge, User.MaritalStatus martialStatus) {
+                            int applicantAge, User.MaritalStatus maritalStatus) {
         String reportId = generateId();
-        reports.put(reportId, new Report(reportId, projectName, applicantId, flatType, applicantAge, martialStatus));
+        reports.put(reportId, new Report(reportId, projectName, applicantId, flatType, applicantAge, maritalStatus));
         return reportId;
     }
 
+    /**
+     * Retrieves a report by its ID.
+     *
+     * @param reportId the report ID
+     * @return the report, or null if not found
+     */
     public Report getReport(String reportId) {
         return reports.get(reportId);
     }
 
+    /**
+     * Deletes a report by its ID.
+     *
+     * @param reportId the report ID
+     */
     public void deleteReport(String reportId) {
         reports.remove(reportId);
     }
-    // filter
+
+    /**
+     * Filters reports by project name.
+     *
+     * @param projectName the project name
+     * @return list of reports matching the project name
+     */
     public ArrayList<Report> getReportsByProject(String projectName) {
-        ArrayList<Report> ret = new ArrayList<>();
-        for(Report e : reports.values()) {
-            if(e.getProjectName().compareTo(projectName) == 0) ret.add(e);
+        ArrayList<Report> result = new ArrayList<>();
+        for (Report report : reports.values()) {
+            if (report.getProjectName().equals(projectName)) {
+                result.add(report);
+            }
         }
-        return ret;
-    }
-    public ArrayList<Report> getReportsByApplicant(String applicantId) {
-        ArrayList<Report> ret = new ArrayList<>();
-        for(Report e : reports.values()) {
-            if(e.getApplicantId().compareTo(applicantId) == 0) ret.add(e);
-        }
-        return ret;
-    }
-    public ArrayList<Report> getReportsByMaritalStatus(User.MaritalStatus maritalStatus) {
-        ArrayList<Report> ret = new ArrayList<>();
-        for(Report e : reports.values()) {
-            if(e.getMartialStatus() == maritalStatus) ret.add(e);
-        }
-        return ret;
-    }
-    public ArrayList<Report> getReportsByFlatType(Flat.Type flatType) {
-        ArrayList<Report> ret = new ArrayList<>();
-        for(Report e : reports.values()) {
-            if(e.getFlatType() == flatType) ret.add(e);
-        }
-        return ret;
+        return result;
     }
 
+    /**
+     * Filters reports by applicant ID.
+     *
+     * @param applicantId the applicant ID
+     * @return list of reports for the given applicant
+     */
+    public ArrayList<Report> getReportsByApplicant(String applicantId) {
+        ArrayList<Report> result = new ArrayList<>();
+        for (Report report : reports.values()) {
+            if (report.getApplicantId().equals(applicantId)) {
+                result.add(report);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Filters reports by marital status.
+     *
+     * @param maritalStatus the marital status
+     * @return list of reports matching the marital status
+     */
+    public ArrayList<Report> getReportsByMaritalStatus(User.MaritalStatus maritalStatus) {
+        ArrayList<Report> result = new ArrayList<>();
+        for (Report report : reports.values()) {
+            if (report.getMaritalStatus() == maritalStatus) {
+                result.add(report);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Filters reports by flat type.
+     *
+     * @param flatType the flat type
+     * @return list of reports matching the flat type
+     */
+    public ArrayList<Report> getReportsByFlatType(Flat.Type flatType) {
+        ArrayList<Report> result = new ArrayList<>();
+        for (Report report : reports.values()) {
+            if (report.getFlatType() == flatType) {
+                result.add(report);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @return a map of all reports
+     */
     public HashMap<String, Report> getReports() {
         return reports;
     }
