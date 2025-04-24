@@ -10,15 +10,30 @@ import Project.Flat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+/**
+ * User Interface class for handling residential applications.
+ * This class provides the interface for applicants, officers, and managers to interact with
+ * the residential application system, including viewing, applying, and managing applications.
+ */
 public class ResidentialApplicationUI {
     private ResidentialApplicationController controller;
 
+    /**
+     * Constructs a new ResidentialApplicationUI with the specified controller.
+     *
+     * @param controller The controller to handle application logic
+     */
     public ResidentialApplicationUI(ResidentialApplicationController controller){
         this.controller = controller;
     }
 
-    //applicant methods
+    /**
+     * Displays the application menu for an applicant.
+     * Shows current application details and provides options to view project details,
+     * withdraw application, make a booking, or exit.
+     *
+     * @param applicant The applicant viewing the menu
+     */
     public void displayApplicationMenu(Applicant applicant){
         ResidentialApplication application = applicant.getResidentialApplication();
         String projectName = application.getProjectName();
@@ -55,9 +70,14 @@ public class ResidentialApplicationUI {
         }
     }
 
-    //officer methods
-
-    //to apply
+    /**
+     * Displays the application menu for an HDB officer.
+     * If the officer has no current application, shows options to view and apply for projects.
+     * If the officer has an application, shows options to manage their existing application.
+     *
+     * @param officer The HDB officer viewing the menu
+     * @return The created application if a new one is made, null otherwise
+     */
     public ResidentialApplication displayApplicationMenu(HdbOfficer officer) {
         if (!officer.hasResidentialApplication()) {
             System.out.println();
@@ -125,7 +145,13 @@ public class ResidentialApplicationUI {
         }
     }
 
-
+    /**
+     * Handles the withdrawal request process for an application.
+     * Prompts for confirmation and updates the application status accordingly.
+     *
+     * @param application The application to withdraw
+     * @return true if withdrawal request was successful, false otherwise
+     */
     public boolean requestWithdrawal(ResidentialApplication application){
         if (application.getStatus() == Application.Status.WITHDRAWING){
             System.out.println("You have already submitted a request to withdraw this application.");
@@ -154,7 +180,12 @@ public class ResidentialApplicationUI {
         }
     }
 
-
+    /**
+     * Displays a list of applications for review.
+     * Provides options to approve, reject, or book units for each application.
+     *
+     * @param applications The list of applications to display
+     */
     public void viewApplications(ArrayList<ResidentialApplication> applications){
         if (applications.size() == 0){
             System.out.println("No applications to display.");
@@ -227,7 +258,13 @@ public class ResidentialApplicationUI {
         System.out.println("No more projects to display.");
     }
 
-    // manager methods
+    /**
+     * Displays the application menu for an HDB manager.
+     * Provides options to view, approve, reject applications, and approve withdrawals.
+     *
+     * @param manager The HDB manager viewing the menu
+     * @return List of application IDs that were processed, or null if no action was taken
+     */
     public ArrayList<String> displayApplicationMenu(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.println("===== Residential Application Menu =====");
@@ -263,6 +300,12 @@ public class ResidentialApplicationUI {
         return null;
     }
 
+    /**
+     * Handles the approval process for applications by a manager.
+     *
+     * @param manager The manager approving the applications
+     * @return List of approved application IDs
+     */
     public ArrayList<String> approveApplication(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.print("Enter the applicant ID: ");
@@ -270,6 +313,12 @@ public class ResidentialApplicationUI {
         return controller.processApplication(manager, applicantId, true);
     }
 
+    /**
+     * Handles the rejection process for applications by a manager.
+     *
+     * @param manager The manager rejecting the applications
+     * @return List of rejected application IDs
+     */
     public ArrayList<String> rejectApplication(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.print("Enter the applicant ID: ");
@@ -277,6 +326,12 @@ public class ResidentialApplicationUI {
         return controller.processApplication(manager, applicantId, false);
     }
 
+    /**
+     * Handles the withdrawal approval process for applications by a manager.
+     *
+     * @param manager The manager approving the withdrawals
+     * @return List of withdrawal-approved application IDs
+     */
     public ArrayList<String> approveWithdrawal(HdbManager manager) {
         InputUtils.printSmallDivider();
         System.out.print("Enter the applicant ID: ");
@@ -284,6 +339,11 @@ public class ResidentialApplicationUI {
         return controller.approveWithdrawal(manager, applicantId);
     }
 
+    /**
+     * Displays a list of applications with their details.
+     *
+     * @param applications The list of applications to display
+     */
     public void displayApplications(ArrayList<ResidentialApplication> applications) {
         if(applications.isEmpty()) {
             System.out.println("There is no application at the time!");
