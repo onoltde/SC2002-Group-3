@@ -1,19 +1,36 @@
 package Applicant;
+
 import Enquiry.EnquiryController;
 import Utility.*;
 import Users.*;
 import java.util.regex.Pattern;
 
-public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
+/**
+ * The ApplicantUI class provides the user interface (UI) for applicants in the portal.
+ * It handles all interactions with the user, such as login, password reset, and navigation
+ * within the applicant dashboard and menus.
+ */
+public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo> {
 
     private final ApplicantController applicantController;
 
+    /**
+     * Constructor for ApplicantUI.
+     * Initializes the applicant controller to manage the application's logic.
+     *
+     * @param applicantController The controller for managing applicant-related logic.
+     */
     public ApplicantUI(ApplicantController applicantController) {
         this.applicantController = applicantController;
     }
 
-    public Applicant displayLogin(ApplicantRepo applicantRepo){
-
+    /**
+     * Displays the login menu where the user can choose to login, reset password, or exit.
+     *
+     * @param applicantRepo The repository containing all applicants.
+     * @return The logged-in applicant, or null if login is unsuccessful or the user exits.
+     */
+    public Applicant displayLogin(ApplicantRepo applicantRepo) {
         while (true) {
             InputUtils.printBigDivider();
             System.out.println("\nApplicant Portal:");
@@ -40,29 +57,36 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }
-
         }
     }
 
-    public Applicant login(ApplicantRepo applicantRepo){
+    /**
+     * Handles the login process for the applicant.
+     * It checks the validity of the NRIC, retrieves the applicant from the repository,
+     * and verifies the password.
+     *
+     * @param applicantRepo The repository containing all applicants.
+     * @return The logged-in applicant, or null if login fails.
+     */
+    public Applicant login(ApplicantRepo applicantRepo) {
         try {
             InputUtils.printBigDivider();
             System.out.print("Enter NRIC: ");
 
             String nric = InputUtils.nextLine().trim().toUpperCase();
-            //1.check if nric is valid format
+            // Validate NRIC format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!\n");
             }
 
-            //2.checks if nric is in database
-            String applicantId = "AP-" + nric.substring(5);  // generate applicant ID (AP-last4)
+            // Retrieve applicant by generated ID
+            String applicantId = "AP-" + nric.substring(5);  // Generate applicant ID (AP-last4)
             Applicant applicant = applicantRepo.getUser(applicantId);
             if (applicant == null) {
                 throw new IllegalArgumentException("NRIC not found!\n");
             }
 
-            // 3.check if password is correct
+            // Verify password
             System.out.print("Enter Password: ");
             String password = InputUtils.nextLine().trim();
             if (!applicant.validatePassword(password)) {
@@ -82,27 +106,31 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             System.out.println("Unexpected error: " + e.getMessage());
             return null;
         }
-
     }
 
+    /**
+     * Initiates the password reset process for an applicant who has forgotten their password.
+     *
+     * @param applicantRepo The repository containing all applicants.
+     */
     public void forgetPassword(ApplicantRepo applicantRepo) {
         try {
             InputUtils.printBigDivider();
             System.out.print("Enter NRIC: ");
             String nric = InputUtils.nextLine().trim().toUpperCase();
-            //1.check if nric is valid format
+            // Validate NRIC format
             if (!Pattern.matches("^[STFG]\\d{7}[A-Z]$", nric)) {
                 throw new IllegalArgumentException("Invalid NRIC format!");
             }
 
-            //2.checks if nric is in database
-            String applicantId = "AP-" + nric.substring(5);  // generate applicant ID (AP-last4)
+            // Retrieve applicant by generated ID
+            String applicantId = "AP-" + nric.substring(5);  // Generate applicant ID (AP-last4)
             Applicant applicant = applicantRepo.getUser(applicantId);
             if (applicant == null) {
                 throw new IllegalArgumentException("NRIC not found!");
             }
 
-            //3.reset password
+            // Reset the password to a default value
             applicant.resetPassword();
 
             System.out.println("Password is now reset to \"password\". Please proceed to login.\n");
@@ -115,9 +143,14 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             System.out.println("Unexpected error: " + e.getMessage());
             return;
         }
-
     }
 
+    /**
+     * Allows the applicant to change their password.
+     * The new password must meet a minimum length requirement.
+     *
+     * @param applicant The applicant whose password is to be changed.
+     */
     public void changePassword(Applicant applicant) {
         final int MIN_PASSWORD_LENGTH = 8;
 
@@ -142,7 +175,14 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
         }
     }
 
-    public void displayDashboard(Applicant applicant){
+    /**
+     * Displays the main dashboard for the applicant.
+     * The dashboard allows the applicant to access various options such as viewing applications,
+     * checking current BTO projects, managing enquiries, and changing their password.
+     *
+     * @param applicant The applicant whose dashboard is being displayed.
+     */
+    public void displayDashboard(Applicant applicant) {
         while (true) {
             InputUtils.printBigDivider();
             System.out.printf("APPLICANT DASHBOARD" +
@@ -164,42 +204,50 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             int choice = InputUtils.readInt();
 
             switch (choice) {
-                case 1 -> {//view application menu
+                case 1 -> {
+                    // View application menu
                     displayApplicationMenu(applicant);
                 }
-                case 2 ->{//view current BTO projects
+                case 2 -> {
+                    // View current BTO projects
                     applicantController.viewCurrentProjects(applicant);
                 }
-                case 3 -> {//go to enquiry menu
+                case 3 -> {
+                    // Go to enquiry menu
                     applicantController.displayEnquiryMenu(applicant);
                 }
                 case 4 -> {
+                    // Display reports
                     applicantController.displayReports(applicant);
                 }
-                case 5 -> {//change password
+                case 5 -> {
+                    // Change password
                     changePassword(applicant);
                     return;
                 }
-                case 6 -> {//exit
-                    applicantController.saveFile();    //saves changes to file
+                case 6 -> {
+                    // Exit
+                    applicantController.saveFile(); // Save changes to file
                     return;
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-5.\n");
             }
-
         }
     }
 
-    public void displayApplicationMenu(Applicant applicant){
+    /**
+     * Displays the application menu for the applicant.
+     * If the applicant does not have an active application, they are instructed to apply for a BTO.
+     *
+     * @param applicant The applicant whose application status is checked.
+     */
+    public void displayApplicationMenu(Applicant applicant) {
         InputUtils.printBigDivider();
-        if (applicant.getResidentialApplication() == null){
+        if (applicant.getResidentialApplication() == null) {
             System.out.println("You do not have an active application.");
             System.out.println("To apply for a BTO, please go to \"View current BTO projects\".");
-        }else{
+        } else {
             applicantController.displayApplicationMenu(applicant);
         }
     }
-
-
-
-}//end of class
+}
