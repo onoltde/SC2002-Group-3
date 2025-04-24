@@ -1,4 +1,5 @@
-Name,NRIC,Age,Marital Status,Password,OfficerId
-Daniel,T2109876H,36,SINGLE,password,OF-876H
-David,T1234567J,29,MARRIED,password,OF-567J
-Emily,S6543210I,28,SINGLE,password,OF-210I
+Name,NRIC,Age,Marital Status,Password,OfficerID,Has Residential Application?,Residential Application Status,Residential Project Name,Flat Type,Blacklist,Has Assigned Project,Assigned Project Name,Has Team Application,Team Application,Team Application Status
+Anna,S1234201F,36,SINGLE,password,OF-201F,FALSE,,,,Acacia Breeze,TRUE,Acacia Breeze,FALSE,,
+Bella,S1234202F,29,MARRIED,password,OF-202F,FALSE,,,,,FALSE,,FALSE,,
+Clara,S1234203F,28,SINGLE,password,OF-203F,FALSE,,,,Crimson Park,TRUE,Crimson Park,FALSE,,
+David,S1234204F,35,SINGLE,password,OF-204F,FALSE,,,,,FALSE,,FALSE,,

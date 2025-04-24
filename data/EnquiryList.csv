@@ -1,0 +1,6 @@
+EnquiryID,Project Name,AuthorID,Title,Message,Status,Response
+EN000001,Acacia Breeze,AP-101F,feng shui,facing southeast?,PENDING,null
+EN000002,Acacia Breeze,AP-101F,bus stop,how far away from bus stop,PENDING,null
+EN000005,Crimson Park,AP-102F,school,what primary schools are nearby?,PENDING,null
+EN000003,Birch Heights,AP-102F,supermarket,how far away is the nearest supermarket?,PENDING,null
+EN000004,Crimson Park,AP-102F,park connectors,are there any park connectors nearby,PENDING,null

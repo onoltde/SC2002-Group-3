@@ -1,6 +1,7 @@
-<<<<<<< HEAD
-/bin/
-=======
+# CSV files
+*.csv
+data/
+
 # Compiled class files
 *.class
 
@@ -14,7 +15,7 @@ dist/
 # Log files
 *.log
 
-# IDE-specific files
+# IDE-specific
 .idea/
 .vscode/
 *.iml
@@ -24,45 +25,33 @@ dist/
 .project
 .settings/
 
-# Dependency directories (Maven, Gradle, etc.)
+# Dependency dirs
 .m2/
 .gradle/
 **/gradle/
 **/gradlew
 **/gradlew.bat
-**/gradle-wrapper.jar
-**/gradle-wrapper.properties
-**/build/
-**/.gradle/
+**/gradle-wrapper.*
 
-# Maven-specific files
+# Maven
 pom.xml.versionsBackup
 dependency-reduced-pom.xml
 mvnw
 mvnw.cmd
 .mvn/
 
-# Eclipse files
-.settings/
-.metadata/
-
-# Mac OS
+# OS files
 .DS_Store
-
-# Windows
 Thumbs.db
 
-# Environment files
+# Environment
 .env
 *.env
 
-# Test reports
+# Test & coverage
 **/test-output/
 **/test-results/
 *.tap
 *.trs
-
-# Coverage reports
 *.coverage
 *.lcov
->>>>>>> branch 'Development' of https://github.com/onoltde/SC2002-Group-3.git
