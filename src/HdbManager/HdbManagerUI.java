@@ -40,7 +40,6 @@ public final class HdbManagerUI implements UserUI<HdbManager,HdbManagerRepo>{
                 }
                 default -> System.out.println("Invalid choice! Please enter 1-3.\n");
             }
-
         }
     }
 
