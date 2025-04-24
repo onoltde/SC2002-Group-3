@@ -156,9 +156,10 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
             System.out.println("1. View my application");
             System.out.println("2. View current BTO projects");
             System.out.println("3. Enquiry menu");
-            System.out.println("4. Change password");
-            System.out.println("5. Exit");
-            System.out.print("Enter your choice (1-5): ");
+            System.out.println("4. See reports");
+            System.out.println("5. Change password");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice (1-6): ");
 
             int choice = InputUtils.readInt();
 
@@ -172,11 +173,14 @@ public final class ApplicantUI implements UserUI<Applicant, ApplicantRepo>{
                 case 3 -> {//go to enquiry menu
                     applicantController.displayEnquiryMenu(applicant);
                 }
-                case 4 -> {//change password
+                case 4 -> {
+                    applicantController.displayReports(applicant);
+                }
+                case 5 -> {//change password
                     changePassword(applicant);
                     return;
                 }
-                case 5 -> {//exit
+                case 6 -> {//exit
                     applicantController.saveFile();    //saves changes to file
                     return;
                 }
