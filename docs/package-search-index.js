@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Applicant"},{"l":"Application"},{"l":"Application.Residential"},{"l":"Application.Team"},{"l":"Enquiry"},{"l":"HdbManager"},{"l":"HdbOfficer"},{"l":"Project"},{"l":"Report"},{"l":"Users"},{"l":"Utility"}];updateSearchResults();
